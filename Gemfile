@@ -40,8 +40,22 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem 'rails_admin'
+gem 'rails_admin', :git => 'https://github.com/sferik/rails_admin.git'
+
+gem 'devise'
 
 group :production do
   gem 'rails_12factor'
+end
+
+group :development, :test do
+  gem 'guard'
+  gem 'guard-livereload', :require => false
+  gem 'rspec-rails'
+  gem 'capybara', :git => 'git://github.com/jnicklas/capybara.git'
+  gem 'launchy'
+  gem 'database_cleaner'
+  gem 'rb-inotify', :require => false
+  gem 'rb-fsevent', :require => false
+  gem 'rb-fchange', :require => false
 end

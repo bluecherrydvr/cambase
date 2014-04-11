@@ -13,7 +13,7 @@
     <% @cameras.each do |camera| %>
       <tr>
         <td><%= camera.model %></td>
-        <td><%= camera.manufacturer %></td>
+        <td><%= camera.manufacturer.name %></td>
         <td><%= link_to 'Show', camera %></td>
         <td><%= link_to 'Edit', edit_camera_path(camera) %></td>
         <td><%= link_to 'Destroy', camera, method: :delete, data: { confirm: 'Are you sure?' } %></td>
