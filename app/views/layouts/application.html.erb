@@ -11,12 +11,13 @@
   <%= render "shared/header" %>
   <div class="main" role="main">
     <div class="container">
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
+      <%= flash_messages %>
       <%= yield %>
     </div>
   </div>
   <%= render "shared/footer" %>
-
+  <% unless user_signed_in? %>
+  <%= render 'shared/signin_modal' %>
+  <% end %>
 </body>
 </html>

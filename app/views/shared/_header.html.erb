@@ -2,27 +2,31 @@
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <!-- <div class="navbar-header"> -->
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">Logo</a>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">watch notes</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">avatar <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Watch List</a></li>
-            <li><a href="#">Log Out</a></li>
-          </ul>
-        </li>
-      </ul>
-    <!-- </div> -->
-    </nav>
-<nav class="navbar navbar-default" role="navigation">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="/">Logo</a>
+    <ul class="nav navbar-nav navbar-right">
+      <% if user_signed_in? %>
+      <li><a href="#">watch notes</a></li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">avatar <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Settings</a></li>
+          <li><a href="#">Watch List</a></li>
+          <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
+        </ul>
+      </li>
+      <% else %>
+      <li><%= link_to "Sign In", '#signin-modal', data: { toggle: "modal", target: "#signin-modal" } %></li>
+      <% end %>
+    </ul>
+    </div>
+  </nav>
+  <nav class="navbar navbar-default" role="navigation">
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li><a href="/cameras/">Cameras</a></li>
@@ -35,7 +39,6 @@
           <input type="text" class="form-control" placeholder="Search">
         </div>
       </form>
-      
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
