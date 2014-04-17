@@ -5,11 +5,36 @@ class ManufacturersController < ApplicationController
   # GET /manufacturers.json
   def index
     @manufacturers = Manufacturer.all
+    respond_to do |format|
+      format.html
+      format.json {
+        # render :json => {
+        #   :manufacturers =>
+        #   @manufacturers
+        # },
+        # :include => {:cameras => { :except => [:created_at, :updated_at] }},
+        # :except => [:created_at, :updated_at]
+        render :json =>
+        @manufacturers,
+        :include => {:cameras => { :except => [:created_at, :updated_at] }},
+        :except => [:created_at, :updated_at]
+      }
+    end
   end
 
   # GET /manufacturers/1
   # GET /manufacturers/1.json
   def show
+    @manufacturers = Manufacturer.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json {
+        render :json =>
+        @manufacturers,
+        :include => {:cameras => { :except => [:created_at, :updated_at] }},
+        :except => [:created_at, :updated_at]
+      }
+    end
   end
 
   # GET /manufacturers/new
@@ -62,13 +87,13 @@ class ManufacturersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_manufacturer
-      @manufacturer = Manufacturer.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_manufacturer
+    @manufacturer = Manufacturer.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def manufacturer_params
-      params.require(:manufacturer).permit(:name)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def manufacturer_params
+    params.require(:manufacturer).permit(:name)
+  end
 end

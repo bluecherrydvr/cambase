@@ -14,8 +14,8 @@
   <div class="field">
     <%= f.label :model %><br>
     <%= f.text_field :model %>
-    <%= options_from_collection_for_select(Manufacturer.all, :id, :name) %>
-    <%= collection_select(:camera, :manufacturer_id, Manufacturer.all, :id, :name) %>
+    <%= f.collection_select(:manufacturer_id, Manufacturer.all, :id, :name) %>
+    <%= f.select(:shape, options_for_select(Camera::SHAPES)) %>
 
   </div>
   <div class="actions">

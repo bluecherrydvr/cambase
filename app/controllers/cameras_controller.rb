@@ -5,11 +5,23 @@ class CamerasController < ApplicationController
   # GET /cameras.json
   def index
     @cameras = Camera.all
+    respond_to do |format|
+      format.html
+      format.json { render :json => @cameras, :except => [:created_at, :updated_at] }
+    end
   end
 
   # GET /cameras/1
   # GET /cameras/1.json
   def show
+    @camera = Camera.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json {
+        render :json =>
+        @camera
+      }
+    end
   end
 
   # GET /cameras/new
@@ -62,13 +74,13 @@ class CamerasController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_camera
-      @camera = Camera.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_camera
+    @camera = Camera.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def camera_params
-      params.require(:camera).permit(:model, :manufacturer_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def camera_params
+    params.require(:camera).permit(:model, :manufacturer_id, :shape)
+  end
 end

@@ -17,8 +17,24 @@ ActiveRecord::Schema.define(version: 20140414135226) do
   enable_extension "plpgsql"
 
   create_table "cameras", force: true do |t|
-    t.string   "model"
     t.integer  "manufacturer_id"
+    t.string   "model"
+    t.text     "manual_url"
+    t.text     "jpeg_url"
+    t.text     "h264_url"
+    t.text     "mjpeg_url"
+    t.string   "resolution"
+    t.string   "firmware"
+    t.string   "credentials"
+    t.string   "shape"
+    t.integer  "fov"
+    t.boolean  "onvif"
+    t.boolean  "psia"
+    t.boolean  "ptz"
+    t.boolean  "infrared"
+    t.boolean  "varifocal"
+    t.boolean  "sd_card"
+    t.boolean  "upnp"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -27,6 +43,9 @@ ActiveRecord::Schema.define(version: 20140414135226) do
 
   create_table "manufacturers", force: true do |t|
     t.string   "name"
+    t.text     "info"
+    t.text     "mac",        default: [], array: true
+    t.text     "text",       default: [], array: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end
