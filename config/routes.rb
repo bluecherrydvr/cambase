@@ -3,10 +3,18 @@ Rails.application.routes.draw do
   devise_for :users
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  
+
   resources :cameras
 
   resources :manufacturers
+
+  namespace :api, defaults: {format: 'json'} do
+    namespace :v1 do
+      resources :cameras
+      resources :manufacturers
+    end
+  end
+
 
   root 'pages#index'
 
