@@ -5,7 +5,7 @@ class Camera < ActiveRecord::Base
     'bullet',
     'box'
   ]
-  validates :model, presence: true, uniqueness: true
+  validates :model, presence: true, :case_sensitive => false, :uniqueness => {:scope => :manufacturer_id}
   validates :manufacturer, presence: true
-  validates :shape, presence: true, inclusion: { in: SHAPES }
+  validates :shape, inclusion: { in: SHAPES }, :allow_blank => true
 end
