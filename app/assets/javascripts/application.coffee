@@ -3,6 +3,7 @@
 #= require turbolinks
 #= require_tree .
 #= require bootstrap
+#= require swagger-ui
 
 # called from a bootstrap dropdown, this closes the dropdown
 $('a[data-toggle=modal]').on 'click', ->

@@ -23,5 +23,6 @@ Rails.application.routes.draw do
   get '/privacy-policy' => 'pages#privacy'
   get '/cookie-policy' => 'pages#cookie'
   get '/contact-us' => 'pages#contact'
+  get '/api-docs' => 'pages#api_docs'
 
 end
