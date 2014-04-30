@@ -4,16 +4,15 @@
   <title>Cambase</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+  <link href='http://fonts.googleapis.com/css?family=Titillium+Web|Open+Sans:400italic,400' rel='stylesheet' type='text/css'>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
   <%= render "shared/header" %>
   <div class="main" role="main">
-    <div class="container">
-      <%= flash_messages %>
-      <%= yield %>
-    </div>
+    <%= flash_messages %>
+    <%= yield %>
   </div>
   <%= render "shared/footer" %>
   <% unless user_signed_in? %>
