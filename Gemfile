@@ -1,5 +1,6 @@
 ruby '2.0.0'
 source 'http://rubygems.org'
+source 'https://rails-assets.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.0'
@@ -10,7 +11,7 @@ gem 'sass-rails', '~> 4.0.3'
 gem 'compass-rails'
 gem 'bootstrap-sass'
 gem "autoprefixer-rails"
-gem 'masonry-rails'
+gem 'rails-assets-packery'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
@@ -55,7 +56,7 @@ group :production do
   gem 'rails_12factor'
 end
 
-group :development do 
+group :development do
   gem "awesome_print"
 end
 

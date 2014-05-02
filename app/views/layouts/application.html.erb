@@ -11,8 +11,12 @@
 <body>
   <%= render "shared/header" %>
   <div class="main" role="main">
-    <%= flash_messages %>
-    <%= yield %>
+    <div class="container">
+      <div class="row">
+        <%= flash_messages %>
+        <%= yield %>
+      </div>
+    </div>
   </div>
   <%= render "shared/footer" %>
   <% unless user_signed_in? %>

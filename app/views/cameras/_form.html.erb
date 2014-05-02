@@ -16,7 +16,6 @@
     <%= f.text_field :model %>
     <%= f.collection_select(:manufacturer_id, Manufacturer.all, :id, :name) %>
     <%= f.select(:shape, options_for_select(Camera::SHAPES)) %>
-
   </div>
   <div class="actions">
     <%= f.submit %>
