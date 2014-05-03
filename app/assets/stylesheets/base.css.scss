@@ -2,6 +2,7 @@ html {
   position: relative;
   min-height: 100%;
 }
+
 body {
   margin-bottom: 160px;
   background: $offwhite;
@@ -14,6 +15,11 @@ body {
 
 a{
   color: #000;
+}
+
+a:active,
+a:focus {
+  outline: none;
 }
 
 *{

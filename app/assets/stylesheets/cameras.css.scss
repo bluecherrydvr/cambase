@@ -1,3 +1,40 @@
-// Place all the styles related to the cameras controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.module{
+  background: #fff;
+}
+
+.module-header{
+  background: #98ada6;
+  color: #fff;
+  text-align: center;
+  h4{
+    font-size: 14px;
+    padding: 8px 0;
+    margin: 0;
+  }
+}
+
+.module-body{
+  & > img{
+    width: 100%;
+    height: auto;
+  }
+}
+
+.module .table{
+  &.table-striped > tbody > tr:nth-child(2n+1) > td{
+    background-color: #eeeeee;
+  }
+  td{
+    width: 50%;
+    border: none;
+    &:first-child{
+      text-align: right;
+    }
+  }
+}
+
+.module-tips{
+  .module-body{
+     padding: 10px;
+  }
+}

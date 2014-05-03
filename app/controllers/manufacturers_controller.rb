@@ -26,14 +26,10 @@ class ManufacturersController < ApplicationController
   # GET /manufacturers/1.json
   def show
     @manufacturers = Manufacturer.find(params[:id])
+    @cameras = Manufacturer.find(params[:id]).cameras.order(:model).page params[:page]
     respond_to do |format|
       format.html
-      format.json {
-        render :json =>
-        @manufacturers,
-        :include => {:cameras => { :except => [:created_at, :updated_at] }},
-        :except => [:created_at, :updated_at]
-      }
+      format.json { render :json => @cameras, :except => [:created_at, :updated_at] }
     end
   end
 

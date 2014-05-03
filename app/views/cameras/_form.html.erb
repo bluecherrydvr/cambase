@@ -1,23 +1,87 @@
 <%= form_for(@camera) do |f| %>
-  <% if @camera.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@camera.errors.count, "error") %> prohibited this camera from being saved:</h2>
+<% if @camera.errors.any? %>
+<div id="error_explanation">
+  <h2><%= pluralize(@camera.errors.count, "error") %> prohibited this camera from being saved:</h2>
 
-      <ul>
-      <% @camera.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <ul>
+    <% @camera.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
 
-  <div class="field">
-    <%= f.label :model %><br>
+<div class="field">
+  <p>
+    <%= f.label :manufacturer %>
+    <%= f.collection_select(:manufacturer_id, Manufacturer.order(:name), :id, :name) %>
+  </p>
+  <p>
+    <%= f.label :model %>
     <%= f.text_field :model %>
-    <%= f.collection_select(:manufacturer_id, Manufacturer.all, :id, :name) %>
+  </p>
+  <p>
+    <%= f.label :manual_url %>
+    <%= f.text_field :manual_url %>
+  </p>
+  <p>
+    <%= f.label :jpeg_url %>
+    <%= f.text_field :jpeg_url %>
+  </p>
+  <p>
+    <%= f.label :h264_url %>
+    <%= f.text_field :h264_url %>
+  </p>
+  <p>
+    <%= f.label :mjpeg_url %>
+    <%= f.text_field :mjpeg_url %>
+  </p>
+  <p>
+    <%= f.label :resolution %>
+    <%= f.select(:resolution, Camera.uniq.pluck(:resolution)) %>
+  </p>
+  <p>
+    <%= f.label :firmware %>
+    <%= f.text_field :firmware %>
+  </p>
+  <p>
+    <%= f.label :credentials %>
+    <%= f.text_field :credentials %>
+  </p>
+  <p>
+    <%= f.label :shape %>
     <%= f.select(:shape, options_for_select(Camera::SHAPES)) %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  </p>
+  <p>
+    <%= f.label :onvif %>
+    <%= f.check_box :onvif %>
+  </p>
+  <p>
+    <%= f.label :psia %>
+    <%= f.check_box :psia %>
+  </p>
+  <p>
+    <%= f.label :ptz %>
+    <%= f.check_box :ptz %>
+  </p>
+  <p>
+    <%= f.label :infrared %>
+    <%= f.check_box :infrared %>
+  </p>
+  <p>
+    <%= f.label :varifocal %>
+    <%= f.check_box :varifocal %>
+  </p>
+  <p>
+    <%= f.label :sd_card %>
+    <%= f.check_box :sd_card %>
+  </p>
+  <p>
+    <%= f.label :upnp %>
+    <%= f.check_box :upnp %>
+  </p>
+</div>
+<div class="actions">
+  <%= f.submit %>
+</div>
 <% end %>

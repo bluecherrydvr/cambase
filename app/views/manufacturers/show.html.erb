@@ -1,9 +1,30 @@
-<p id="notice"><%= notice %></p>
+<div class="col-md-12">
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>Manufacturer</th>
+          <th>Resolution</th>
+          <th>Shape</th>
+          <th>Features</th>
+        </tr>
+      </thead>
 
-<p>
-  <strong>Name:</strong>
-  <%= @manufacturer.name %>
-</p>
+      <tbody>
+        <% @cameras.each do |camera| %>
+        <tr>
+          <td><%= link_to camera.model, camera %></td>
+          <td><%= camera.manufacturer.name %></td>
+          <td><%= camera.resolution %></td>
+          <td><%= image_tag("icons/camera_shape_#{camera.shape}.png", alt: '') %></td>
+          <td><%= camera %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate @cameras %>
+  </div>
+</div>
 
-<%= link_to 'Edit', edit_manufacturer_path(@manufacturer) %> |
-<%= link_to 'Back', manufacturers_path %>
+<%= link_to 'New Camera', new_camera_path %>
