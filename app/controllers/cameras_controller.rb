@@ -4,7 +4,7 @@ class CamerasController < ApplicationController
   # GET /cameras
   # GET /cameras.json
   def index
-    @cameras = Camera.all
+    @cameras = Camera.page params[:page]
     respond_to do |format|
       format.html
       format.json { render :json => @cameras, :except => [:created_at, :updated_at] }

@@ -4,7 +4,7 @@ class ManufacturersController < ApplicationController
   # GET /manufacturers
   # GET /manufacturers.json
   def index
-    @manufacturers = Manufacturer.all
+    @manufacturers = Manufacturer.order(:name).page params[:page]
     respond_to do |format|
       format.html
       format.json {
