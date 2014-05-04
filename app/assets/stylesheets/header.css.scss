@@ -39,12 +39,6 @@
     text-align: center;
     background: #fff;
     color: #000;
-    &.icon-search{
-      @include icon('search');
-    }
-    &.icon-dropdown{
-      @include icon('drop_arrow');
-    }
   }
 
 }
@@ -56,26 +50,5 @@
 .navbar-default .nav > li > a:hover,
 .navbar-default .nav > li > a:focus {
   background-color: #fff;
-}
-
-.navbar-form{
-  background: #fff;
-  padding: 7px 10px 1px;
-  margin: 0;
-  width: 100%;
-  .form-group{
-    width: 100%;
-    input{
-      background: #f5f5f5;
-      padding: 8px 10px;
-      border: none;
-      font-style: italic;
-      border-radius: 0;
-      width: 87%;
-    }
-    a{
-      float: right;
-    }
-  }
 }
 

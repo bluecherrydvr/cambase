@@ -42,3 +42,6 @@ $ ->
   $container.packery
     itemSelector: '.tile',
     gutter: 0
+
+  $('#search_dropdown').on 'click', ->
+    $('.search-dropdown').slideToggle()

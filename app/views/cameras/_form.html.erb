@@ -44,7 +44,7 @@
   </p>
   <p>
     <%= f.label :resolution %>
-    <%= f.select(:resolution, Camera.uniq.pluck(:resolution)) %>
+    <%= f.select(:resolution, Camera.uniq.pluck(:resolution), :include_blank => '') %>
   </p>
   <p>
     <%= f.label :firmware %>

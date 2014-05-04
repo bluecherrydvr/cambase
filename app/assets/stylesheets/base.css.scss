@@ -1,6 +1,7 @@
 html {
   position: relative;
   min-height: 100%;
+  overflow-y: scroll;
 }
 
 body {
@@ -84,4 +85,12 @@ a:focus {
   width: 42px;
   background-repeat: no-repeat;
   background-image: image-url("icons/#{$image}.png");
+}
+
+.button{
+  padding: 8px 32px;
+  background: $darkgreen;
+  border: none;
+  border-radius: 0;
+  color: #fff;
 }

@@ -38,6 +38,8 @@ gem 'swagger-ui_rails'
 
 gem 'kaminari'
 
+gem 'ransack'
+
 group :production do
   gem 'rails_12factor'
 # gem 'unicorn'

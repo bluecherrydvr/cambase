@@ -4,7 +4,12 @@ Rails.application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
-  resources :cameras
+  # resources :cameras
+  resources :cameras do
+    collection do
+      match 'search' => 'cameras#search', via: [:get, :post], as: :search
+    end
+  end
 
   resources :manufacturers
 

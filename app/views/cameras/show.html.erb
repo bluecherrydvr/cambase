@@ -4,7 +4,7 @@
       <h4>Images</h4>
     </div>
     <div class="module-body">
-      <% if @camera.images %>
+      <% if @camera.images.first %>
       <img src="<%= @camera.images.first.file.url(:medium) %>">
       <% if @camera.images.count > 1 %>
       <ul>

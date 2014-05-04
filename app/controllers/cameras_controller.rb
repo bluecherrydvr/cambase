@@ -4,11 +4,22 @@ class CamerasController < ApplicationController
   # GET /cameras
   # GET /cameras.json
   def index
-    @cameras = Camera.page params[:page]
+    if params[:q].blank?
+      @search = Camera.search()
+      @cameras = Camera.page params[:page]
+    else
+      @search = Camera.search(params[:q])
+      @cameras = @search.result.page params[:page]
+    end
     respond_to do |format|
       format.html
       format.json { render :json => @cameras, :except => [:created_at, :updated_at] }
     end
+  end
+
+  def search
+    index
+    # render :index
   end
 
   # GET /cameras/1
