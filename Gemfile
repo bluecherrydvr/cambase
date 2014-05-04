@@ -37,10 +37,6 @@ gem 'swagger-docs'
 gem 'swagger-ui_rails'
 
 gem 'kaminari'
-gem 'kaminari-bootstrap'
-
-# gem 'will_paginate'
-# gem 'bootstrap-will_paginate'
 
 group :production do
   gem 'rails_12factor'

@@ -1,6 +1,6 @@
 <div class="col-md-12">
   <div class="table-responsive">
-    <table class="table">
+    <table class="table table-list table-cameras">
       <thead>
         <tr>
           <th>Model</th>
@@ -15,10 +15,14 @@
         <% @cameras.each do |camera| %>
         <tr>
           <td><%= link_to camera.model, camera %></td>
-          <td><%= camera.manufacturer.name %></td>
+          <td><%= link_to camera.manufacturer.name, camera.manufacturer %></td>
           <td><%= camera.resolution %></td>
           <td><%= image_tag("icons/camera_shape_#{camera.shape}.png", alt: '') %></td>
-          <td><%= camera %></td>
+          <td>
+            <% Camera::FEATURES.each do |feature| %>
+            <%= image_tag("icons/camera_feature_#{feature}.png", alt: feature) if camera[feature] %>
+            <% end %>
+          </td>
         </tr>
         <% end %>
       </tbody>
@@ -26,5 +30,3 @@
     <%= paginate @cameras %>
   </div>
 </div>
-
-<%= link_to 'New Camera', new_camera_path %>

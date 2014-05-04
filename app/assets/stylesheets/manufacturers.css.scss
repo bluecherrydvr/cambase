@@ -1,5 +1,74 @@
-.table{
-  tbody tr td{
-    vertical-align: middle;
+.table-list{
+  border: 4px solid $grayborder;
+  margin-bottom: 0;
+  border-collapse: inherit;
+  thead, tbody{
+    tr{
+      min-width: 100%;
+      max-width: 100%;
+      th, td{
+        border-right: 4px solid $grayborder;
+        background-color: #fff;
+        &:last-child{
+          border-right: none;
+        }
+      }
+      th{
+        border-top: 4px solid $grayborder;
+        border-bottom: 4px solid $grayborder;
+        font-style: italic;
+        font-size: 14px;
+        color: $darkgreen;
+      }
+      td{
+        border-top: none;
+        border-bottom: none;
+        vertical-align: middle;
+        img{
+          max-height: 50px;
+        }
+      }
+    }
+  }
+  &.table-cameras{
+    tr td:nth-child(4){
+      text-align: center;
+      width: 82px;
+    }
+  }
+  &.table-manufacturers{
+    td{
+      height: 50px;
+    }
+    tr td:nth-child(3),
+    tr th:nth-child(3){
+      text-align: center;
+      width: 42px;
+    }
+  }
+}
+
+.pagination{
+  margin-top: 0;
+  padding: 8px;
+  width: 100%;
+  border: 4px solid $grayborder;
+  border-top: none;
+  background: #fff;
+  span{
+    &.current{
+      font-weight: bold;
+    }
+    padding: 4px;
+    background: $offwhite;
+    &:first-child{
+      padding-left: 8px;
+    }
+    &:last-child{
+      padding-right: 8px;
+    }
+    a{
+      color: $darkgreen;
+    }
   }
 }

@@ -154,9 +154,6 @@ GEM
     kaminari (0.15.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
-    kaminari-bootstrap (3.0.1)
-      kaminari (>= 0.13.0)
-      rails
     launchy (2.4.2)
       addressable (~> 2.3)
     listen (2.7.1)
@@ -326,7 +323,6 @@ DEPENDENCIES
   jquery-rails
   jquery-turbolinks
   kaminari
-  kaminari-bootstrap
   launchy
   paperclip
   pg
