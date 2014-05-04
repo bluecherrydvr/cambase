@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140414135226) do
+ActiveRecord::Schema.define(version: 20140504145250) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,18 @@ ActiveRecord::Schema.define(version: 20140414135226) do
   end
 
   add_index "cameras", ["manufacturer_id"], name: "index_cameras_on_manufacturer_id", using: :btree
+
+  create_table "images", force: true do |t|
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.integer  "position"
+    t.string   "file_file_name"
+    t.string   "file_content_type"
+    t.integer  "file_file_size"
+    t.datetime "file_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "manufacturers", force: true do |t|
     t.string   "name"

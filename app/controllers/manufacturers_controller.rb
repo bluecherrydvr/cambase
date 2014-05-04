@@ -8,12 +8,6 @@ class ManufacturersController < ApplicationController
     respond_to do |format|
       format.html
       format.json {
-        # render :json => {
-        #   :manufacturers =>
-        #   @manufacturers
-        # },
-        # :include => {:cameras => { :except => [:created_at, :updated_at] }},
-        # :except => [:created_at, :updated_at]
         render :json =>
         @manufacturers,
         :include => {:cameras => { :except => [:created_at, :updated_at] }},
@@ -36,6 +30,7 @@ class ManufacturersController < ApplicationController
   # GET /manufacturers/new
   def new
     @manufacturer = Manufacturer.new
+    @manufacturer.build_image
   end
 
   # GET /manufacturers/1/edit
@@ -46,7 +41,6 @@ class ManufacturersController < ApplicationController
   # POST /manufacturers.json
   def create
     @manufacturer = Manufacturer.new(manufacturer_params)
-
     respond_to do |format|
       if @manufacturer.save
         format.html { redirect_to @manufacturer, notice: 'Manufacturer was successfully created.' }
@@ -90,6 +84,6 @@ class ManufacturersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def manufacturer_params
-    params.require(:manufacturer).permit(:name)
+    params.require(:manufacturer).permit(:name, :image, image_attributes: [:id, :file, :_destroy])
   end
 end

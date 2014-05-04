@@ -15,7 +15,7 @@
         <% @cameras.each do |camera| %>
         <tr>
           <td><%= link_to camera.model, camera %></td>
-          <td><%= camera.manufacturer.name %></td>
+          <td><%= link_to camera.manufacturer.name, camera.manufacturer %></td>
           <td><%= camera.resolution %></td>
           <td><%= image_tag("icons/camera_shape_#{camera.shape}.png", alt: '') %></td>
           <td><%= camera %></td>

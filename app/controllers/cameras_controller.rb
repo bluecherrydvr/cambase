@@ -91,6 +91,7 @@ class CamerasController < ApplicationController
                                    :resolution,
                                    :firmware,
                                    :credentials,
-                                   Camera::FEATURES)
+                                   Camera::FEATURES,
+                                   :image, images_attributes: [:id, :file, :_destroy])
   end
 end

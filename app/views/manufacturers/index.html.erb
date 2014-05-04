@@ -13,7 +13,7 @@
         <% @manufacturers.each do |manufacturer| %>
         <tr>
           <td><%= link_to manufacturer.name, manufacturer %></td>
-          <td><%= manufacturer %></td>
+          <td><%= image_tag(manufacturer.image.file.url(:small)) if manufacturer.image %></td>
           <td><%= manufacturer.cameras.size %></td>
         </tr>
         <% end %>

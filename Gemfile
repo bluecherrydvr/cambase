@@ -4,6 +4,7 @@ source 'https://rails-assets.org'
 
 gem 'rails', '4.1.0'
 gem 'pg'
+gem "paperclip"
 
 gem 'sass-rails', '~> 4.0.3'
 gem 'compass-rails'
@@ -26,12 +27,6 @@ gem 'spring',        group: :development
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
@@ -49,10 +44,12 @@ gem 'kaminari-bootstrap'
 
 group :production do
   gem 'rails_12factor'
+# gem 'unicorn'
 end
 
 group :development do
   gem "awesome_print"
+# gem 'capistrano-rails'
 end
 
 group :development, :test do

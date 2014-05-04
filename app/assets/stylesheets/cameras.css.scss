@@ -14,14 +14,28 @@
 }
 
 .module-body{
+  padding: 10px;
   & > img{
     width: 100%;
     height: auto;
   }
 }
 
-.module .table{
-  &.table-striped > tbody > tr:nth-child(2n+1) > td{
+.module-images{
+  margin-bottom: 10px;
+  .module-body{
+    padding: 0;
+  }
+  li{
+    display: inline;
+  }
+}
+
+.module-table{
+  .module-body{
+    padding: 0;
+  }
+  .table-striped > tbody > tr:nth-child(2n+1) > td{
     background-color: #eeeeee;
   }
   td{
@@ -35,6 +49,6 @@
 
 .module-tips{
   .module-body{
-     padding: 10px;
+
   }
 }

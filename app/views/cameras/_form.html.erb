@@ -17,6 +17,12 @@
     <%= f.collection_select(:manufacturer_id, Manufacturer.order(:name), :id, :name) %>
   </p>
   <p>
+    <%= f.fields_for :images, @camera, :html => {:multipart => true} do |asset| %>
+    <%= asset.label :image %>
+    <%= asset.file_field :file %>
+    <% end %>
+  </p>
+  <p>
     <%= f.label :model %>
     <%= f.text_field :model %>
   </p>
