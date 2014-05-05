@@ -9,10 +9,13 @@
 .tile{
   -moz-box-sizing:border-box !important;
   margin-bottom: 10px;
-  // padding: 0;
   .tile-content{
     background: #fff;
     padding: 10px;
+    img{
+      width: 100%;
+      height: auto;
+    }
   }
 }
 
