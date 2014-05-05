@@ -73,6 +73,9 @@ GEM
     autoprefixer-rails (1.1.20140429)
       execjs
     awesome_print (1.2.0)
+    aws-sdk (1.39.0)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4)
     bcrypt (3.1.7)
     bcrypt (3.1.7-x86-mingw32)
     bootstrap-sass (3.1.1.1)
@@ -319,6 +322,7 @@ PLATFORMS
 DEPENDENCIES
   autoprefixer-rails
   awesome_print
+  aws-sdk
   bootstrap-sass
   capybara!
   coffee-rails (~> 4.0.0)

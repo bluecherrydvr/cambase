@@ -40,6 +40,8 @@ gem 'kaminari'
 
 gem 'ransack'
 
+gem 'aws-sdk'
+
 group :production do
   gem 'rails_12factor'
 # gem 'unicorn'
