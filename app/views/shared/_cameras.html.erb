@@ -1,0 +1,38 @@
+<div class="col-md-12">
+  <div class="table-responsive">
+    <table class="table table-list table-cameras">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>Manufacturer</th>
+          <th>Resolution</th>
+          <th>Shape</th>
+          <th>Features</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @cameras.each do |camera| %>
+        <tr>
+          <td><%= link_to camera.model, camera %></td>
+          <td><%= link_to camera.manufacturer.name, camera.manufacturer %></td>
+          <td><%= camera.resolution %></td>
+          <td>
+            <% if Camera::SHAPES.include? camera.shape %>
+            <span class='icon-camera_shape_<%= camera.shape %>'></span>
+            <% end %>
+          </td>
+          <td>
+            <% Camera::FEATURES.each do |feature| %>
+            <% if camera[feature] %>
+            <span class="icon-camera_feature_<%= feature %>"></span>
+            <% end %>
+            <% end %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate @cameras %>
+  </div>
+</div>

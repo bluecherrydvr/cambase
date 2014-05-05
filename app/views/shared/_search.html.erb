@@ -2,20 +2,31 @@
 <%= f.text_field :model_cont, :placeholder => "Search", :class => "search_model" %>
 <%= f.submit "search", :class => 'icon-search' %>
 <a href="#" class="icon-dropdown" id="search_dropdown">Dropdown</a>
-<div class="search-dropdown">
+<div class="search-dropdown row">
   <div class="col-sm-4">
-    <%= f.collection_select(:manufacturer_id_eq, Manufacturer.order(:name), :id, :name, :include_blank => '') %>
-    <%= f.select(:resolution_eq, Camera.uniq.pluck(:resolution), :include_blank => '') %>
-    <%= f.select(:shape_eq, options_for_select(Camera::SHAPES), :include_blank => '') %>
+    <%= f.collection_select(:manufacturer_id_eq, Manufacturer.order(:name), :id, :name, :include_blank => 'Manufacturer') %>
+    <%= f.select(:resolution_eq, Camera.uniq.pluck(:resolution), :include_blank => 'Resolution') %>
+    <%= f.select(:shape_eq, options_for_select(Camera::SHAPES), :include_blank => 'Shape') %>
   </div>
-  <%= f.check_box :onvif_true %>
-  <%= f.check_box :psia_true %>
-  <%= f.check_box :ptz_true %>
-  <%= f.check_box :infrared_true %>
-  <%= f.check_box :varifocal_true %>
-  <%= f.check_box :sd_card_true %>
-  <%= f.check_box :upnp_true %>
-  <div class="row">
+  <div class="col-sm-2">
+    &nbsp;
+  </div>
+  <div class="col-sm-6">
+    <div class="features">
+      <%= f.check_box :onvif_true %>
+      <%= f.check_box :psia_true %>
+      <%= f.check_box :ptz_true %>
+      <%= f.check_box :infrared_true %>
+      <%= f.check_box :varifocal_true %>
+      <%= f.check_box :sd_card_true %>
+      <%= f.check_box :upnp_true %>
+      <p>Select Features</p>
+      <% Camera::FEATURES.reverse_each do |feature| %>
+      <span class="icon-camera_feature_<%= feature %>"></span>
+      <% end %>
+    </div>
+  </div>
+  <div class="row actions">
     <%= f.submit "search", :class => 'button right' %>
   </div>
 </div>

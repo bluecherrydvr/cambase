@@ -45,3 +45,9 @@ $ ->
 
   $('#search_dropdown').on 'click', ->
     $('.search-dropdown').slideToggle()
+
+  $(".search-dropdown .features span").on 'click', ->
+    feature_id = $(this).attr("class").replace("icon-camera_feature_", "#q_") + "_true"
+    $(feature_id).trigger "click"
+    $(this).toggleClass "selected"
+

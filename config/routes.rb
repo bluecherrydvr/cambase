@@ -4,7 +4,6 @@ Rails.application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
-  # resources :cameras
   resources :cameras do
     collection do
       match 'search' => 'cameras#search', via: [:get, :post], as: :search
@@ -12,6 +11,7 @@ Rails.application.routes.draw do
   end
 
   resources :manufacturers
+  # get '/:manufacturers/:camera', to: 'cameras#show'
 
   namespace :api, defaults: {format: 'json'} do
     namespace :v1 do

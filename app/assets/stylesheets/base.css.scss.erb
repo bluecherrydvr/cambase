@@ -84,8 +84,27 @@ a:focus {
   height: 42px;
   width: 42px;
   background-repeat: no-repeat;
-  background-image: image-url("icons/#{$image}.png");
+  background-image: asset-url("icons/#{$image}.png");
+  user-select: none;
+} 
+
+<% Camera::FEATURES.each do |feature| %>
+<%= ".icon-camera_feature_#{feature}" %>{
+  @include icon(<%= "camera_feature_#{feature}" %>);
+  background-position: 5px 5px;
+  border-radius: 42px;
+  float: left;
 }
+<% end %>
+
+<% Camera::SHAPES.each do |shape| %>
+<%= ".icon-camera_shape_#{shape}" %>{
+  @include icon(<%= "camera_shape_#{shape}" %>);
+  background-position: 5px 5px;
+  border-radius: 42px;
+  display: inline-block;
+}
+<% end %>
 
 .button{
   padding: 8px 32px;
