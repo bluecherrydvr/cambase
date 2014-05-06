@@ -31,6 +31,17 @@
   }
 }
 
+.module-documents{
+  a{
+    display: block;
+    clear: both;
+    line-height: 2.2;
+    span{
+      float: left;
+    }
+  }
+}
+
 .module-table{
   .module-body{
     padding: 0;

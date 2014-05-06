@@ -1,10 +1,10 @@
 <div class="sidebar col-sm-3">
-<div class="module module-images">
+  <% unless @camera.images.empty? %>
+  <div class="module module-images">
     <div class="module-header">
       <h4>Images</h4>
     </div>
     <div class="module-body">
-      <% if @camera.images.first %>
       <img src="<%= @camera.images.first.file.url(:medium) %>">
       <% if @camera.images.count > 1 %>
       <ul>
@@ -15,16 +15,22 @@
         <% end %>
       </ul>
       <% end %>
-      <% end %>
+      &nbsp;
     </div>
   </div>
-  <% if @camera.manual_url %>
-  <div class="module">
+  <% end %>
+  <% unless @camera.documents.empty? %>
+  <div class="module module-documents">
     <div class="module-header">
       <h4>Downloads</h4>
     </div>
     <div class="module-body">
-      <a href="<%= @camera.manual_url %>">User Manual</a>
+      <% @camera.documents.each do |document| %>
+      <a href="<%= document.file.url %>">
+        <span class="icon-document"></span>
+        <%= document.file_file_name %>
+      </a>
+      <% end %>
     </div>
   </div>
   <% end %>
@@ -40,6 +46,14 @@
           <div class="table-responsive">
             <table class="table table-striped">
               <tbody>
+                <tr>
+                  <td>Manufacturer</td>
+                  <td><%= @camera.manufacturer.name %></td>
+                </tr>
+                <tr>
+                  <td>Model</td>
+                  <td><%= @camera.model %></td>
+                </tr>
                 <tr>
                   <td>Resolution</td>
                   <td><%= @camera.resolution || 'Unknown' %></td>
@@ -67,10 +81,6 @@
                 <tr>
                   <td>UPnP</td>
                   <td><%= human_boolean(@camera.upnp) %></td>
-                </tr>
-                <tr>
-                  <td>Manufacturer</td>
-                  <td><%= @camera.manufacturer.name %></td>
                 </tr>
               </tbody>
             </table>

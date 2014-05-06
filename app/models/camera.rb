@@ -1,5 +1,6 @@
 class Camera < ActiveRecord::Base
   has_many :images, as: :owner
+  has_many :documents, as: :owner
   belongs_to :manufacturer
 
   accepts_nested_attributes_for :images, allow_destroy: true, reject_if: :all_blank

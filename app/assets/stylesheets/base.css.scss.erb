@@ -86,6 +86,10 @@ a:focus {
   background-repeat: no-repeat;
   background-image: asset-url("icons/#{$image}.png");
   user-select: none;
+}
+
+.icon-document{
+  @include icon('document'); 
 } 
 
 <% Camera::FEATURES.each do |feature| %>

@@ -3,7 +3,7 @@ camera ||= @camera
 json.id camera['id']
 json.manufacturer_id camera['manufacturer_id']
 json.model camera['model']
-json.manual_url camera['manual_url']
+json.manual_url camera.documents.first.file.url
 json.jpeg_url camera['jpeg_url']
 json.h264_url camera['h264_url']
 json.mjpeg_url camera['mjpeg_url']
