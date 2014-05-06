@@ -51,3 +51,8 @@ $ ->
     $(feature_id).trigger "click"
     $(this).toggleClass "selected"
 
+  $(".search-dropdown .features input[type=checkbox]").each ->
+    x = $(this).attr('checked')
+    if (x == 'checked' ) 
+      image = $(this).attr('id').replace('q_', '.icon-camera_feature_').replace('_true', '')
+      $(image).addClass("selected")
