@@ -92,6 +92,10 @@ a:focus {
   @include icon('document'); 
 } 
 
+.icon-eye{
+  @include icon('eye'); 
+} 
+
 <% Camera::FEATURES.each do |feature| %>
 <%= ".icon-camera_feature_#{feature}" %>{
   @include icon(<%= "camera_feature_#{feature}" %>);

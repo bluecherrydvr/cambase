@@ -13,7 +13,6 @@ documents.each do |doc|
   doc.each do |camera|
     manufacturer = Manufacturer.where(camera['manufacturer']).first_or_create
     camera['manufacturer'] = manufacturer
-    puts camera['manufacturer']
     Camera.create(camera)
   end
 end
