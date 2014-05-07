@@ -47,12 +47,17 @@ $ ->
     $('.search-dropdown').slideToggle()
 
   $(".search-dropdown .features span").on 'click', ->
-    feature_id = $(this).attr("class").replace("icon-camera_feature_", "#q_") + "_true"
-    $(feature_id).trigger "click"
+    feature_id = $(this).attr("id").replace('_icon', '')
+    $("##{feature_id}").trigger "click"
     $(this).toggleClass "selected"
 
   $(".search-dropdown .features input[type=checkbox]").each ->
     x = $(this).attr('checked')
     if (x == 'checked' ) 
-      image = $(this).attr('id').replace('q_', '.icon-camera_feature_').replace('_true', '')
+      image = "##{ $(this).attr('id') }_icon"
       $(image).addClass("selected")
+
+  $('.module-images').on 'click', ".thumbnails img", (e) ->
+    e.preventDefault()
+    clicked_image = $(this).attr('src')
+    $('.module-image-main').attr('src', clicked_image)

@@ -22,7 +22,7 @@
       <%= f.check_box :upnp_true %>
       <p>Select Features</p>
       <% Camera::FEATURES.reverse_each do |feature| %>
-      <span class="icon-camera_feature_<%= feature %>"></span>
+      <span id='<%= "q_#{feature}_true_icon" %>' class="icon-camera_feature_<%= feature %>"></span>
       <% end %>
     </div>
   </div>

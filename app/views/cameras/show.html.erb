@@ -5,12 +5,12 @@
       <h4>Images</h4>
     </div>
     <div class="module-body">
-      <img src="<%= @camera.images.first.file.url(:medium) %>">
+      <img class="module-image-main" src="<%= @camera.images.first.file.url(:medium) %>">
       <% if @camera.images.count > 1 %>
-      <ul>
+      <ul class="thumbnails">
         <% @camera.images.each do |image| %>
         <li>
-          <%= link_to(image_tag(image.file.url(:small)), image.file.url(:medium)) %>
+          <%= link_to(image_tag(image.file.url(:medium)), image.file.url(:medium)) %>
         </li>
         <% end %>
       </ul>
