@@ -2,19 +2,34 @@
   <div class="container">
     <div class="row">
       <ul class="list-inline icons">
-        <li><a class="icon-rss" href="#">rss</a></li>
-        <li><a class="icon-github" href="https://github.com/evercam/Cambase">github</a></li>
-        <li><a class="icon-twitter" href="#">twitter</a></li>
+        <li>
+          <%= link_to("github", "https://github.com/evercam/Cambase", :class => "icon-github") %>
+        </li>
+        <li>
+          <%= link_to("twitter", "https://twitter.com/evcrm", :class => "icon-twitter") %>
+        </li>
       </ul>
     </div>
     <div class="row">
       <ul class="list-inline">
-        <li><a href="/api-docs">API</a></li>
-        <li><a href="/about-cambase">About Cambase</a></li>
-        <li><a href="/about-evercam">About Evercam</a></li>
-        <li><a href="/privacy-policy">Privacy Policy</a></li>
-        <li><a href="/cookie-policy">Cookie Policy</a></li>
-        <li><a href="/contact-us">Contact Us</a></li>
+        <li>
+          <%= link_to("API", "/api-docs") %>
+        </li>
+        <li>
+          <%= link_to("About Cambase", "http://www.evercam.io/") %>
+        </li>
+        <li>
+          <%= link_to("About Evercam", "http://www.evercam.io/") %>
+        </li>
+        <li>
+          <%= link_to("Privacy Policy", "http://www.evercam.io/terms") %>
+        </li>
+        <li>
+          <%= link_to("Cookie Policy", "http://www.evercam.io/terms") %>
+        </li>
+        <li>
+          <%= link_to("Contact Us", "http://www.evercam.io/contact") %>
+        </li>
       </ul>
     </div>
     <div class="row">
