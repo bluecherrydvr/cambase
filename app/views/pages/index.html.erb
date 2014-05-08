@@ -6,7 +6,7 @@
     <% @data.each_with_index do |data, index| %>
     <div class="tile tile-small tile-image col-sm-2">
       <div class="tile-content">
-        <%= link_to(image_tag(@images[index].file.url), data) %>
+        <%= link_to_camera_url(image_tag(@images[index].file.url), data) %>
       </div>
     </div>
     <% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140506103202) do
+ActiveRecord::Schema.define(version: 20140507122914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,8 +37,10 @@ ActiveRecord::Schema.define(version: 20140506103202) do
     t.boolean  "upnp"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "camera_slug"
   end
 
+  add_index "cameras", ["camera_slug"], name: "index_cameras_on_camera_slug", unique: true, using: :btree
   add_index "cameras", ["manufacturer_id"], name: "index_cameras_on_manufacturer_id", using: :btree
 
   create_table "documents", force: true do |t|
@@ -67,11 +69,14 @@ ActiveRecord::Schema.define(version: 20140506103202) do
   create_table "manufacturers", force: true do |t|
     t.string   "name"
     t.text     "info"
-    t.text     "mac",        default: [], array: true
-    t.text     "text",       default: [], array: true
+    t.text     "mac",               default: [], array: true
+    t.text     "text",              default: [], array: true
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "manufacturer_slug"
   end
+
+  add_index "manufacturers", ["manufacturer_slug"], name: "index_manufacturers_on_manufacturer_slug", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

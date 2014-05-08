@@ -14,9 +14,9 @@
       <tbody>
         <% @cameras.each do |camera| %>
         <tr>
-          <td><%= link_to camera.model, camera %></td>
-          <td><%= link_to camera.manufacturer.name, camera.manufacturer %></td>
-          <td><%= camera.resolution %></td>
+          <td><%= link_to_camera_url(camera.model, camera) %></td>
+          <td><%= link_to camera.manufacturer.name, "/#{camera.manufacturer.manufacturer_slug}" %></td>
+           <td><%= camera.resolution %></td>
           <td>
             <% if Camera::SHAPES.include? camera.shape %>
             <span class='icon-camera_shape_<%= camera.shape %>'></span>

@@ -42,6 +42,8 @@ gem 'ransack'
 
 gem 'aws-sdk'
 
+gem 'stringex'
+
 group :production do
   gem 'rails_12factor'
 # gem 'unicorn'

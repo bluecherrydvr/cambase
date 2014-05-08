@@ -19,8 +19,8 @@ class ManufacturersController < ApplicationController
   # GET /manufacturers/1
   # GET /manufacturers/1.json
   def show
-    @manufacturers = Manufacturer.find(params[:id])
-    @cameras = Manufacturer.find(params[:id]).cameras.order(:model).page params[:page]
+    @manufacturers = Manufacturer.find_by_manufacturer_slug(params[:id])
+    @cameras = Manufacturer.find_by_manufacturer_slug(params[:id]).cameras.order(:model).page params[:page]
     respond_to do |format|
       format.html
       format.json { render :json => @cameras, :except => [:created_at, :updated_at] }
@@ -79,7 +79,7 @@ class ManufacturersController < ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_manufacturer
-    @manufacturer = Manufacturer.find(params[:id])
+    @manufacturer = Manufacturer.find_by_manufacturer_slug(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

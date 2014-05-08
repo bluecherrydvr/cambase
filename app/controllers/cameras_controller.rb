@@ -25,7 +25,7 @@ class CamerasController < ApplicationController
   # GET /cameras/1
   # GET /cameras/1.json
   def show
-    @camera = Camera.find(params[:id])
+    # @camera = Camera.find(params[:id])
     respond_to do |format|
       format.html
       format.json {
@@ -87,7 +87,7 @@ class CamerasController < ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_camera
-    @camera = Camera.find(params[:id])
+    @camera = Camera.find_by_camera_slug(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
