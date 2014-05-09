@@ -34,29 +34,30 @@
     width: 100%;
     margin: 5px 0;
   }
-  .features{
-    input[type=checkbox]{
-      display: none;
-    }
-    span{
-      float: right;
-      margin: 0 3px;
-      &.selected{
-        background-color: $lightgreen;
-      }
-    }
-    p{
-      font-style: italic;
-      font-size: 14px;
-      color: $darkgreen;
-      padding: 0 10px;
-    }
-  }
   .actions{
     clear: both;
     .button{
       float: right;
       margin: 5px 5px 10px;
     }
+  }
+}
+
+.features{
+  input[type=checkbox]{
+    display: none;
+  }
+  span{
+    float: right;
+    margin: 0 3px;
+    &.selected{
+      background-color: $lightgreen;
+    }
+  }
+  p{
+    font-style: italic;
+    font-size: 14px;
+    color: $darkgreen;
+    padding: 0 10px;
   }
 }

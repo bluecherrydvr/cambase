@@ -7,6 +7,10 @@ module ApplicationHelper
     @resource ||= User.new
   end
 
+  def camera
+    @camera ||= Camera.new
+  end
+
   def devise_mapping
     @devise_mapping ||= Devise.mappings[:user]
   end
@@ -27,5 +31,10 @@ module ApplicationHelper
   
   def human_boolean(boolean)
     boolean ? 'Yes' : 'No'
+  end
+
+  def avatar_url(user)
+    gravatar_id = Digest::MD5::hexdigest(user.email).downcase
+    "http://gravatar.com/avatar/#{gravatar_id}.png?s=100"
   end
 end

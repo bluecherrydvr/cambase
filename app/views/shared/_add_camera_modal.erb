@@ -1,0 +1,75 @@
+<div id="add-camera-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-center">Add a New Camera</h4>
+      </div>
+      <div class="modal-body clearfix">
+        <%= form_for(camera = Camera.new, url: '/cameras') do |f| %>
+        <%= devise_error_messages! %>
+        <div class="col-md-6">
+          <h3>Add a New Camera</h3>
+          <h4><%= link_to "Add a Manufacturer", '#add-manufacturer-modal', data: { toggle: "modal", target: "#add-manufacturer-modal", dismiss: "modal" } %></h4>
+          <p>
+            <%= f.collection_select(:manufacturer_id, Manufacturer.order(:name), :id, :name, :include_blank => 'Manufacturer' )%>
+          </p>
+          <p>
+            <%= f.select(:resolution, Camera.uniq.pluck(:resolution), :include_blank => 'Resolution')%>
+          </p>
+          <p>
+            <%= f.select(:shape, options_for_select(Camera::SHAPES), :include_blank => 'Shape') %>
+          </p>
+          <p>
+            <%= f.fields_for :images, camera, :html => {:multipart => true} do |asset| %>
+            <%= asset.file_field :file %>
+            <% end %>
+          </p>
+          <p>
+            <%= f.text_field :model, :placeholder => 'Model' %>
+          </p>
+          <p>
+            <%= f.text_field :manual_url, :placeholder => 'Manual URL' %>
+          </p>
+          <p>
+            <%= f.text_field :jpeg_url, :placeholder => 'JPEG URL' %>
+          </p>
+          <p>
+            <%= f.text_field :h264_url, :placeholder => 'H264 URL' %>
+          </p>
+          <p>
+            <%= f.text_field :mjpeg_url, :placeholder => 'MJPEG URL' %>
+          </p>
+          <p>
+            <%= f.text_field :firmware, :placeholder => 'Firmware' %>
+          </p>
+          <p>
+            <%= f.text_field :credentials, :placeholder => 'Credentials' %>
+          </p>
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+          <div>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">cancel</button>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="features">
+            <%= f.check_box :onvif %>
+            <%= f.check_box :psia %>
+            <%= f.check_box :ptz %>
+            <%= f.check_box :infrared %>
+            <%= f.check_box :varifocal %>
+            <%= f.check_box :sd_card %>
+            <%= f.check_box :upnp %>
+            <p>Select Features</p>
+            <% Camera::FEATURES.reverse_each do |feature| %>
+            <span id='<%= "camera_#{feature}_icon" %>' class="icon-camera_feature_<%= feature %>"></span>
+            <% end %>
+          </div>
+          <div>
+            <%= f.submit 'contribute' %>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -14,7 +14,7 @@
 <div class="field">
   <p>
     <%= f.label :manufacturer %>
-    <%= f.collection_select(:manufacturer_id, Manufacturer.order(:name), :id, :name) %>
+    <%= f.collection_select(:manufacturer_id, Manufacturer.order(:name), :id, :name), :placeholder => 'Manufacturer' %>
   </p>
   <p>
     <%= f.fields_for :images, @camera, :html => {:multipart => true} do |asset| %>
@@ -24,67 +24,67 @@
   </p>
   <p>
     <%= f.label :model %>
-    <%= f.text_field :model %>
+    <%= f.text_field :model, :placeholder => 'Model' %>
   </p>
   <p>
     <%= f.label :manual_url %>
-    <%= f.text_field :manual_url %>
+    <%= f.text_field :manual_url, :placeholder => 'Manual URL' %>
   </p>
   <p>
     <%= f.label :jpeg_url %>
-    <%= f.text_field :jpeg_url %>
+    <%= f.text_field :jpeg_url, :placeholder => 'JPEG URL' %>
   </p>
   <p>
     <%= f.label :h264_url %>
-    <%= f.text_field :h264_url %>
+    <%= f.text_field :h264_url, :placeholder => 'H264 URL' %>
   </p>
   <p>
     <%= f.label :mjpeg_url %>
-    <%= f.text_field :mjpeg_url %>
+    <%= f.text_field :mjpeg_url, :placeholder => 'MJPEG URL' %>
   </p>
   <p>
     <%= f.label :resolution %>
-    <%= f.select(:resolution, Camera.uniq.pluck(:resolution), :include_blank => '') %>
+    <%= f.select(:resolution, Camera.uniq.pluck(:resolution), :include_blank => ''), :placeholder => 'Resolution' %>
   </p>
   <p>
     <%= f.label :firmware %>
-    <%= f.text_field :firmware %>
+    <%= f.text_field :firmware, :placeholder => 'Firmware' %>
   </p>
   <p>
     <%= f.label :credentials %>
-    <%= f.text_field :credentials %>
+    <%= f.text_field :credentials, :placeholder => 'Credentials' %>
   </p>
   <p>
     <%= f.label :shape %>
-    <%= f.select(:shape, options_for_select(Camera::SHAPES)) %>
+    <%= f.select(:shape, options_for_select(Camera::SHAPES)), :placeholder => 'Shape' %>
   </p>
   <p>
     <%= f.label :onvif %>
-    <%= f.check_box :onvif %>
+    <%= f.check_box :onvif, :placeholder => 'ONVIF' %>
   </p>
   <p>
     <%= f.label :psia %>
-    <%= f.check_box :psia %>
+    <%= f.check_box :psia, :placeholder => 'PSIA' %>
   </p>
   <p>
     <%= f.label :ptz %>
-    <%= f.check_box :ptz %>
+    <%= f.check_box :ptz, :placeholder => 'PTZ' %>
   </p>
   <p>
     <%= f.label :infrared %>
-    <%= f.check_box :infrared %>
+    <%= f.check_box :infrared, :placeholder => 'Infrared' %>
   </p>
   <p>
     <%= f.label :varifocal %>
-    <%= f.check_box :varifocal %>
+    <%= f.check_box :varifocal, :placeholder => 'Varifocal' %>
   </p>
   <p>
     <%= f.label :sd_card %>
-    <%= f.check_box :sd_card %>
+    <%= f.check_box :sd_card, :placeholder => 'SD card' %>
   </p>
   <p>
     <%= f.label :upnp %>
-    <%= f.check_box :upnp %>
+    <%= f.check_box :upnp, :placeholder => 'UPnP' %>
   </p>
 </div>
 <div class="actions">

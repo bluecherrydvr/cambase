@@ -11,12 +11,12 @@
     </a>
     <ul class="nav navbar-nav navbar-right">
       <% if user_signed_in? %>
-      <li><a href="#">watch notes</a></li>
       <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">avatar <b class="caret"></b></a>
+        <a href="#" class="dropdown-toggle avatar" data-toggle="dropdown">
+          <%= image_tag avatar_url(current_user) %>
+        </a>
         <ul class="dropdown-menu">
           <li><a href="#">Settings</a></li>
-          <li><a href="#">Watch List</a></li>
           <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
         </ul>
       </li>
@@ -36,7 +36,11 @@
         <%= link_to('manufacturers', manufacturers_path) %>
       </li>
       <li class="col-sm-1-8">
+        <% if user_signed_in? %>
         <%= link_to "contribute", '#add-camera-modal', data: { toggle: "modal", target: "#add-camera-modal" } %>
+        <% else %>
+        <%= link_to "contribute", '#signin-modal', data: { toggle: "modal", target: "#signin-modal" } %>
+        <% end %>
       </li>
       <li class="col-sm-5-8">
         <div class="navbar-form col-sm-12" role="search">

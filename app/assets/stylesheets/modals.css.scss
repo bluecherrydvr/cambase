@@ -1,0 +1,114 @@
+.modal-header {
+  padding: 10px;
+  border-bottom: none;
+  min-height: 16.428571429px;
+  background: $darkgreen;
+  h4{
+    font-size: 14px;
+    color: #fff;
+  }
+}
+
+.modal-body{
+  h3{
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-size: 22px;
+    color: $darkgreen;
+  }
+  h4{
+    font-style: italic;
+    font-size: 14px;
+    text-decoration: underline;
+    margin-bottom: 20px;
+    a{
+      color: $darkgreen;
+    }
+  }
+  input{
+    width: 100%;
+    background: $offwhite;
+    border: none;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-style: italic;
+    color: $darkgreen;
+  }
+  input[type=submit]{
+    text-transform: lowercase;
+    background: $darkgreen;
+    color: #fff;
+    font-style: normal;
+    width: 50%;
+    float: right;
+  }
+  .forgot-password{
+    font-style: italic;
+    color: $lightgreen;
+    text-decoration: underline;
+    padding-left: 10px;
+  }
+  #camera_shape{
+    text-transform: capitalize;
+  }
+  select{
+    width: 100%;
+  }
+  button.close{
+    color: $darkgreen;
+    float: right;
+    font-size: 14px;
+    font-style: normal;
+    margin-top: 49px;
+    opacity: 1;
+    padding: 10px;
+    text-decoration: underline;
+    text-shadow: none;
+    text-transform: lowercase;
+    width: 50%;
+  }
+}
+
+#add-manufacturer-modal,
+#add-camera-modal{
+  input[type=submit]{    
+    float: left;
+  }
+}
+
+#add-camera-modal{
+  input{
+    margin-bottom: 0;
+  }
+  input[type=submit]{
+    margin-top: 54px;
+  }
+  .features{
+    display: block;
+    width: 100%;
+    float: none;
+    padding-top: 75px;
+    p{
+      text-align: left;
+    }
+    span{
+      display: inline-block;
+      float: none;
+      margin: 0 5px;
+    }
+  }
+}
+
+#add-manufacturer-modal{
+  .col-md-6:last-child{
+    padding-top: 109px;
+  }
+  input[type=submit]{    
+    margin: 56px 0 16px;
+  }
+}
+
+#manufacturer_image_attributes_file{
+  visibility: hidden;
+}
+

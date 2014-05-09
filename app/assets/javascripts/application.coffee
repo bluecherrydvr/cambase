@@ -46,8 +46,12 @@ $ ->
   $('#search_dropdown').on 'click', ->
     $('.search-dropdown').slideToggle()
 
-  $(".search-dropdown .features span").on 'click', ->
+  $(".features span").on 'click', ->
+    console.log "hey, clicked this #{this}"
+    console.log this
     feature_id = $(this).attr("id").replace('_icon', '')
+    console.log "##{feature_id}"
+    console.log $("##{feature_id}")
     $("##{feature_id}").trigger "click"
     $(this).toggleClass "selected"
 

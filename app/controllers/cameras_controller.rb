@@ -48,13 +48,12 @@ class CamerasController < ApplicationController
   # POST /cameras.json
   def create
     @camera = Camera.new(camera_params)
-
     respond_to do |format|
       if @camera.save
-        format.html { redirect_to @camera, notice: 'Camera was successfully created.' }
+        format.html { redirect_to manufacturers_path, notice: 'Camera was successfully created.' }
         format.json { render :show, status: :created, location: @camera }
       else
-        format.html { render :new }
+        format.html { redirect_to manufacturers_path }
         format.json { render json: @camera.errors, status: :unprocessable_entity }
       end
     end
