@@ -82,6 +82,18 @@
                   <td>UPnP</td>
                   <td><%= human_boolean(@camera.upnp) %></td>
                 </tr>
+                <% ['JPEG URL', 'H264 URL', 'MJPEG URL'].each do |url| %>
+                <tr>
+                  <td><%= url %></td>
+                  <td>
+                    <% if @camera[url.downcase.tr(' ', '_')].blank? %>
+                    <%= 'Unknown'  %>
+                    <% else %>
+                    <%= @camera[url.downcase.tr(' ', '_')] %>
+                    <% end %>
+                  </td>
+                </tr>
+                <% end %>
               </tbody>
             </table>
           </div>
