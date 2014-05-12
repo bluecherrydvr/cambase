@@ -50,7 +50,8 @@
   span{
     float: right;
     margin: 0 3px;
-    &.selected{
+    cursor: pointer;
+    &.selected, &:hover{
       background-color: $lightgreen;
     }
   }

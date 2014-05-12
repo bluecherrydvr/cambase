@@ -50,10 +50,13 @@ class CamerasController < ApplicationController
     @camera = Camera.new(camera_params)
     respond_to do |format|
       if @camera.save
-        format.html { redirect_to manufacturers_path, notice: 'Camera was successfully created.' }
+        format.html {
+          redirect_to manufacturer_camera_path(@camera.manufacturer.manufacturer_slug, @camera.camera_slug),
+          notice: 'Camera was successfully created.' 
+        }
         format.json { render :show, status: :created, location: @camera }
       else
-        format.html { redirect_to manufacturers_path }
+        format.html { redirect_to root_path }
         format.json { render json: @camera.errors, status: :unprocessable_entity }
       end
     end

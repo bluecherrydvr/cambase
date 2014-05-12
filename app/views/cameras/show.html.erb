@@ -1,9 +1,9 @@
 <div class="sidebar col-sm-3">
-  <% unless @camera.images.empty? %>
   <div class="module module-images">
     <div class="module-header">
       <h4>Images</h4>
     </div>
+    <% unless @camera.images.empty? %>
     <div class="module-body">
       <img class="module-image-main" src="<%= @camera.images.first.file.url(:medium) %>">
       <% if @camera.images.count > 1 %>
@@ -15,10 +15,9 @@
         <% end %>
       </ul>
       <% end %>
-      &nbsp;
     </div>
+    <% end %>
   </div>
-  <% end %>
   <% unless @camera.documents.empty? %>
   <div class="module module-documents">
     <div class="module-header">

@@ -43,7 +43,7 @@ class ManufacturersController < ApplicationController
     @manufacturer = Manufacturer.new(manufacturer_params)
     respond_to do |format|
       if @manufacturer.save
-        format.html { redirect_to manufacturers_path, notice: 'Manufacturer was successfully created.' }
+        format.html { redirect_to manufacturer_path(@manufacturer.manufacturer_slug), notice: 'Manufacturer was successfully created.' }
         format.json { render :show, status: :created, location: @manufacturer }
       else
         format.html { redirect_to manufacturers_path }

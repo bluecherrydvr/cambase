@@ -13,13 +13,17 @@ Rails.application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
-  resources :cameras do
+  resources :cameras, :except => [:show] do
     collection do
       match 'search' => 'cameras#search', via: [:get, :post], as: :search
     end
   end
 
-  resources :manufacturers
+  resources :manufacturers, :only => [:index]
+
+  resources :manufacturers, :path => '' do
+    resources :cameras, :path => '', :except => [:index]
+  end
 
   namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
@@ -28,8 +32,5 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :manufacturers, :path => '' do
-    resources :cameras, :path => '', :except => [:index]
-  end
 
 end
