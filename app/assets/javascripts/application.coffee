@@ -47,15 +47,11 @@ $ ->
     $('.search-dropdown').slideToggle()
 
   $(".features span").on 'click', ->
-    console.log "hey, clicked this #{this}"
-    console.log this
     feature_id = $(this).attr("id").replace('_icon', '')
-    console.log "##{feature_id}"
-    console.log $("##{feature_id}")
     $("##{feature_id}").trigger "click"
     $(this).toggleClass "selected"
 
-  $(".search-dropdown .features input[type=checkbox]").each ->
+  $(".features input[type=checkbox]").each ->
     x = $(this).attr('checked')
     if (x == 'checked' ) 
       image = "##{ $(this).attr('id') }_icon"

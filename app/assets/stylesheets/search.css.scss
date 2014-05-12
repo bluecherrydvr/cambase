@@ -43,6 +43,11 @@
   }
 }
 
+.search-filters{
+  @extend .search-dropdown;
+  display: block;
+}
+
 .features{
   input[type=checkbox]{
     display: none;
