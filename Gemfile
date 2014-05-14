@@ -44,6 +44,8 @@ gem 'aws-sdk'
 
 gem 'stringex'
 
+gem 'paper_trail', '~> 3.0.1'
+
 group :production do
   gem 'rails_12factor'
 # gem 'unicorn'

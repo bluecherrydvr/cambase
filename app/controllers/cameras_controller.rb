@@ -1,5 +1,6 @@
 class CamerasController < ApplicationController
   before_action :set_camera, only: [:show, :edit, :update, :destroy]
+  after_action :rollback_to_previous_version, only: [:update]
 
   # GET /cameras
   # GET /cameras.json
@@ -90,6 +91,11 @@ class CamerasController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_camera
     @camera = Camera.find_by_camera_slug(params[:id])
+  end
+
+  def rollback_to_previous_version
+    @camera.versions.last.reify.save!
+    flash[:notice] = "Your changes will be reflected once an admin has reviewed them"
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

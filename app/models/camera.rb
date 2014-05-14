@@ -3,6 +3,7 @@ class Camera < ActiveRecord::Base
   has_many :documents, as: :owner
   belongs_to :manufacturer
   before_save :make_slug
+  has_paper_trail
 
   accepts_nested_attributes_for :images, allow_destroy: true, reject_if: :all_blank
 

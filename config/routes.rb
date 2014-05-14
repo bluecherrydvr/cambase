@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   get '/contact-us' => 'pages#contact'
   get '/api-docs' => 'pages#api_docs'
 
+  post '/admin/history', to: 'cameras#history', as: :cameras_history
+  post "/versions", to: "versions#change", :as => "change_version"
+
   devise_for :users
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
