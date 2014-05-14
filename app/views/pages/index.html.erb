@@ -3,13 +3,21 @@
 </div>
 <div class="col-sm-9">
   <div class="row" id="masonry-container">
-    <% @data.each_with_index do |data, index| %>
+    <% @images.each_with_index do |image, index| %>
+    <% owner = image.owner_type.classify.constantize.find(image.owner_id) %>
+    <% if image.owner_type == "Camera" %>
     <div class="tile tile-small tile-image col-sm-2">
       <div class="tile-content">
-        <%= link_to_camera_url(image_tag(@images[index].file.url), data) %>
+        <%= link_to(image_tag(@images[index].file.url), "/#{owner.manufacturer.manufacturer_slug}/#{owner.camera_slug}") %>
+      </div>
+    </div>
+    <% else %>
+    <div class="tile tile-big tile-image col-sm-4">
+      <div class="tile-content">
+        <%= link_to(image_tag(@images[index].file.url), "/#{owner.manufacturer_slug}") %>
       </div>
     </div>
     <% end %>
-
+    <% end %>
   </div>
 </div>
