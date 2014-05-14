@@ -27,7 +27,7 @@
           <h3>Log In</h3>
           <%= form_for :user, :url => session_path(:user) do |f| %>
           <div>
-            <%= f.email_field :login, autofocus: true, :placeholder => 'Email or Username' %>
+            <%= f.text_field :login, autofocus: true, :placeholder => 'Email or Username' %>
           </div>
           <div>
             <%= f.password_field :password, :placeholder => 'Password' %>

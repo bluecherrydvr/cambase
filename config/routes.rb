@@ -13,13 +13,13 @@ Rails.application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
-  resources :cameras, :except => [:show] do
+  resources :cameras, :only => [:index] do
     collection do
       match 'search' => 'cameras#search', via: [:get, :post], as: :search
     end
   end
 
-  resources :manufacturers, :only => [:index]
+  resources :manufacturers, :only => [:index, :update, :create]
 
   resources :manufacturers, :path => '' do
     resources :cameras, :path => '', :except => [:index]

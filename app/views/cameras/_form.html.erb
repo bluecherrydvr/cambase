@@ -1,4 +1,4 @@
-<%= form_for(@camera) do |f| %>
+<%= form_for(@camera, :url => manufacturer_camera_path(@camera.manufacturer.manufacturer_slug, @camera.camera_slug)) do |f| %>
 <% if @camera.errors.any? %>
 <div id="error_explanation">
   <h2><%= pluralize(@camera.errors.count, "error") %> prohibited this camera from being saved:</h2>
@@ -14,13 +14,7 @@
 <div class="field">
   <p>
     <%= f.label :manufacturer %>
-    <%= f.collection_select(:manufacturer_id, Manufacturer.order(:name), :id, :name), :placeholder => 'Manufacturer' %>
-  </p>
-  <p>
-    <%= f.fields_for :images, @camera, :html => {:multipart => true} do |asset| %>
-    <%= asset.label :image %>
-    <%= asset.file_field :file %>
-    <% end %>
+    <%= f.collection_select(:manufacturer_id, Manufacturer.order(:name), :id, :name, :include_blank => 'Manufacturer') %>
   </p>
   <p>
     <%= f.label :model %>
@@ -44,7 +38,7 @@
   </p>
   <p>
     <%= f.label :resolution %>
-    <%= f.select(:resolution, Camera.uniq.pluck(:resolution), :include_blank => ''), :placeholder => 'Resolution' %>
+    <%= f.select(:resolution, Camera.uniq.pluck(:resolution), :include_blank => 'Resolution')%>
   </p>
   <p>
     <%= f.label :firmware %>
@@ -56,7 +50,7 @@
   </p>
   <p>
     <%= f.label :shape %>
-    <%= f.select(:shape, options_for_select(Camera::SHAPES)), :placeholder => 'Shape' %>
+    <%= f.select(:shape, options_for_select(Camera::SHAPES), :include_blank => 'Shape') %>
   </p>
   <p>
     <%= f.label :onvif %>

@@ -11,7 +11,7 @@ Swagger::Docs::Config.register_apis({
 # the output location where your .json files are written to
 :api_file_path => "public/api-docs",
 # the URL base path to your API
-:base_path => "http://cambaseio.herokuapp.com/",
+:base_path => "http://cambase.io/",
 # if you want to delete all .json files at each generation
 :clean_directory => false
 }

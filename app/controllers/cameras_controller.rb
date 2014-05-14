@@ -67,10 +67,10 @@ class CamerasController < ApplicationController
   def update
     respond_to do |format|
       if @camera.update(camera_params)
-        format.html { redirect_to @camera, notice: 'Camera was successfully updated.' }
+        format.html { redirect_to manufacturer_camera_path(@camera.manufacturer.manufacturer_slug, @camera.camera_slug), notice: 'Camera was successfully updated.' }
         format.json { render :show, status: :ok, location: @camera }
       else
-        format.html { render :edit }
+        format.html { redirect_to cameras_path }
         format.json { render json: @camera.errors, status: :unprocessable_entity }
       end
     end
