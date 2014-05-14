@@ -46,7 +46,8 @@ class ManufacturersController < ApplicationController
         format.html { redirect_to "/#{@manufacturer.manufacturer_slug}", notice: 'Manufacturer was successfully created.' }
         format.json { render :show, status: :created, location: @manufacturer }
       else
-        format.html { redirect_to manufacturers_path }
+        format.html { redirect_to manufacturers_path, notice: @manufacturer.errors.full_messages.to_sentence  }
+
         format.json { render json: @manufacturer.errors, status: :unprocessable_entity }
       end
     end
@@ -60,7 +61,7 @@ class ManufacturersController < ApplicationController
         format.html { redirect_to @manufacturer, notice: 'Manufacturer was successfully updated.' }
         format.json { render :show, status: :ok, location: @manufacturer }
       else
-        format.html { render :edit }
+        format.html { redirect_to manufacturers_path, notice: @manufacturer.errors.full_messages.to_sentence }
         format.json { render json: @manufacturer.errors, status: :unprocessable_entity }
       end
     end
