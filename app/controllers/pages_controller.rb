@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   def index
     @data = []
-    @images = Image.last(24)
+    @images = Image.last(24).reverse
     @images.each do |image|
       owner = image.owner_type.classify.constantize.find(image.owner_id)
       @data.push(owner)

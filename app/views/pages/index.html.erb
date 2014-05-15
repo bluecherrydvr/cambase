@@ -8,13 +8,13 @@
     <% if image.owner_type == "Camera" %>
     <div class="tile tile-small tile-image col-sm-2">
       <div class="tile-content">
-        <%= link_to(image_tag(@images[index].file.url), "/#{owner.manufacturer.manufacturer_slug}/#{owner.camera_slug}") %>
+        <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.model}"), "/#{owner.manufacturer.manufacturer_slug}/#{owner.camera_slug}") %>
       </div>
     </div>
     <% else %>
     <div class="tile tile-big tile-image col-sm-4">
       <div class="tile-content">
-        <%= link_to(image_tag(@images[index].file.url), "/#{owner.manufacturer_slug}") %>
+        <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.name}"), "/#{owner.manufacturer_slug}") %>
       </div>
     </div>
     <% end %>
