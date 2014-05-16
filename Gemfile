@@ -11,6 +11,7 @@ gem 'compass-rails'
 gem 'bootstrap-sass'
 gem "autoprefixer-rails"
 gem 'rails-assets-packery'
+gem 'x-editable-rails'
 
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'

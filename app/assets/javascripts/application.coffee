@@ -3,7 +3,9 @@
 #= require jquery_ujs
 #= require_tree .
 #= require bootstrap
-#= require swagger-ui
+#= require editable/bootstrap-editable
+#= require editable/rails
+
 #= require get-style-property
 #= require get-size
 #= require matches-selector
@@ -37,6 +39,8 @@ $(document).on 'click', '[data-dismiss=modal], .modal-scrollable', ->
 $(document).on 'click', '#signin-modal', (e) ->
   e.stopPropagation();
 
+$.fn.editable.defaults.mode = 'inline';
+$.fn.editable.defaults.ajaxOptions = {type: "PUT"};
 $ ->
   $container = $('#masonry-container')
   $container.packery
@@ -53,7 +57,7 @@ $ ->
 
   $(".features input[type=checkbox]").each ->
     x = $(this).attr('checked')
-    if (x == 'checked' ) 
+    if (x == 'checked' )
       image = "##{ $(this).attr('id') }_icon"
       $(image).addClass("selected")
 
@@ -61,3 +65,6 @@ $ ->
     e.preventDefault()
     clicked_image = $(this).attr('src')
     $('.module-image-main').attr('src', clicked_image)
+
+  $('.editable').editable
+    emptytext: 'Unknown'

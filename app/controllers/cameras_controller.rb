@@ -26,7 +26,7 @@ class CamerasController < ApplicationController
   # GET /cameras/1
   # GET /cameras/1.json
   def show
-    # @camera = Camera.find(params[:id])
+    @camera = Camera.find_by_camera_slug(params[:id])
     respond_to do |format|
       format.html
       format.json {
@@ -53,7 +53,7 @@ class CamerasController < ApplicationController
       if @camera.save
         format.html {
           redirect_to manufacturer_camera_path(@camera.manufacturer.manufacturer_slug, @camera.camera_slug),
-          notice: 'Camera was successfully created.' 
+          notice: 'Camera was successfully created.'
         }
         format.json { render :show, status: :created, location: @camera }
       else
@@ -66,13 +66,14 @@ class CamerasController < ApplicationController
   # PATCH/PUT /cameras/1
   # PATCH/PUT /cameras/1.json
   def update
+    @camera = Camera.find(params[:id])
     respond_to do |format|
       if @camera.update(camera_params)
         format.html {
           redirect_to manufacturer_camera_path(@camera.manufacturer.manufacturer_slug, @camera.camera_slug),
           notice: 'Camera was successfully updated.'
         }
-        format.json { render :show, status: :ok, location: @camera }
+        format.json { render json: @camera }
       else
         format.html { redirect_to cameras_path, notice: @camera.errors.full_messages.to_sentence }
         format.json { render json: @camera.errors, status: :unprocessable_entity }

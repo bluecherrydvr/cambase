@@ -68,10 +68,13 @@
       text-align: right;
     }
   }
-}
-
-.module-tips{
-  .module-body{
-
+  .editable-container.editable-inline{
+    padding-top: 3px;
+    padding-left: 5px;
+    border-top: 1px solid #dddddd;
+    width: 100%;
+    .editable-buttons{
+      padding-top: 3px;
+    }
   }
 }

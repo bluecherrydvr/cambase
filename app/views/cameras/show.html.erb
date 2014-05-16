@@ -47,52 +47,60 @@
               <tbody>
                 <tr>
                   <td>Manufacturer</td>
-                  <td><%= @camera.manufacturer.name %></td>
+                  <%= editable @camera, :manufacturer_id, source: Manufacturer.all.map{ |manufacturer| {value: manufacturer.id, text: manufacturer.name}}, type: :select, tag: :td %>
                 </tr>
                 <tr>
                   <td>Model</td>
-                  <td><%= @camera.model %></td>
+                  <%= editable @camera, :model, tag: :td  %>
                 </tr>
                 <tr>
                   <td>Resolution</td>
-                  <td><%= @camera.resolution || 'Unknown' %></td>
+                  <%= editable @camera, :resolution, source: Camera.uniq.pluck(:resolution).map{ |resolution| {value: resolution, text: resolution}}, type: :select, tag: :td %>
+                </tr>
+                <tr>
+                  <td>ONVIF</td>
+                  <%= editable @camera, :onvif, tag: :td  %>
+                </tr>
+                <tr>
+                  <td>PSIA</td>
+                  <%= editable @camera, :psia, tag: :td  %>
                 </tr>
                 <tr>
                   <td>PTZ</td>
-                  <td><%= human_boolean(@camera.ptz) %></td>
+                  <%= editable @camera, :ptz, tag: :td  %>
                 </tr>
                 <tr>
                   <td>Infrared</td>
-                  <td><%= human_boolean(@camera.infrared) %></td>
+                  <%= editable @camera, :infrared, tag: :td  %>
                 </tr>
                 <tr>
                   <td>Varifocal</td>
-                  <td><%= human_boolean(@camera.varifocal) %></td>
+                  <%= editable @camera, :varifocal, tag: :td  %>
                 </tr>
                 <tr>
                   <td>Shape</td>
-                  <td><%= @camera.shape %></td>
+                  <%= editable @camera, :shape, source: Camera::SHAPES, type: :select, tag: :td %>
                 </tr>
                 <tr>
                   <td>SD Card Storage</td>
-                  <td><%= human_boolean(@camera.sd_card) %></td>
+                  <%= editable @camera, :sd_card, tag: :td  %>
                 </tr>
                 <tr>
                   <td>UPnP</td>
-                  <td><%= human_boolean(@camera.upnp) %></td>
+                  <%= editable @camera, :upnp, tag: :td  %>
                 </tr>
-                <% ['JPEG URL', 'H264 URL', 'MJPEG URL'].each do |url| %>
                 <tr>
-                  <td><%= url %></td>
-                  <td>
-                    <% if @camera[url.downcase.tr(' ', '_')].blank? %>
-                    <%= 'Unknown'  %>
-                    <% else %>
-                    <%= @camera[url.downcase.tr(' ', '_')] %>
-                    <% end %>
-                  </td>
+                  <td>JPEG URL</td>
+                  <%= editable @camera, :jpeg_url, tag: :td %>
                 </tr>
-                <% end %>
+                <tr>
+                  <td>H264 URL</td>
+                  <%= editable @camera, :h264_url, tag: :td %>
+                </tr>
+                <tr>
+                  <td>MJPEG URL</td>
+                  <%= editable @camera, :mjpeg_url, tag: :td %>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -105,6 +113,7 @@
           <h4>Tips</h4>
         </div>
         <div class="module-body">
+          <% if Rails.env.production? %>
           <div id="disqus_thread"></div>
           <script async type="text/javascript">
             var disqus_shortname = 'cambase';
@@ -116,7 +125,7 @@
           </script>
           <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
           <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
+          <% end %>
         </div>
       </div>
     </div>

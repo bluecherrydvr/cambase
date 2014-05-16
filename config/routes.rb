@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
-  resources :cameras, :only => [:index] do
+  resources :cameras, :only => [:index, :update] do
     collection do
       match 'search' => 'cameras#search', via: [:get, :post], as: :search
     end
