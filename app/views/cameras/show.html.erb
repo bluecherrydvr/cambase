@@ -7,9 +7,9 @@
     <div class="module-body">
       <img class="module-image-main" src="<%= @camera.images.first.file.url(:medium) %>">
       <% if @camera.images.count > 1 %>
-      <ul class="thumbnails">
+      <ul class="thumbnails row">
         <% @camera.images.each do |image| %>
-        <li>
+        <li class="col-md-4">
           <%= link_to(image_tag(image.file.url(:medium)), image.file.url(:medium)) %>
         </li>
         <% end %>
@@ -77,7 +77,7 @@
                   <td>Varifocal</td>
                   <%= editable @camera, :varifocal, tag: :td  %>
                 </tr>
-                <tr>
+                <tr class="shapes">
                   <td>Shape</td>
                   <%= editable @camera, :shape, source: Camera::SHAPES, type: :select, tag: :td %>
                 </tr>

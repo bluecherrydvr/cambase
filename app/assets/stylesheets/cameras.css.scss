@@ -27,8 +27,6 @@
     padding: 0;
   }
   li{
-    display: inline-block;
-    width: 32%;
     a{
       width: 100%;
       height: 100%;
@@ -67,6 +65,12 @@
     &:first-child{
       text-align: right;
     }
+    &.editable{
+      background-image: asset-url("icons/edit.png");
+      background-repeat: no-repeat;
+      background-position: right center;
+      cursor: pointer;
+    }
   }
   .editable-container.editable-inline{
     padding-top: 3px;
@@ -76,5 +80,16 @@
     .editable-buttons{
       padding-top: 3px;
     }
+    .editable-submit{
+        background-color: $darkgreen;
+        border-color: $darkgreen;
+    }
+  }
+  .shapes{
+    td, select{
+      text-transform: capitalize;
+    }
   }
 }
+
+
