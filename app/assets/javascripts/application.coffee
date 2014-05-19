@@ -5,7 +5,6 @@
 #= require bootstrap
 #= require editable/bootstrap-editable
 #= require editable/rails
-
 #= require get-style-property
 #= require get-size
 #= require matches-selector
@@ -56,15 +55,24 @@ $ ->
     $(this).toggleClass "selected"
 
   $(".features input[type=checkbox]").each ->
-    x = $(this).attr('checked')
-    if (x == 'checked' )
+    attr_checked = $(this).attr('checked')
+    if (attr_checked == 'checked' )
       image = "##{ $(this).attr('id') }_icon"
       $(image).addClass("selected")
 
   $('.module-images').on 'click', ".thumbnails img", (e) ->
     e.preventDefault()
+    if $(this).hasClass "add-new-image"
+      return
     clicked_image = $(this).attr('src')
     $('.module-image-main').attr('src', clicked_image)
 
   $('.editable').editable
     emptytext: 'Unknown'
+
+  $('.add-new-image').on "click", (e) ->
+    e.preventDefault()
+    $('.module-images input[type="file"]').trigger('click')
+
+  $('.module-images input[type="file"]').change ->
+    $('.module-images form').submit()

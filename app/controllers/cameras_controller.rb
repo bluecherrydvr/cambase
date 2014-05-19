@@ -1,6 +1,5 @@
 class CamerasController < ApplicationController
   before_action :set_camera, only: [:show, :edit, :update, :destroy]
-  after_action :rollback_to_previous_version, only: [:update]
 
   # GET /cameras
   # GET /cameras.json
@@ -67,6 +66,10 @@ class CamerasController < ApplicationController
   # PATCH/PUT /cameras/1.json
   def update
     @camera = Camera.find(params[:id])
+    if params[:camera][:images_attributes]
+      @camera.images.build(:file => params['camera']['images_attributes']['0'][:file]).save
+      params['camera']['images_attributes'] = nil
+    end
     respond_to do |format|
       if @camera.update(camera_params)
         format.html {

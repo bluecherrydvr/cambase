@@ -1,21 +1,30 @@
 <div class="sidebar col-sm-3">
   <div class="module module-images">
     <div class="module-header">
-      <h4>Images</h4>
+      <h4 class="add-new-image">Images</h4>
     </div>
     <% unless @camera.images.empty? %>
     <div class="module-body">
       <img class="module-image-main" src="<%= @camera.images.first.file.url(:medium) %>">
-      <% if @camera.images.count > 1 %>
       <ul class="thumbnails row">
+        <% if @camera.images.count > 1 %>
         <% @camera.images.each do |image| %>
         <li class="col-md-4">
           <%= link_to(image_tag(image.file.url(:medium)), image.file.url(:medium)) %>
         </li>
         <% end %>
+        <% end %>
+        <li class="col-md-4">
+          <%= link_to(image_tag('icons/add_new_image.png', :class => 'add-new-image')) %>
+        </li>
       </ul>
-      <% end %>
     </div>
+    <% end %>
+    <%= form_for(@camera) do |f| %>
+    <%= f.fields_for :images, @camera, :html => {:multipart => true} do |asset| %>
+    <%= asset.file_field :file %>
+    <% end %>
+    <%= f.submit 'contribute' %>
     <% end %>
   </div>
   <% unless @camera.documents.empty? %>

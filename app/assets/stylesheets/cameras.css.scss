@@ -22,6 +22,12 @@
 }
 
 .module-images{
+  h4{
+    background-image: asset-url("icons/edit_dark.png");
+    background-repeat: no-repeat;
+    background-position: right center;
+    cursor: pointer;
+  }
   margin-bottom: 10px;
   .module-body{
     padding: 0;
@@ -35,6 +41,20 @@
         width: 100%;
         height: auto;
       }
+    }
+  }
+  form{
+    display: none;
+  }
+  & > a .add-new-image{
+    width: 100%;
+    height: auto;
+  }
+  .add-new-image{
+    background-color: $lightgreen;
+    cursor: pointer;
+    &.icon-edit{
+      background-color: $darkgreen;
     }
   }
 }
@@ -68,7 +88,8 @@
     &.editable{
       background-image: asset-url("icons/edit.png");
       background-repeat: no-repeat;
-      background-position: right center;
+      background-position: right 0;
+      padding-right: 25px;
       cursor: pointer;
     }
   }
@@ -81,8 +102,8 @@
       padding-top: 3px;
     }
     .editable-submit{
-        background-color: $darkgreen;
-        border-color: $darkgreen;
+      background-color: $darkgreen;
+      border-color: $darkgreen;
     }
   }
   .shapes{
@@ -91,5 +112,3 @@
     }
   }
 }
-
-
