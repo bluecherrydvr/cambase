@@ -85,12 +85,17 @@
     &:first-child{
       text-align: right;
     }
-    &.editable{
+    &.editable, &:last-child{
       background-image: asset-url("icons/edit.png");
       background-repeat: no-repeat;
       background-position: right 0;
       padding-right: 25px;
       cursor: pointer;
+    }
+    &.editable-empty,
+    .editable-empty:hover,
+    .editable-empty:focus{
+      color: gray;
     }
   }
   .editable-container.editable-inline{

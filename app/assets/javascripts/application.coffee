@@ -70,6 +70,11 @@ $ ->
   $('.editable').editable
     emptytext: 'Unknown'
 
+  $('.visitor-signed_out .module-images, .visitor-signed_out .module-table').on 'click', (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+    $('#signin-modal').modal()
+
   $('.add-new-image').on "click", (e) ->
     e.preventDefault()
     $('.module-images input[type="file"]').trigger('click')

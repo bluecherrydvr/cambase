@@ -8,7 +8,7 @@
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body class="visitor-<%= user_signed_in? ? 'signed_in' : 'signed_out' %>">
   <%= render "shared/header" %>
   <div class="main" role="main">
     <div class="container">

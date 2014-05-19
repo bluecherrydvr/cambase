@@ -9,12 +9,12 @@
       <ul class="thumbnails row">
         <% if @camera.images.count > 1 %>
         <% @camera.images.each do |image| %>
-        <li class="col-md-4">
+        <li class="col-md-3">
           <%= link_to(image_tag(image.file.url(:medium)), image.file.url(:medium)) %>
         </li>
         <% end %>
         <% end %>
-        <li class="col-md-4">
+        <li class="col-md-3">
           <%= link_to(image_tag('icons/add_new_image.png', :class => 'add-new-image')) %>
         </li>
       </ul>
@@ -54,6 +54,7 @@
           <div class="table-responsive">
             <table class="table table-striped">
               <tbody>
+                <% if user_signed_in? %>
                 <tr>
                   <td>Manufacturer</td>
                   <%= editable @camera, :manufacturer_id, source: Manufacturer.all.map{ |manufacturer| {value: manufacturer.id, text: manufacturer.name}}, type: :select, tag: :td %>
@@ -110,6 +111,64 @@
                   <td>MJPEG URL</td>
                   <%= editable @camera, :mjpeg_url, tag: :td %>
                 </tr>
+                <% else %>
+                <tr>
+                  <td>Manufacturer</td>
+                  <td><%= @camera.manufacturer.name || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>Model</td>
+                  <td><%= @camera.model || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>Resolution</td>
+                  <td><%= @camera.resolution || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>ONVIF</td>
+                  <td><%= @camera.onvif || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>PSIA</td>
+                  <td><%= @camera.psia || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>PTZ</td>
+                  <td><%= @camera.ptz || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>Infrared</td>
+                  <td><%= @camera.infrared || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>Varifocal</td>
+                  <td><%= @camera.varifocal || 'Unknown' %></td>
+                </tr>
+                <tr class="shapes">
+                  <td>Shape</td>
+                  <td><%= @camera.shape || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>SD Card Storage</td>
+                  <td><%= @camera.sd_card || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>UPnP</td>
+                  <td><%= @camera.upnp || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>JPEG URL</td>
+                  <td><%= @camera.jpeg_url || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>H264 URL</td>
+                  <td><%= @camera.h264_url || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>MJPEG URL</td>
+                  <td><%= @camera.mjpeg_url || 'Unknown' %></td>
+                </tr>
+                <% end %>
               </tbody>
             </table>
           </div>
