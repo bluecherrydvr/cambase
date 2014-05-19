@@ -53,6 +53,7 @@ group :production do
 end
 
 group :development do
+  gem 'jazz_hands'
   gem "awesome_print"
 # gem 'capistrano-rails'
 end
