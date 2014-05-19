@@ -22,5 +22,7 @@ module Cambase
     # config.serve_static_assets = true
     config.assets.precompile += %w( editable/*.gif )
     config.assets.precompile += %w( editable/*.png )
+    config.assets.precompile += %w( swagger/*.js )
+    config.assets.precompile += %w( swagger-ui.js )
   end
 end
