@@ -111,6 +111,14 @@
                   <td>MJPEG URL</td>
                   <%= editable @camera, :mjpeg_url, tag: :td %>
                 </tr>
+                <tr>
+                  <td>Audio In</td>
+                  <%= editable @camera, :audio_in, tag: :td %>
+                </tr>
+                <tr>
+                  <td>Audio Out</td>
+                  <%= editable @camera, :audio_out, tag: :td %>
+                </tr>
                 <% else %>
                 <tr>
                   <td>Manufacturer</td>
@@ -167,6 +175,14 @@
                 <tr>
                   <td>MJPEG URL</td>
                   <td><%= @camera.mjpeg_url || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>Audio In</td>
+                  <td><%= @camera.audio_in || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>Audio Out</td>
+                  <td><%= @camera.audio_out || 'Unknown' %></td>
                 </tr>
                 <% end %>
               </tbody>
