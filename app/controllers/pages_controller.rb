@@ -12,4 +12,7 @@ class PagesController < ApplicationController
   end
   def contact
   end
+  def settings
+    render 'devise/registrations/edit'
+  end
 end

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get '/cookie-policy' => 'pages#cookie'
   get '/contact-us' => 'pages#contact'
   get '/api-docs' => 'pages#api_docs'
+  get '/settings' => 'pages#settings'
 
   post '/admin/history', to: 'cameras#history', as: :cameras_history
   post "/versions", to: "versions#change", :as => "change_version"
