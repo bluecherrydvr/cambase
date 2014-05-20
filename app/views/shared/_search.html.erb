@@ -5,7 +5,7 @@
 <div class="search-dropdown row">
   <div class="col-sm-4">
     <%= f.collection_select(:manufacturer_id_eq, Manufacturer.order(:name), :id, :name, :include_blank => 'Manufacturer') %>
-    <%= f.select(:resolution_eq, Camera.uniq.pluck(:resolution), :include_blank => 'Resolution') %>
+    <%= f.select(:resolution_eq, Camera.uniq.pluck(:resolution).sort, :include_blank => 'Resolution') %>
     <%= f.select(:shape_eq, options_for_select(Camera::SHAPES), :include_blank => 'Shape') %>
   </div>
   <div class="col-sm-2">

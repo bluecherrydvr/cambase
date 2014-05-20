@@ -9,3 +9,15 @@ task :add_urls_to_hikvision => :environment do
     camera.save
   end
 end
+
+desc "Fix duplicate resolutions"
+
+task :fix_resolutions => :environment do
+  Camera.all.each do |camera|
+    if camera.resolution
+      camera.resolution = camera.resolution.gsub(/\s+/, "").gsub(/×/, "x")
+      camera.save
+    end
+  end
+end
+
