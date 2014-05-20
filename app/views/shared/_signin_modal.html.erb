@@ -2,6 +2,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title text-center">Sign Up or Log In</h4>
       </div>
       <div class="modal-body clearfix">
@@ -19,7 +20,7 @@
             <%= f.password_field :password, autocomplete: "off", :placeholder => 'Password' %>
           </div>
           <div>
-            <%= f.submit "Sign up" %>
+            <%= f.submit "sign up", class: 'absolute-right' %>
           </div>
           <% end %>
         </div>
@@ -36,7 +37,7 @@
             <%= link_to "Forgot password?", new_password_path(:user), :class => 'forgot-password' %>
           </div>
           <div>
-            <%= f.submit 'log in' %>
+            <%= f.submit 'log in', class: 'absolute-left' %>
           </div>
           <% end %>
         </div>

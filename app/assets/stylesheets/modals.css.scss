@@ -25,6 +25,10 @@
       color: $darkgreen;
     }
   }
+  .col-md-6{
+    padding-bottom: 50px;
+    min-height: 280px;
+  }
   input{
     width: 100%;
     background: $offwhite;
@@ -40,13 +44,21 @@
     color: #fff;
     font-style: normal;
     width: 50%;
-    float: right;
+    position: absolute;
+    bottom: 0;
+    &.absolute-right{
+      right: 5px;
+    }
+    &.absolute-left{
+      left: 5px;
+    }
   }
   .forgot-password{
     font-style: italic;
     color: $lightgreen;
     text-decoration: underline;
-    padding-left: 10px;
+    padding: 10px;
+    display: block;
   }
   #camera_shape{
     text-transform: capitalize;
@@ -71,7 +83,7 @@
 
 #add-manufacturer-modal,
 #add-camera-modal{
-  input[type=submit]{    
+  input[type=submit]{
     float: left;
   }
 }
@@ -103,7 +115,7 @@
   .col-md-6:last-child{
     padding-top: 109px;
   }
-  input[type=submit]{    
+  input[type=submit]{
     margin: 56px 0 16px;
   }
 }

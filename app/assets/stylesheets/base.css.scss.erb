@@ -89,12 +89,12 @@ a:focus {
 }
 
 .icon-document{
-  @include icon('document'); 
-} 
+  @include icon('document');
+}
 
 .icon-eye{
-  @include icon('eye'); 
-} 
+  @include icon('eye');
+}
 
 <% Camera::FEATURES.each do |feature| %>
 <%= ".icon-camera_feature_#{feature}" %>{
@@ -134,4 +134,10 @@ a:focus {
 
 .alert .close{
   line-height: 0.8;
+}
+
+.close{
+  font-weight: normal;
+  opacity: 1;
+  color: #fff;
 }
