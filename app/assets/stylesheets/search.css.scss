@@ -46,6 +46,10 @@
 .search-filters{
   @extend .search-dropdown;
   display: block;
+  .features p{
+    text-align: right;
+    padding-right: 235px;
+  }
 }
 
 .features{

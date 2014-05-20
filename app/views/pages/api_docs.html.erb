@@ -12,4 +12,33 @@
 <%= javascript_include_tag 'swagger/lib/highlight.7.3.pack' %>
 <%= javascript_include_tag 'swagger/lib/swagger-oauth' %>
 
-<%= render 'swagger_ui/swagger_ui', discovery_url: '/api-docs/api-docs.json' %>
+<script type="text/javascript">
+  $(function () {
+    window.swaggerUi = new SwaggerUi({
+      url: '/api-docs/api-docs.json',
+      dom_id:"swagger-ui-container",
+      supportHeaderParams: false,
+      supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
+      onComplete: function(swaggerApi, swaggerUi){
+        $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+        $('[src="images/throbber.gif"]').attr('src', 'http://swagger.wordnik.com/images/throbber.gif');
+      },
+      onFailure: function(data) {
+        if(console) {
+          console.log("Unable to Load SwaggerUI");
+          console.log(data);
+        }
+      },
+      docExpansion: "list"
+    });
+
+    window.swaggerUi.load();
+  });
+
+</script>
+
+<div id="message-bar" class="swagger-ui-wrap">
+  &nbsp;
+</div>
+
+<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
