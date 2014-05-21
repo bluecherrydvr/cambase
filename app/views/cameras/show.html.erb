@@ -1,3 +1,7 @@
+<% content_for :title do %>
+  <%= "#{@camera.manufacturer.name} #{@camera.model}" %>
+<% end %>
+
 <div class="camera-heading">
   <h1 class="col-sm-10">
     <%= "#{@camera.manufacturer.name} #{@camera.model}" %>
