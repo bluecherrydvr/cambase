@@ -77,7 +77,7 @@ $ ->
     e.stopPropagation()
     $(this).prev().editable('toggle')
 
-  $('.camera-model .editable').on "click", (e) ->
+  $('.clickable .editable').on "click", (e) ->
     e.preventDefault()
     location.href = $(this).attr('data-link-url')
 

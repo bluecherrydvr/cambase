@@ -68,12 +68,12 @@
             <table class="table table-striped">
               <tbody>
                 <% if user_signed_in? %>
-                <tr>
+                <tr class="clickable">
                   <td>Manufacturer</td>
-                  <%= editable @camera, :manufacturer_id, source: Manufacturer.all.map{ |manufacturer| {value: manufacturer.id, text: manufacturer.name}}, type: :select, tag: :td %>
+                  <%= editable @camera, :manufacturer_id, source: Manufacturer.all.map{ |manufacturer| {value: manufacturer.id, text: manufacturer.name}}, type: :select, tag: :td, link_url: @camera.manufacturer.url %>
                   <td class="icon-edit"></td>
                 </tr>
-                <tr class="camera-model">
+                <tr class="clickable">
                   <td>Model</td>
                   <%= editable @camera, :model, tag: :td, link_url: request.url %>
                   <td class="icon-edit"></td>

@@ -14,6 +14,9 @@
           <p>
             <%= f.text_field :name, :placeholder => "Manufacturer Name" %>
           </p>
+          <p>
+          <%= f.text_field :url, :placeholder => "Manufacturer Website" %>
+          </p>
           <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
           <div>
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">cancel</button>
