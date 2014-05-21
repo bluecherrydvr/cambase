@@ -38,8 +38,6 @@ $(document).on 'click', '[data-dismiss=modal], .modal-scrollable', ->
 $(document).on 'click', '#signin-modal', (e) ->
   e.stopPropagation();
 
-$.fn.editable.defaults.mode = 'inline';
-$.fn.editable.defaults.ajaxOptions = {type: "PUT"};
 $ ->
   $container = $('#masonry-container')
   $container.packery
@@ -69,6 +67,19 @@ $ ->
 
   $('.editable').editable
     emptytext: 'Unknown'
+    toggle: 'manual'
+    mode: 'inline'
+    ajaxOptions:
+      type: 'PUT'
+
+  $('#cameras-show .module-table td.icon-edit').on "click", (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+    $(this).prev().editable('toggle')
+
+  $('.camera-model .editable').on "click", (e) ->
+    e.preventDefault()
+    location.href = $(this).attr('data-link-url')
 
   $('.visitor-signed_out .module-images, .visitor-signed_out .module-table').on 'click', (e) ->
     e.preventDefault()

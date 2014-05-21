@@ -1,3 +1,31 @@
+.camera-heading{
+  h1{
+    font-size: 24px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  .col-sm-2{
+    text-align: right;
+    margin-top: 16px;
+  }
+  a{
+    border-radius: 4px;
+    border: 1px solid $mediumgreen;
+    color: $mediumgreen;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Titillium Web', 'sans-serif';
+    padding: 0px 7px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-decoration: none;
+    &:hover{
+      background-color: $mediumgreen;
+      color: #fff;
+    }
+  }
+}
+
 .module{
   background: #fff;
 }
@@ -73,23 +101,43 @@
   .module-body{
     padding: 0;
   }
-  .table-striped > tbody > tr:nth-child(2n+1) > td{
-    background-color: #eeeeee;
+  .table-striped > tbody > tr:nth-child(2n+1){
+    > td, > .editable-container{
+      background-color: #eeeeee;
+    }
+  }
+  .camera-model{
+    .editable:hover{
+      text-decoration: underline;
+      cursor: pointer;
+    }
   }
   td{
-    width: 50%;
+    width: 48%;
     border: none;
     word-wrap: break-word;
     max-width: 100px;
+    &:focus{
+      outline: none;
+    }
     &:first-child{
       text-align: right;
     }
-    &.editable, &:last-child{
-      background-image: asset-url("icons/edit.png");
-      background-repeat: no-repeat;
-      background-position: right 0;
-      padding-right: 25px;
+    &:last-child{
       cursor: pointer;
+      &:hover{
+      }
+    }
+    &.icon-edit{
+      border-top: 1px solid #dddddd;
+      min-width: 37px;
+      width: 4%;
+      height: 37px;
+      display: table-cell;
+      background-image: none;
+      &:hover{
+        background-image: asset-url("icons/edit.png");
+      }
     }
     &.editable-empty,
     .editable-empty:hover,
@@ -99,6 +147,7 @@
   }
   .editable-container.editable-inline{
     padding-top: 3px;
+    padding-bottom: 3px;
     padding-left: 5px;
     border-top: 1px solid #dddddd;
     width: 100%;

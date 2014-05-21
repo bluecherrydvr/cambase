@@ -30,14 +30,14 @@
   <div class="row" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav col-sm-12">
       <li class="col-sm-1-8">
-        <%= link_to('cameras', cameras_path) %>
+        <%= link_to('/cameras', cameras_path) %>
       </li>
       <li class="col-sm-1-8">
-        <%= link_to('manufacturers', manufacturers_path) %>
+        <%= link_to('/manufacturers', manufacturers_path) %>
       </li>
       <li class="col-sm-1-8">
         <% if user_signed_in? %>
-        <%= link_to "contribute", '#add-camera-modal', data: { toggle: "modal", target: "#add-camera-modal" } %>
+        <%= link_to "/contribute", '#add-camera-modal', data: { toggle: "modal", target: "#add-camera-modal" } %>
         <% else %>
         <%= link_to "contribute", '#signin-modal', data: { toggle: "modal", target: "#signin-modal" } %>
         <% end %>

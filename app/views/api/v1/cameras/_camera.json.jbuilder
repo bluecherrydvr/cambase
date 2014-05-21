@@ -19,6 +19,8 @@ json.infrared camera['infrared']
 json.varifocal camera['varifocal']
 json.sd_card camera['sd_card']
 json.upnp camera['upnp']
+json.audio_in camera['audio_in']
+json.audio_out camera['audio_out']
 json.url api_v1_camera_url(camera, format: :json)
 
 if camera.class == ActiveRecord::Base && !camera.persisted? &&
