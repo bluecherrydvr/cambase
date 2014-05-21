@@ -33,12 +33,11 @@
     width: 100%;
     background: $offwhite;
     border: none;
-    margin-bottom: 10px;
     padding: 10px;
     font-style: italic;
     color: $darkgreen;
   }
-  input[type=submit]{
+  .modal-button{
     text-transform: lowercase;
     background: $darkgreen;
     color: #fff;
@@ -67,6 +66,7 @@
     width: 100%;
   }
   button.close{
+    background-color: transparent;
     color: $darkgreen;
     float: right;
     font-size: 14px;
@@ -89,11 +89,8 @@
 }
 
 #add-camera-modal{
-  input{
-    margin-bottom: 0;
-  }
-  input[type=submit]{
-    margin-top: 54px;
+  .col-md-6:last-child{
+    min-height: 660px;
   }
   .features{
     display: block;
@@ -114,6 +111,7 @@
 #add-manufacturer-modal{
   .col-md-6:last-child{
     padding-top: 109px;
+    min-height: 300px;
   }
   input[type=submit]{
     margin: 56px 0 16px;
@@ -121,6 +119,6 @@
 }
 
 #manufacturer_image_attributes_file{
-  visibility: hidden;
+  // visibility: hidden;
 }
 

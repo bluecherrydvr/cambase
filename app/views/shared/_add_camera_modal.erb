@@ -48,7 +48,7 @@
           </p>
           <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
           <div>
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">cancel</button>
+            <button type="button" class="close modal-button absolute-right" data-dismiss="modal" aria-hidden="true">cancel</button>
           </div>
         </div>
         <div class="col-md-6">
@@ -66,7 +66,7 @@
             <% end %>
           </div>
           <div>
-            <%= f.submit 'contribute' %>
+            <%= f.submit 'contribute', class: 'modal-button absolute-left' %>
           </div>
           <% end %>
         </div>

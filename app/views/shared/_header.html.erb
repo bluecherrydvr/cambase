@@ -39,7 +39,7 @@
         <% if user_signed_in? %>
         <%= link_to "/contribute", '#add-camera-modal', data: { toggle: "modal", target: "#add-camera-modal" } %>
         <% else %>
-        <%= link_to "contribute", '#signin-modal', data: { toggle: "modal", target: "#signin-modal" } %>
+        <%= link_to "/contribute", '#signin-modal', data: { toggle: "modal", target: "#signin-modal" } %>
         <% end %>
       </li>
       <li class="col-sm-5-8">
