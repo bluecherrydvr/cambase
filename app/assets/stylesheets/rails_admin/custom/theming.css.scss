@@ -2,3 +2,12 @@
   white-space: pre;
   max-width: none;
 }
+
+.psia_field,
+.onvif_field,
+.ptz_field,
+.upnp_field{
+  label{
+    text-transform: uppercase;
+  }
+}
