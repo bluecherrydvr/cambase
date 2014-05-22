@@ -38,8 +38,8 @@ ActiveRecord::Schema.define(version: 20140521111524) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "camera_slug"
-    t.string   "audio_in"
-    t.string   "audio_out"
+    t.boolean  "audio_in"
+    t.boolean  "audio_out"
   end
 
   add_index "cameras", ["camera_slug"], name: "index_cameras_on_camera_slug", unique: true, using: :btree

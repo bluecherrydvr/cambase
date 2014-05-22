@@ -56,10 +56,11 @@ class ManufacturersController < ApplicationController
   # PATCH/PUT /manufacturers/1
   # PATCH/PUT /manufacturers/1.json
   def update
+    @manufacturer = Manufacturer.find(params[:id])
     respond_to do |format|
       if @manufacturer.update(manufacturer_params)
-        format.html { redirect_to @manufacturer, notice: 'Manufacturer was successfully updated.' }
-        format.json { render :show, status: :ok, location: @manufacturer }
+        format.html { redirect_to "/#{@manufacturer.manufacturer_slug}", notice: 'Manufacturer was successfully updated.' }
+        format.json { render json: @manufacturer }
       else
         format.html { redirect_to manufacturers_path, notice: @manufacturer.errors.full_messages.to_sentence }
         format.json { render json: @manufacturer.errors, status: :unprocessable_entity }
@@ -85,6 +86,6 @@ class ManufacturersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def manufacturer_params
-    params.require(:manufacturer).permit(:name, :image, image_attributes: [:id, :file, :_destroy])
+    params.require(:manufacturer).permit(:name, :image, :url, image_attributes: [:id, :file, :_destroy])
   end
 end

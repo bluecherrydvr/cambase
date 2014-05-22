@@ -65,14 +65,21 @@ $ ->
     clicked_image = $(this).attr('src')
     $('.module-image-main').attr('src', clicked_image)
 
-  $('.editable').editable
+  $('.module-information .editable').editable
     emptytext: 'Unknown'
     toggle: 'manual'
     mode: 'inline'
     ajaxOptions:
       type: 'PUT'
 
-  $('#cameras-show .module-table td.icon-edit').on "click", (e) ->
+  $('.module-manufacturer .editable').editable
+    emptytext: 'Unknown'
+    toggle: 'manual'
+    # mode: 'inline'
+    ajaxOptions:
+      type: 'PUT'
+
+  $('.visitor-signed_in .module-table td.icon-edit').on "click", (e) ->
     e.preventDefault()
     e.stopPropagation()
     $(this).prev().editable('toggle')
@@ -81,12 +88,12 @@ $ ->
     e.preventDefault()
     location.href = $(this).attr('data-link-url')
 
-  $('.visitor-signed_out .module-images, .visitor-signed_out .module-table').on 'click', (e) ->
+  $('.visitor-signed_out .module-images .add-new-image, .visitor-signed_out .module-table .icon-edit').on 'click', (e) ->
     e.preventDefault()
     e.stopPropagation()
     $('#signin-modal').modal()
 
-  $('.add-new-image').on "click", (e) ->
+  $('.visitor-signed_in .add-new-image').on "click", (e) ->
     e.preventDefault()
     $('.module-images input[type="file"]').trigger('click')
 

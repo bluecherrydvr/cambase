@@ -97,12 +97,22 @@
   }
 }
 
+.module-manufacturer{
+  .module-body{
+    padding: 0;
+  }
+  img{
+    width: 100%;
+    height: auto;
+  }
+}
+
 .module-table{
   .module-body{
     padding: 0;
   }
   .table-striped > tbody > tr:nth-child(2n+1){
-    > td, > .editable-container{
+    &, > td, > .editable-container{
       background-color: #eeeeee;
     }
   }
@@ -111,6 +121,9 @@
       text-decoration: underline;
       cursor: pointer;
     }
+  }
+  tr{
+    border-top: 1px solid #dddddd;
   }
   td{
     width: 48%;
@@ -135,6 +148,7 @@
       height: 37px;
       display: table-cell;
       background-image: none;
+      background-repeat: no-repeat;
       &:hover{
         background-image: asset-url("icons/edit.png");
       }
@@ -167,6 +181,7 @@
 }
 
 #cameras-index,
+#cameras-search,
 #manufacturers-show{
   .navbar-form{
     .search_model{
