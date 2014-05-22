@@ -42,7 +42,10 @@
         <%= link_to "/contribute", '#signin-modal', data: { toggle: "modal", target: "#signin-modal" } %>
         <% end %>
       </li>
-      <li class="col-sm-5-8">
+      <li class="col-sm-1-8">
+        <%= link_to('/api', api_docs_path) %>
+      </li>
+      <li class="col-sm-6">
         <div class="navbar-form col-sm-12" role="search">
           <div class="form-group">
             <%= render "shared/search" %>
