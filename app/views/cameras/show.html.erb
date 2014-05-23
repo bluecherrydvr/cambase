@@ -60,9 +60,9 @@
       <h4 class="add-new-image">Manufacturer Information</h4>
     </div>
     <div class="module-body">
-          <% if @camera.manufacturer.image %>
-          <%= link_to(image_tag(@camera.manufacturer.image.file.url(:medium)), "/#{@camera.manufacturer.manufacturer_slug}") %>
-          <% end %>
+      <% if @camera.manufacturer.image %>
+      <%= link_to(image_tag(@camera.manufacturer.image.file.url(:medium)), "/#{@camera.manufacturer.manufacturer_slug}") %>
+      <% end %>
       <div class="table-responsive">
         <table class="table table-striped">
           <tr>
@@ -172,6 +172,16 @@
                   <%= editable @camera, :audio_out, tag: :td %>
                   <td class="icon-edit"></td>
                 </tr>
+                <tr>
+                  <td>Default Username</td>
+                  <%= editable @camera, :default_username, tag: :td %>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr>
+                  <td>Default Password</td>
+                  <%= editable @camera, :default_password, tag: :td %>
+                  <td class="icon-edit"></td>
+                </tr>
                 <% else %>
                 <tr>
                   <td>Manufacturer</td>
@@ -251,6 +261,16 @@
                 <tr>
                   <td>Audio Out</td>
                   <td><%= human_boolean(@camera.audio_out) || 'Unknown' %></td>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr>
+                  <td>Default Username</td>
+                  <td><%= @camera.default_username || 'Unknown' %></td>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr>
+                  <td>Default Password</td>
+                  <td><%= @camera.default_password || 'Unknown' %></td>
                   <td class="icon-edit"></td>
                 </tr>
                 <% end %>

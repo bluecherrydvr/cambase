@@ -45,8 +45,12 @@
     <%= f.text_field :firmware, :placeholder => 'Firmware' %>
   </p>
   <p>
-    <%= f.label :credentials %>
-    <%= f.text_field :credentials, :placeholder => 'Credentials' %>
+    <%= f.label :default_username %>
+    <%= f.text_field :default_username, :placeholder => 'Default Username' %>
+  </p>
+    <p>
+    <%= f.label :default_password %>
+    <%= f.text_field :default_password, :placeholder => 'Default Password' %>
   </p>
   <p>
     <%= f.label :shape %>

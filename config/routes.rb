@@ -25,8 +25,8 @@ Rails.application.routes.draw do
 
   resources :manufacturers, :only => [:index, :update, :create]
 
-  resources :manufacturers, :path => '' do
-    resources :cameras, :path => '', :except => [:index]
+  resources :manufacturers, :except => [:new], :path => '' do
+    resources :cameras, :path => '', :except => [:index, :new]
   end
 
   namespace :api, defaults: {format: 'json'} do

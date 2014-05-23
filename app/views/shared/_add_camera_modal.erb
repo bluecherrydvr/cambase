@@ -44,7 +44,10 @@
             <%= f.text_field :firmware, :placeholder => 'Firmware' %>
           </p>
           <p>
-            <%= f.text_field :credentials, :placeholder => 'Credentials' %>
+          <%= f.text_field :default_username, :placeholder => 'Default Username' %>
+          </p>
+          <p>
+          <%= f.text_field :default_password, :placeholder => 'Default Password' %>
           </p>
           <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
           <div>

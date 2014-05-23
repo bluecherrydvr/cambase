@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140521111524) do
+ActiveRecord::Schema.define(version: 20140523123959) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,7 +25,6 @@ ActiveRecord::Schema.define(version: 20140521111524) do
     t.text     "mjpeg_url"
     t.string   "resolution"
     t.string   "firmware"
-    t.string   "credentials"
     t.string   "shape"
     t.integer  "fov"
     t.boolean  "onvif"
@@ -40,6 +39,8 @@ ActiveRecord::Schema.define(version: 20140521111524) do
     t.string   "camera_slug"
     t.boolean  "audio_in"
     t.boolean  "audio_out"
+    t.string   "default_username"
+    t.string   "default_password"
   end
 
   add_index "cameras", ["camera_slug"], name: "index_cameras_on_camera_slug", unique: true, using: :btree

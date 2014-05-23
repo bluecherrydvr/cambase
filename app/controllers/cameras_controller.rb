@@ -116,7 +116,8 @@ class CamerasController < ApplicationController
                                    :mjpeg_url,
                                    :resolution,
                                    :firmware,
-                                   :credentials,
+                                   :default_username,
+                                   :default_password,
                                    Camera::FEATURES,
                                    :image, images_attributes: [:id, :file, :_destroy])
   end
