@@ -50,7 +50,7 @@ def clean_csv_values(value)
     '2048x1536'
   when /40x480/i
     '640x480'
-  when /\?|wireless/i
+  when '?', 'Wireless'
     nil
   else
     value
