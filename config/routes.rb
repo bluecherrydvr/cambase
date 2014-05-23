@@ -4,8 +4,7 @@ Rails.application.routes.draw do
 
   get '/about-cambase' => 'pages#about_cambase'
   get '/about-evercam' => 'pages#about_evercam'
-  get '/privacy-policy' => 'pages#privacy'
-  get '/cookie-policy' => 'pages#cookie'
+  get '/terms-of-service' => 'pages#terms'
   get '/contact-us' => 'pages#contact'
   get '/api-docs' => 'pages#api_docs'
   get '/settings' => 'pages#settings'

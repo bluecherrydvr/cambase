@@ -6,9 +6,7 @@ class PagesController < ApplicationController
   end
   def about_evercam
   end
-  def privacy
-  end
-  def cookie
+  def terms_of_service
   end
   def contact
   end
