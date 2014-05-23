@@ -56,3 +56,22 @@ def clean_csv_values(value)
     value
   end
 end
+
+desc "Import images"
+
+task :import_images => :environment do
+
+  Dir.foreach('db/seeds/images/') do |item|
+    next if item == '.' or item == '..'
+    model_name = "#{item[0...-6]}"
+    puts model_name
+    camera = Camera.find_by_model(model_name)
+    if camera
+      File.open("db/seeds/images/#{item}") do |f|
+        image = Image.create(:file => f)
+        camera.images.append(image)
+      end
+    end
+  end
+
+end
