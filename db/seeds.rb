@@ -11,6 +11,8 @@ documents = YAML.load_stream(open(seed_file))
 
 documents.each do |doc|
   doc.each do |camera|
+    camera.delete 'id'
+    camera['manufacturer'].delete 'id'
     manufacturer = Manufacturer.where(camera['manufacturer']).first_or_create
     camera['manufacturer'] = manufacturer
     Camera.create(camera)

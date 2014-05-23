@@ -15,7 +15,7 @@ desc "Fix duplicate resolutions"
 task :fix_resolutions => :environment do
   Camera.all.each do |camera|
     if camera.resolution
-      camera.resolution = camera.resolution.gsub(/\s+/, "").gsub(/×/, "x")
+      camera.resolution = camera.resolution.gsub(/\s+/, "").gsub(/×/, "x").downcase
       camera.save
     end
   end
