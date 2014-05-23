@@ -22,4 +22,12 @@ class Camera < ActiveRecord::Base
   def make_slug
     self.camera_slug = self.model.to_url
   end
+
+  def next
+    Camera.where("id > ?", id).order("id ASC").first
+  end
+
+  def prev
+    Camera.where("id < ?", id).order("id DESC").first
+  end
 end

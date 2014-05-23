@@ -1,8 +1,11 @@
 .camera-heading{
+  padding: 0 5px;
   h1{
     font-size: 24px;
     margin-top: 10px;
     margin-bottom: 20px;
+    margin-right: 20px;
+    float: left;
   }
   .col-sm-2{
     text-align: right;
@@ -16,12 +19,19 @@
     font-weight: bold;
     font-family: 'Titillium Web', 'sans-serif';
     padding: 0px 7px;
-    margin-top: 20px;
+    margin-top: 12px;
     margin-bottom: 20px;
     text-decoration: none;
+    text-transform: uppercase;
     &:hover{
       background-color: $mediumgreen;
       color: #fff;
+    }
+    &.align-left{
+      margin-right: 5px;
+    }
+    &.align-right{
+      margin-left: 5px;
     }
   }
 }

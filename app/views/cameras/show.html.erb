@@ -2,14 +2,16 @@
 <%= "#{@camera.manufacturer.name} #{@camera.model}" %>
 <% end %>
 
-<div class="camera-heading">
-  <h1 class="col-sm-10">
-    <%= "#{@camera.manufacturer.name} #{@camera.model}" %>
-  </h1>
-  <div class="col-sm-2">
-    <%= link_to "URL" %>
-    <%= link_to "JSON", "/api/v1/cameras/#{@camera.id}" %>
-  </div>
+<div class="camera-heading clearfix">
+  <h1><%= "#{@camera.manufacturer.name} #{@camera.model}" %></h1>
+  <% if @camera.prev %>
+  <%= link_to "prev", manufacturer_camera_path(@camera.prev.manufacturer.manufacturer_slug, @camera.prev.camera_slug), class: 'align-left' %>
+  <% end %>
+  <% if @camera.next %>
+  <%= link_to "next", manufacturer_camera_path(@camera.next.manufacturer.manufacturer_slug, @camera.next.camera_slug), class: 'align-left' %>
+  <% end %>
+  <%= link_to "json", "/api/v1/cameras/#{@camera.id}", class: 'align-right' %>
+  <%= link_to "url", '', class: 'align-right' %>
 </div>
 <div class="sidebar col-sm-3">
   <div class="module module-images">
