@@ -42,13 +42,13 @@ def clean_csv_values(value)
     'dome'
   when /Dome|Box|Bullet/i
     value.downcase
-  when /4CIF/i
+  when '4CIF'
     '704×480'
-  when /1080p|1920x1081/i
+  when '1080p', '1920x1081'
     '1920x1080'
-  when /2058x1536|2050x1536|2048X1536/i
+  when '2058x1536', '2050x1536', '2048X1536'
     '2048x1536'
-  when /40x480/i
+  when '40x480'
     '640x480'
   when '?', 'Wireless'
     nil
