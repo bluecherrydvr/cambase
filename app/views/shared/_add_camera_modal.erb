@@ -15,7 +15,7 @@
             <%= f.collection_select(:manufacturer_id, Manufacturer.order(:name), :id, :name, :include_blank => 'Manufacturer' )%>
           </p>
           <p>
-            <%= f.select(:resolution, Camera.uniq.pluck(:resolution).sort, :include_blank => 'Resolution')%>
+            <%= f.select(:resolution, Camera.uniq.pluck(:resolution).compact.sort, :include_blank => 'Resolution')%>
           </p>
           <p>
             <%= f.select(:shape, options_for_select(Camera::SHAPES), :include_blank => 'Shape') %>
