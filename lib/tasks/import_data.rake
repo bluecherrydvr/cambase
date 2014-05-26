@@ -66,7 +66,7 @@ task :import_images => :environment do
 
   Dir.foreach('db/seeds/images/') do |item|
     next if item == '.' or item == '..'
-    model_name = "#{item[0...-6]}"
+    model_name = item.match(/^[^\_]*/).to_s
     puts model_name
     camera = Camera.find_by_model(model_name)
     if camera
