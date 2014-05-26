@@ -39,6 +39,11 @@ $(document).on 'click', '#signin-modal', (e) ->
   e.stopPropagation();
 
 $ ->
+  $('.clickable a').each ->
+    $(this).attr('href', $(this).attr('data-href'))
+    if $(this).attr('data-target') == "_blank"
+      $(this).attr('target', "_blank")
+
   $container = $('#masonry-container')
   $container.packery
     itemSelector: '.tile',
@@ -82,11 +87,7 @@ $ ->
   $('.visitor-signed_in .module-table td.icon-edit').on "click", (e) ->
     e.preventDefault()
     e.stopPropagation()
-    $(this).prev().editable('toggle')
-
-  $('.clickable .editable').on "click", (e) ->
-    e.preventDefault()
-    location.href = $(this).attr('data-link-url')
+    $(this).closest('tr').find('.editable').editable('toggle')
 
   $('.visitor-signed_out .module-images .add-new-image, .visitor-signed_out .module-table .icon-edit').on 'click', (e) ->
     e.preventDefault()

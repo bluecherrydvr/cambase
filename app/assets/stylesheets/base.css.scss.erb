@@ -95,6 +95,14 @@ a:focus {
   @include icon('eye');
 }
 
+.icon-link{
+  @include icon('link');
+  background-position: 0px -7px;
+  width: 32px;
+  height: 20px;
+  float: left;
+}
+
 <% Camera::FEATURES.each do |feature| %>
 <%= ".icon-camera_feature_#{feature}" %>{
   @include icon(<%= "camera_feature_#{feature}" %>);
