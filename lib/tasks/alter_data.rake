@@ -6,6 +6,8 @@ task :add_urls_to_hikvision => :environment do
     camera.jpeg_url = 'Streaming/Channels/1/picture'
     camera.h264_url = 'h264/ch1/main/av_stream'
     camera.mjpeg_url = 'None'
+    camera.default_username = 'admin'
+    camera.default_password = '12345'
     camera.save
   end
 end
