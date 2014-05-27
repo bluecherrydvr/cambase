@@ -106,7 +106,7 @@
                 </tr>
                 <tr>
                   <td>Resolution</td>
-                  <%= editable @camera, :resolution, source: Camera.uniq.pluck(:resolution).sort.map{ |resolution| {value: resolution, text: resolution}}, type: :select, tag: :td %>
+                  <%= editable @camera, :resolution, source: Camera.uniq.pluck(:resolution).compact.sort.map{ |resolution| {value: resolution, text: resolution}}, type: :select, tag: :td %>
                   <td class="icon-edit"></td>
                 </tr>
                 <tr>
