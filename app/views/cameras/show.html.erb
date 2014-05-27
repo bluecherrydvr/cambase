@@ -67,14 +67,18 @@
       <% end %>
       <div class="table-responsive">
         <table class="table table-striped">
-          <tr>
+          <tr class="clickable">
             <td>Name</td>
-            <%= editable @camera.manufacturer, :name, tag: :td %>
+            <td>
+              <%= editable @camera.manufacturer, :name, tag: :a, href: "/#{@camera.manufacturer.manufacturer_slug}" %>
+            </td>
             <td class="icon-edit"></td>
           </tr>
-          <tr>
+          <tr class="clickable">
             <td>Website</td>
-            <%= editable @camera.manufacturer, :url, tag: :td %>
+            <td>
+              <%= editable @camera.manufacturer, :url, tag: :a, href: @camera.manufacturer.url, target: '_blank' %>
+            </td>
             <td class="icon-edit"></td>
           </tr>
         </table>
@@ -96,10 +100,13 @@
                 <% if user_signed_in? %>
                 <tr class="clickable">
                   <td>Manufacturer</td>
-                  <%= editable @camera, :manufacturer_id, source: Manufacturer.all.map{ |manufacturer| {value: manufacturer.id, text: manufacturer.name}}, type: :select, tag: :td, link_url: @camera.manufacturer.url %>
+                  <td class="manufacturer-website">
+                    <%= editable @camera, :manufacturer_id, source: Manufacturer.all.map{ |manufacturer| {value: manufacturer.id, text: manufacturer.name}}, type: :select, tag: :a, href: "/#{@camera.manufacturer.manufacturer_slug}" %>
+                    <%= link_to('Website', @camera.manufacturer.url, target: "_blank", class: 'icon-link') %>
+                  </td>
                   <td class="icon-edit"></td>
                 </tr>
-                <tr class="clickable">
+                <tr>
                   <td>Model</td>
                   <%= editable @camera, :model, tag: :td, link_url: request.url %>
                   <td class="icon-edit"></td>
