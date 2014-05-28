@@ -4,15 +4,13 @@ class Swagger::Docs::Config
   end
 end
 
+base_path = Rails.env.development? ? "http://localhost:3000/" : "http://www.cambase.io/"
+
 Swagger::Docs::Config.register_apis({
   "1.0" => {
-# the extension used for the API
-:api_extension_type => :json,
-# the output location where your .json files are written to
-:api_file_path => "public/api-docs",
-# the URL base path to your API
-:base_path => "http://www.cambase.io/",
-# if you want to delete all .json files at each generation
-:clean_directory => false
-}
+    :api_extension_type => :json,
+    :api_file_path => "public/api-docs",
+    :base_path => base_path,
+    :clean_directory => true
+  }
 })

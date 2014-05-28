@@ -1,11 +1,12 @@
 manufacturer ||= @manufacturer
 
+json.id manufacturer['manufacturer_slug']
 json.name manufacturer['name']
-json.info manufacturer['info']
-json.mac manufacturer['mac']
-json.text manufacturer['text']
-json.cameras manufacturer['cameras']
-json.url api_v1_manufacturer_url(manufacturer, format: :json)
+json.logo manufacturer.image
+json.url api_v1_manufacturer_url(manufacturer.manufacturer_slug, format: :json)
+json.cameras manufacturer.cameras do |camera|
+  json.partial! 'api/v1/cameras/camera', camera: camera
+end
 
 if manufacturer.class == ActiveRecord::Base && !manufacturer.persisted? &&
   !manufacturer.valid?
