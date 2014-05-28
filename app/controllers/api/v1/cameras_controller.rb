@@ -21,8 +21,15 @@ class Api::V1::CamerasController < ApplicationController
   def index
     @cameras = Camera.page params[:page]
   end
+
   def show
     @camera = Camera.find_by_camera_slug(params[:id])
+  end
+
+  def search
+    @search = Camera.search(params[:q])
+    @cameras = @search.result.page params[:page]
+    render :index
   end
 
 end
