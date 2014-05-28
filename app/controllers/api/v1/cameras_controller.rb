@@ -1,17 +1,3 @@
-module Api
-  module V1
-    class CamerasController < ApplicationController
-      def index
-        @cameras = Camera.all
-      end
-      def show
-        @camera = Camera.find(params[:id])
-      end
-    end
-  end
-end
-
-
 class Api::V1::CamerasController < ApplicationController
 
   swagger_controller :cameras, "Camera Management"
@@ -33,10 +19,10 @@ class Api::V1::CamerasController < ApplicationController
   end
 
   def index
-    @cameras = Camera.all
+    @cameras = Camera.page params[:page]
   end
   def show
-    @camera = Camera.find(params[:id])
+    @camera = Camera.find_by_camera_slug(params[:id])
   end
 
 end

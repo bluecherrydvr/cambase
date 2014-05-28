@@ -16,6 +16,15 @@ Rails.application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
+  namespace :api, defaults: {format: 'json'} do
+    get '/' => '/api#index'
+    namespace :v1 do
+      get '/' => '/api#index'
+      resources :cameras
+      resources :manufacturers
+    end
+  end
+
   resources :cameras, :only => [:index, :update] do
     collection do
       match 'search' => 'cameras#search', via: [:get, :post], as: :search
@@ -27,13 +36,5 @@ Rails.application.routes.draw do
   resources :manufacturers, :except => [:new], :path => '' do
     resources :cameras, :path => '', :except => [:index, :new]
   end
-
-  namespace :api, defaults: {format: 'json'} do
-    namespace :v1 do
-      resources :cameras
-      resources :manufacturers
-    end
-  end
-
 
 end
