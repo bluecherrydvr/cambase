@@ -57,6 +57,9 @@ class ManufacturersController < ApplicationController
   # PATCH/PUT /manufacturers/1.json
   def update
     @manufacturer = Manufacturer.find(params[:id])
+    if params[:manufacturer][:image_attributes]
+      params[:manufacturer][:image_attributes][:id] = nil
+    end
     respond_to do |format|
       if @manufacturer.update(manufacturer_params)
         format.html { redirect_to "/#{@manufacturer.manufacturer_slug}", notice: 'Manufacturer was successfully updated.' }
