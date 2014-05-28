@@ -1,24 +1,10 @@
-module Api
-  module V1
-    class CamerasController < ApplicationController
-      def index
-        @cameras = Camera.all
-      end
-      def show
-        @camera = Camera.find(params[:id])
-      end
-    end
-  end
-end
-
-
 class Api::V1::CamerasController < ApplicationController
 
   swagger_controller :cameras, "Camera Management"
 
   swagger_api :index do
     summary "Fetches all Camera items"
-    param :query, :page, :integer, :optional, "Page number(not implemented yet)"
+    param :query, :page, :integer, :optional, "Page number"
     response :unauthorized
     response :not_acceptable, "The request you made is not acceptable"
     response :requested_range_not_satisfiable
@@ -26,17 +12,24 @@ class Api::V1::CamerasController < ApplicationController
 
   swagger_api :show do
     summary "Fetches a single Camera item"
-    param :path, :id, :integer, :required, "Camera Id"
+    param :path, :id, :integer, :required, "Camera ID"
     response :unauthorized
     response :not_acceptable
     response :not_found
   end
 
   def index
-    @cameras = Camera.all
+    @cameras = Camera.page params[:page]
   end
+
   def show
-    @camera = Camera.find(params[:id])
+    @camera = Camera.find_by_camera_slug(params[:id])
+  end
+
+  def search
+    @search = Camera.search(params[:q])
+    @cameras = @search.result.page params[:page]
+    render :index
   end
 
 end

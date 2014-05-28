@@ -1,3 +1,7 @@
-json.cameras @cameras, partial: 'api/v1/cameras/camera', as: :camera
-json.total_count @cameras.respond_to?(:total_entries) ?
-@cameras.total_entries : @cameras.to_a.count
+json.partial! 'api/v1/metadata'
+json.data do |data|
+  json.partial! 'api/v1/paging', object: @cameras, path: api_v1_cameras_url
+  json.cameras @cameras do |camera|
+    json.partial! 'api/v1/cameras/camera', camera: camera
+  end
+end
