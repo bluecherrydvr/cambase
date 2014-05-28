@@ -28,21 +28,22 @@ $('a[data-toggle=modal]').on 'click', ->
 # this sets up the ajax loader, and it will stay until the method specific js removes it
 $('a[data-target=#signin-modal]').on 'click', ->
    e.preventDefault()
-   e.stopPropagation();
-   $('body').modalmanager('loading');
-   $.rails.handleRemote( $(this) );
+   e.stopPropagation()
+   $('body').modalmanager('loading')
+   $.rails.handleRemote( $(this) )
 
 #removes whatever is in the modal body content div upon clicking close/outside modal
 $(document).on 'click', '[data-dismiss=modal], .modal-scrollable', ->
   $('.modal-body-content').empty()
 $(document).on 'click', '#signin-modal', (e) ->
-  e.stopPropagation();
+  e.stopPropagation()
 
 $ ->
   $('.clickable a').each ->
-    $(this).attr('href', $(this).attr('data-href'))
-    if $(this).attr('data-target') == "_blank"
-      $(this).attr('target', "_blank")
+    target = $(this)
+    target.attr('href', target.attr('data-href'))
+    if target.attr('data-target') == "_blank"
+      target.attr('target', "_blank")
 
   $container = $('#masonry-container')
   $container.packery
@@ -58,8 +59,7 @@ $ ->
     $(this).toggleClass "selected"
 
   $(".features input[type=checkbox]").each ->
-    attr_checked = $(this).attr('checked')
-    if (attr_checked == 'checked' )
+    if ( $(this).attr('checked') == 'checked' )
       image = "##{ $(this).attr('id') }_icon"
       $(image).addClass("selected")
 
@@ -80,7 +80,6 @@ $ ->
   $('.module-manufacturer .editable').editable
     emptytext: 'Unknown'
     toggle: 'manual'
-    # mode: 'inline'
     ajaxOptions:
       type: 'PUT'
 
