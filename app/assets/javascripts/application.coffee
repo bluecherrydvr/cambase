@@ -88,14 +88,14 @@ $ ->
     e.stopPropagation()
     $(this).closest('tr').find('.editable').editable('toggle')
 
-  $('.visitor-signed_out .module-images .add-new-image, .visitor-signed_out .module-table .icon-edit').on 'click', (e) ->
+  $('.visitor-signed_out .add-new-image, .visitor-signed_out .icon-edit').on 'click', (e) ->
     e.preventDefault()
     e.stopPropagation()
     $('#signin-modal').modal()
 
   $('.visitor-signed_in .add-new-image').on "click", (e) ->
     e.preventDefault()
-    $('.module-images input[type="file"]').trigger('click')
+    $(this).closest('.module').find('input[type="file"]').trigger('click')
 
-  $('.module-images input[type="file"]').change ->
-    $('.module-images form').submit()
+  $('.module input[type="file"]').change ->
+    $(this).closest('.module').find('form').submit()

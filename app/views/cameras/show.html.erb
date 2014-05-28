@@ -63,7 +63,9 @@
     </div>
     <div class="module-body">
       <% if @camera.manufacturer.image %>
-      <%= link_to(image_tag(@camera.manufacturer.image.file.url(:medium)), "/#{@camera.manufacturer.manufacturer_slug}") %>
+      <%= link_to(image_tag(@camera.manufacturer.image.file.url(:medium)), "/#{@camera.manufacturer.manufacturer_slug}", :class => 'add-new-image') %>
+      <% else %>
+      <%= link_to('Add Logo', '', :class => 'add-new-image add-logo') %>
       <% end %>
       <div class="table-responsive">
         <table class="table table-striped">
@@ -84,6 +86,12 @@
         </table>
       </div>
     </div>
+    <%= form_for(@camera.manufacturer) do |f| %>
+    <%= f.fields_for :image, @camera.manufacturer, :html => {:multipart => true} do |asset| %>
+    <%= asset.file_field :file %>
+    <% end %>
+    <%= f.submit 'contribute' %>
+    <% end %>
   </div>
 </div>
 <div class="col-sm-9">
