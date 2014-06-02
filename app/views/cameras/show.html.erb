@@ -10,7 +10,7 @@
   <% if @camera.next %>
   <%= link_to "next", manufacturer_camera_path(@camera.next.manufacturer.manufacturer_slug, @camera.next.camera_slug), class: 'align-left' %>
   <% end %>
-  <%= link_to "json", "/api/v1/cameras/#{@camera.id}", class: 'align-right' %>
+  <%= link_to "json", "/api/v1/cameras/#{@camera.camera_slug}", class: 'align-right' %>
   <%= link_to "url", '', class: 'align-right' %>
 </div>
 <div class="sidebar col-sm-3">
