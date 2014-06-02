@@ -25,7 +25,7 @@
       supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
       onComplete: function(swaggerApi, swaggerUi){
         $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
-        $('[src="images/throbber.gif"]').attr('src', '<%= image_path("throbber.gif") %>');
+        $('[src="images/throbber.gif"]').attr('src', '<%= asset_path("throbber.gif") %>');
       },
       onFailure: function(data) {
         if(console) {

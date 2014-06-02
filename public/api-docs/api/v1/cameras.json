@@ -1,7 +1,7 @@
 {
   "apiVersion": "1.0",
   "swaggerVersion": "1.2",
-  "basePath": "//www.cambase.io/",
+  "basePath": "http://www.cambase.io/",
   "apis": [
     {
       "path": "api/v1/cameras.json",
