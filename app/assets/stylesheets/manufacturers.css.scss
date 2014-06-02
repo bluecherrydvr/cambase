@@ -24,6 +24,12 @@
         border-top: none;
         border-bottom: none;
         vertical-align: middle;
+        &:first-child{
+          a{
+            display: block;
+            line-height: 3.5;
+          }
+        }
         img{
           max-height: 50px;
         }

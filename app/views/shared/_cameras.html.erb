@@ -1,5 +1,5 @@
 <% content_for :title do %>
-  Camera Listing
+Camera Listing
 <% end %>
 
 <%= render 'shared/filters' %>
@@ -19,7 +19,16 @@
       <tbody>
         <% @cameras.each do |camera| %>
         <tr>
-          <td><%= link_to_camera_url(camera.model, camera) %></td>
+          <td>
+            <% if camera.images.empty? %>
+            <%= link_to_camera_url(camera.model, camera) %>
+            <% else %>
+            <%= link_to(manufacturer_camera_path(camera.manufacturer.manufacturer_slug, camera.camera_slug)) do %>
+            <%= camera.model %>
+            <%= image_tag(camera.images.first.file.url(:small), class: 'align-right') %>
+            <% end %>
+            <% end %>
+          </td>
           <td><%= link_to camera.manufacturer.name, "/#{camera.manufacturer.manufacturer_slug}" %></td>
           <td><%= camera.resolution %></td>
           <td>
