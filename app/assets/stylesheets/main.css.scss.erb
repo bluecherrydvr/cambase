@@ -41,6 +41,21 @@
   height: 136px;
 }
 
-.tile-big .tile-content{
-  height: 282px;
+.tile-big{
+  .tile-content{
+    height: 282px;
+    width: 100%;
+    display: table;
+    text-align: center;
+    a{
+      display: table-cell;
+      vertical-align: middle;
+      min-height: 100%;
+      height: auto;
+      width: auto;
+      img{
+        max-height: 220px;
+      }
+    }
+  }
 }
