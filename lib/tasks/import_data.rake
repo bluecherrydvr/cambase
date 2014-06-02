@@ -78,3 +78,75 @@ task :import_images => :environment do
   end
 
 end
+
+desc "Import documents"
+
+task :import_documents => :environment do
+
+  require 'google/api_client'
+
+  key = OpenSSL::PKey::RSA.new(ENV['GOOGLE_DRIVE_KEY'], 'notasecret')
+
+  @client = Google::APIClient.new({:application_name => "cambase-io", :application_version => "1.0"})
+  @client.authorization = Signet::OAuth2::Client.new(
+    :person => ENV['GOOGLE_DRIVE_PERSON'],
+    :token_credential_uri => 'https://accounts.google.com/o/oauth2/token',
+    :audience => 'https://accounts.google.com/o/oauth2/token',
+    :scope => 'https://www.googleapis.com/auth/drive.readonly',
+    :issuer => ENV['GOOGLE_DRIVE_ISSUER'],
+    :signing_key => key
+  )
+  @client.authorization.fetch_access_token!
+  @drive = @client.discovered_api('drive', 'v2')
+
+  result = @client.execute(
+    api_method: @drive.files.list,
+    parameters: {
+      maxResults: 1000,
+      q: "mimeType = 'application/pdf' and ('04010857713529984123' in owners or '02928049532232239685' in owners) "
+    }
+  )
+
+  result.data.items.reverse.take(10).each do |item|
+    folder = print_parents(item.id).first.id
+    folder_name = print_file(folder).title
+    puts folder_name
+    camera = Camera.find_by_model(folder_name)
+    if camera and item.downloadUrl
+      file_content = @client.execute(:uri => item.downloadUrl).body
+      File.open("#{Rails.root}/tmp/#{item.title}", 'wb') do |file|
+        file.write(file_content)
+        document = Document.create(:file => file)
+        camera.documents.append(document)
+      end
+      File.delete("#{Rails.root}/tmp/#{item.title}")
+    end
+  end
+end
+
+def print_parents(file_id)
+  result = @client.execute(
+    :api_method => @drive.parents.list,
+    :parameters => { 'fileId' => file_id }
+  )
+  if result.status == 200
+    parents = result.data
+    parents.items.each do |parent|
+      parent
+    end
+  else
+    puts "An error occurred: #{result.data['error']['message']}"
+  end
+end
+
+def print_file(file_id)
+  result = @client.execute(
+    :api_method => @drive.files.get,
+    :parameters => { 'fileId' => file_id }
+  )
+  if result.status == 200
+    file = result.data
+  else
+    puts "An error occurred: #{result.data['error']['message']}"
+  end
+end
