@@ -1,4 +1,4 @@
-.footer {
+body > .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -30,8 +30,4 @@
   .icon-twitter{
     @include icon('twitter');
   }
-}
-
-.footer .list-inline a{
-  // font-size: 0;
 }
