@@ -49,6 +49,8 @@ gem 'paper_trail', '~> 3.0.1'
 
 gem 'smarter_csv'
 
+gem 'google-api-client'
+
 group :production do
   gem 'rails_12factor'
 # gem 'unicorn'
