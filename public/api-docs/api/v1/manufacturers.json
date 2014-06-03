@@ -15,6 +15,22 @@
               "type": "integer",
               "description": "Page number",
               "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "order",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "created_at DESC",
+                  "created_at ASC",
+                  "updated_at DESC",
+                  "updated_at ASC"
+                ]
+              }
             }
           ],
           "responseMessages": [
@@ -48,6 +64,22 @@
               "type": "string",
               "description": "Manufacturer ID",
               "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "order",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "created_at DESC",
+                  "created_at ASC",
+                  "updated_at DESC",
+                  "updated_at ASC"
+                ]
+              }
             }
           ],
           "responseMessages": [
