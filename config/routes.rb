@@ -22,7 +22,7 @@ Rails.application.routes.draw do
       get '/' => '/api#index'
       resources :cameras do 
         collection do
-          match 'search' => 'cameras#search', via: [:get, :post], as: :search
+          get 'search' => 'cameras#search', as: :search
         end
       end
       resources :manufacturers

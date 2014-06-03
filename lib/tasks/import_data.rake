@@ -45,7 +45,7 @@ def clean_csv_values(value)
     'dome'
   when /Dome|Box|Bullet/i
     value.downcase
-  when '4CIF'
+  when '4CIF', '4cif'
     '704×480'
   when '1080p', '1920x1081'
     '1920x1080'

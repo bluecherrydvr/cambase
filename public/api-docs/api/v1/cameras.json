@@ -4,10 +4,202 @@
   "basePath": "http://www.cambase.io/",
   "apis": [
     {
+      "path": "api/v1/cameras/search.json",
+      "operations": [
+        {
+          "summary": "Searches all Cameras",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Page number",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "q[model_cont]",
+              "type": "string",
+              "description": "Manufacturer",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "q[manufacturer_name_cont]",
+              "type": "string",
+              "description": "Manufacturer",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "q[shape_eq]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "dome",
+                  "bullet",
+                  "box"
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[resolution_eq]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "",
+                  "1280x1024",
+                  "1280x720",
+                  "1280x721",
+                  "1280x722",
+                  "1280x723",
+                  "1280x800",
+                  "1280x960",
+                  "160x128",
+                  "1920x1080",
+                  "2048x1536",
+                  "2592x1944",
+                  "384x288",
+                  "4cif",
+                  "640x480",
+                  "704x576",
+                  "720x576",
+                  "736x576",
+                  "768x576",
+                  "800x600"
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[onvif_true]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[psia_true]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[ptz_true]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[infrared_true]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[varifocal_true]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[sd_card_true]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[upnp_true]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 406,
+              "message": "The request you made is not acceptable"
+            },
+            {
+              "code": 416,
+              "message": "Requested Range Not Satisfiable"
+            }
+          ],
+          "method": "get",
+          "nickname": "Api::V1::Cameras#search"
+        }
+      ]
+    },
+    {
       "path": "api/v1/cameras.json",
       "operations": [
         {
-          "summary": "Fetches all Camera items",
+          "summary": "Fetches all Cameras",
           "parameters": [
             {
               "paramType": "query",
@@ -40,7 +232,7 @@
       "path": "api/v1/cameras/{id}.json",
       "operations": [
         {
-          "summary": "Fetches a single Camera item",
+          "summary": "Fetches a single Camera",
           "parameters": [
             {
               "paramType": "path",
