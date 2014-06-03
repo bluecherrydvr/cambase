@@ -12,6 +12,15 @@ task :add_urls_to_hikvision => :environment do
   end
 end
 
+task :add_credentials_to_samsung => :environment do
+  cameras = Manufacturer.find_by_name("Samsung").cameras
+  cameras.each do |camera|
+    camera.default_username = 'admin'
+    camera.default_password = '4321'
+    camera.save
+  end
+end
+
 desc "Fix duplicate resolutions"
 
 task :fix_resolutions => :environment do
