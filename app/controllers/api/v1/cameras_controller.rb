@@ -1,10 +1,10 @@
 class Api::V1::CamerasController < ApplicationController
-
   swagger_controller :cameras, "Camera Management"
 
   swagger_api :index do
     summary "Fetches all Camera items"
     param :query, :page, :integer, :optional, "Page number"
+    param_list :query, :order, :string, :optional, "Sort order", ['created_at DESC', 'created_at ASC', 'updated_at DESC', 'updated_at ASC']
     response :unauthorized
     response :not_acceptable, "The request you made is not acceptable"
     response :requested_range_not_satisfiable
@@ -19,7 +19,9 @@ class Api::V1::CamerasController < ApplicationController
   end
 
   def index
-    @cameras = Camera.page params[:page]
+    valid_sort = ['created_at DESC', 'created_at ASC', 'updated_at DESC', 'updated_at ASC']
+    order = valid_sort.include?(params[:order]) ? params[:order] : 'created_at DESC'
+    @cameras = Camera.order(order).page params[:page]
   end
 
   def show
