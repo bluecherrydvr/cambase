@@ -19,7 +19,7 @@ json.audio_out camera['audio_out']
 json.default_username camera['default_username']
 json.default_password camera['default_password']
 json.images do
-  json.array! camera.images
+  json.array! camera.images, partial: 'api/v1/image', as: :image
 end
 json.url api_v1_camera_url(camera.camera_slug, format: :json)
 
