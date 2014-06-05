@@ -107,7 +107,7 @@ task :import_documents => :environment do
     }
   )
 
-  result.data.items.reverse.take(10).each do |item|
+  result.data.items.each do |item|
     folder = print_parents(item.id).first.id
     folder_name = print_file(folder).title
     puts folder_name
