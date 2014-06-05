@@ -20,12 +20,13 @@ Rails.application.routes.draw do
     get '/' => '/api#index'
     namespace :v1 do
       get '/' => '/api#index'
-      resources :cameras do 
+      resources :cameras do
         collection do
           get 'search' => 'cameras#search', as: :search
         end
       end
       resources :manufacturers
+      resources :changes
     end
   end
 
