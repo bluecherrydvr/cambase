@@ -10,6 +10,10 @@
     {
       "path": "api-docs/api/v1/manufacturers.{format}",
       "description": "Manufacturers"
+    },
+    {
+      "path": "api-docs/api/v1/changes.{format}",
+      "description": "Changes"
     }
   ]
 }
