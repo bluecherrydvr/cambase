@@ -1,6 +1,6 @@
-ruby '2.0.0'
+ruby '2.1.1'
 source 'http://rubygems.org'
-source 'https://rails-assets.org'
+source 'http://rails-assets.org'
 
 gem 'rails', '4.1.0'
 gem 'pg'
@@ -60,16 +60,4 @@ group :development do
   gem 'jazz_hands'
   gem "awesome_print"
 # gem 'capistrano-rails'
-end
-
-group :development, :test do
-  gem 'guard'
-  gem 'guard-livereload', :require => false
-  gem 'rspec-rails'
-  gem 'capybara', :git => 'git://github.com/jnicklas/capybara.git'
-  gem 'launchy'
-  gem 'database_cleaner'
-  gem 'rb-inotify', :require => false
-  gem 'rb-fsevent', :require => false
-  gem 'rb-fchange', :require => false
 end
