@@ -1,4 +1,4 @@
-<%= search_form_for @search, url: search_cameras_path, html: { method: :post } do |f| %>
+<%= search_form_for @search, url: search_cameras_path, html: { method: :get } do |f| %>
 <%= f.text_field :model_or_manufacturer_name_cont, :placeholder => "Search", :class => "search_model" %>
 <%= f.submit "search", :class => 'icon-search' %>
 <a href="#" class="icon-dropdown" id="search_dropdown">Dropdown</a>
