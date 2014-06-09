@@ -199,6 +199,17 @@
                   <%= editable @camera, :default_password, tag: :td %>
                   <td class="icon-edit"></td>
                 </tr>
+                <% if @camera.additional_information %>
+                <% @camera.additional_information.each do |key, value| %>
+                <tr>
+                  <td><%= key %></td>
+                  <td class='editable additional_information' data-model='camera[additional_information]' data-name='<%= key %>' data-placeholder='Additional information' data-type='text' data-url='/cameras/<%= @camera.id %>' data-value='<%= @camera.additional_information[key] %>' title='<%= @camera.additional_information[key] %>'>
+                    <%= @camera.additional_information[key] %>
+                  </td>
+                  <td class="icon-edit"></td>
+                </tr>
+                <% end %>
+                <% end %>
                 <% else %>
                 <tr>
                   <td>Manufacturer</td>
@@ -290,6 +301,15 @@
                   <td><%= @camera.default_password || 'Unknown' %></td>
                   <td class="icon-edit"></td>
                 </tr>
+                <% if @camera.additional_information %>
+                <% @camera.additional_information.each do |key, value| %>
+                <tr>
+                  <td><%= key %></td>
+                  <td><%= @camera.additional_information[key] || 'Unknown' %></td>
+                  <td class="icon-edit"></td>
+                </tr>
+                <% end %>
+                <% end %>
                 <% end %>
               </tbody>
             </table>

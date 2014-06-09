@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140530144051) do
+ActiveRecord::Schema.define(version: 20140606133922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "cameras", force: true do |t|
     t.integer  "manufacturer_id"
@@ -41,6 +42,7 @@ ActiveRecord::Schema.define(version: 20140530144051) do
     t.boolean  "audio_out"
     t.string   "default_username"
     t.string   "default_password"
+    t.hstore   "additional_information"
   end
 
   add_index "cameras", ["camera_slug"], name: "index_cameras_on_camera_slug", unique: true, using: :btree

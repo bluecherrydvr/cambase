@@ -119,6 +119,7 @@ class CamerasController < ApplicationController
                                    :default_username,
                                    :default_password,
                                    Camera::FEATURES,
-                                   :image, images_attributes: [:id, :file, :_destroy])
+                                   :image, images_attributes: [:id, :file, :_destroy],
+                                   additional_information: [:sub_models])
   end
 end

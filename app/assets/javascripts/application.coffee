@@ -70,12 +70,27 @@ $ ->
     clicked_image = $(this).attr('src')
     $('.module-image-main').attr('src', clicked_image)
 
-  $('.module-information .editable').editable
+  $('.module-information .editable:not(.additional_information)').editable
     emptytext: 'Unknown'
     toggle: 'manual'
     mode: 'inline'
     ajaxOptions:
       type: 'PUT'
+
+  $('.module-information .editable.additional_information').editable
+    emptytext: 'Unknown'
+    toggle: 'manual'
+    mode: 'inline'
+    ajaxOptions:
+      type: 'PUT'
+    params: (params) ->
+      $('.module-information .editable.additional_information').each ->
+        target = $(this)
+        attribute = target.attr('data-model')
+        name = target.attr('data-name')
+        value = target.attr('data-value')
+        params["#{attribute}[#{name}]"] = value
+      return params
 
   $('.module-manufacturer .editable').editable
     emptytext: 'Unknown'
