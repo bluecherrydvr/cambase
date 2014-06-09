@@ -1,6 +1,6 @@
-ruby '2.1.1'
-source 'http://rubygems.org'
-source 'http://rails-assets.org'
+ruby '2.0.0'
+source 'https://rubygems.org'
+source 'https://rails-assets.org'
 
 gem 'rails', '4.1.0'
 gem 'pg'
