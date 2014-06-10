@@ -20,10 +20,10 @@
     </div>
     <% unless @camera.images.empty? %>
     <div class="module-body">
-      <img class="module-image-main" src="<%= @camera.images.first.file.url(:medium) %>">
+      <img class="module-image-main" src="<%= @camera.images.sorted.first.file.url(:medium) %>">
       <ul class="thumbnails row">
         <% if @camera.images.count > 1 %>
-        <% @camera.images.each do |image| %>
+        <% @camera.images.sorted.each do |image| %>
         <li class="col-md-3">
           <%= link_to(image_tag(image.file.url(:medium)), image.file.url(:medium)) %>
         </li>
