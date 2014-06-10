@@ -18,6 +18,16 @@ class Camera < ActiveRecord::Base
   validates :manufacturer, presence: true
   validates :shape, inclusion: { in: SHAPES }, :allow_blank => true
 
+  rails_admin do
+    edit do
+      include_all_fields
+      field :additional_information, :text do
+        formatted_value do
+          value.to_s.gsub('{', '').gsub('}', '')
+        end
+      end
+    end
+  end
 
   def make_slug
     self.camera_slug = self.model.to_url
