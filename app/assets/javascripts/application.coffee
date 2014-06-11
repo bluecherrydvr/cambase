@@ -39,6 +39,7 @@ $(document).on 'click', '#signin-modal', (e) ->
   e.stopPropagation()
 
 $ ->
+  $fullsize_image_wrap = $(".fullsize-image")
   $('.clickable a').each ->
     target = $(this)
     target.attr('href', target.attr('data-href'))
@@ -114,3 +115,16 @@ $ ->
 
   $('.module input[type="file"]').change ->
     $(this).closest('.module').find('form').submit()
+
+  $(".table-cameras a > img").on "mouseenter", ->
+    img = this
+    fullsize_image_url = $(img).attr('data-fullsize')
+    $fullsize_image = $("<img src='#{fullsize_image_url}'>")
+    offset = $(img).offset()
+    $fullsize_image_wrap.css(
+      top: offset.top - 50
+      left: offset.left + 50
+    ).append($fullsize_image).removeClass "hidden"
+
+  $fullsize_image_wrap.add(".table-cameras a > img").on "mouseleave", ->
+    $fullsize_image_wrap.empty().addClass "hidden"

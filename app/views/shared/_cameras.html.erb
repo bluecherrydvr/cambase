@@ -25,7 +25,7 @@ Camera Listing
             <% else %>
             <%= link_to(manufacturer_camera_path(camera.manufacturer.manufacturer_slug, camera.camera_slug)) do %>
             <%= camera.model %>
-            <%= image_tag(camera.images.first.file.url(:small), class: 'align-right') %>
+            <%= image_tag(camera.images.sorted.first.file.url(:medium), class: 'align-right', data: { fullsize: camera.images.sorted.first.file.url(:medium) }) %>
             <% end %>
             <% end %>
           </td>
@@ -50,3 +50,4 @@ Camera Listing
     <%= paginate @cameras %>
   </div>
 </div>
+<div class="fullsize-image"></div>
