@@ -2,6 +2,7 @@
   "apiVersion": "1.0",
   "swaggerVersion": "1.2",
   "basePath": "http://www.cambase.io/",
+  "resourcePath": "cameras",
   "apis": [
     {
       "path": "api/v1/cameras/search.json",
@@ -20,7 +21,7 @@
               "paramType": "query",
               "name": "q[model_cont]",
               "type": "string",
-              "description": "Manufacturer",
+              "description": "Model",
               "required": false
             },
             {
@@ -67,9 +68,9 @@
                   "2048x1536",
                   "2592x1944",
                   "384x288",
-                  "4cif",
                   "640x480",
                   "704x576",
+                  "704×480",
                   "720x576",
                   "736x576",
                   "768x576",
@@ -174,6 +175,34 @@
                   false
                 ]
               }
+            },
+            {
+              "paramType": "query",
+              "name": "q[audio_in_true]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[audio_out_true]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
             }
           ],
           "responseMessages": [
@@ -245,6 +274,250 @@
       ]
     },
     {
+      "path": "api/v1/cameras.json",
+      "operations": [
+        {
+          "summary": "Creates a new Camera",
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "manufacturer_id",
+              "type": "string",
+              "description": "Manufacturer ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "camera[model]",
+              "type": "string",
+              "description": "Model",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "camera[shape]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "dome",
+                  "bullet",
+                  "box"
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[resolution]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "",
+                  "1280x1024",
+                  "1280x720",
+                  "1280x721",
+                  "1280x722",
+                  "1280x723",
+                  "1280x800",
+                  "1280x960",
+                  "160x128",
+                  "1920x1080",
+                  "2048x1536",
+                  "2592x1944",
+                  "384x288",
+                  "640x480",
+                  "704x576",
+                  "704×480",
+                  "720x576",
+                  "736x576",
+                  "768x576",
+                  "800x600"
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[onvif]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[psia]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[ptz]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[infrared]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[varifocal]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[sd_card]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[upnp]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[audio_in]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[audio_out]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[default_username]",
+              "type": "string",
+              "description": "Default Username",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "camera[default_password]",
+              "type": "string",
+              "description": "Default Password",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "camera[jpeg_url]",
+              "type": "string",
+              "description": "JPEG URL",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "camera[h264_url]",
+              "type": "string",
+              "description": "H264 URL",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "camera[mjpeg_url]",
+              "type": "string",
+              "description": "MJPEG URL",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 406,
+              "message": "Not Acceptable"
+            }
+          ],
+          "method": "post",
+          "nickname": "Api::V1::Cameras#create"
+        }
+      ]
+    },
+    {
       "path": "api/v1/cameras/{id}.json",
       "operations": [
         {
@@ -276,7 +549,516 @@
           "nickname": "Api::V1::Cameras#show"
         }
       ]
+    },
+    {
+      "path": "api/v1/cameras/{id}.json",
+      "operations": [
+        {
+          "summary": "Updates an existing Camera",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "string",
+              "description": "Camera ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "manufacturer_id",
+              "type": "string",
+              "description": "Manufacturer ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "camera[name]",
+              "type": "string",
+              "description": "Model",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "camera[shape]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "dome",
+                  "bullet",
+                  "box"
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[resolution]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "",
+                  "1280x1024",
+                  "1280x720",
+                  "1280x721",
+                  "1280x722",
+                  "1280x723",
+                  "1280x800",
+                  "1280x960",
+                  "160x128",
+                  "1920x1080",
+                  "2048x1536",
+                  "2592x1944",
+                  "384x288",
+                  "640x480",
+                  "704x576",
+                  "704×480",
+                  "720x576",
+                  "736x576",
+                  "768x576",
+                  "800x600"
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[onvif]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[psia]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[ptz]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[infrared]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[varifocal]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[sd_card]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[upnp]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[audio_in]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[audio_out]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[default_username]",
+              "type": "string",
+              "description": "Default Username",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "camera[default_password]",
+              "type": "string",
+              "description": "Default Password",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "camera[jpeg_url]",
+              "type": "string",
+              "description": "JPEG URL",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "camera[h264_url]",
+              "type": "string",
+              "description": "H264 URL",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "camera[mjpeg_url]",
+              "type": "string",
+              "description": "MJPEG URL",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 404,
+              "message": "Not Found"
+            },
+            {
+              "code": 406,
+              "message": "Not Acceptable"
+            }
+          ],
+          "method": "patch",
+          "nickname": "Api::V1::Cameras#update"
+        }
+      ]
+    },
+    {
+      "path": "api/v1/cameras/{id}.json",
+      "operations": [
+        {
+          "summary": "Updates an existing Camera",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "string",
+              "description": "Camera ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "manufacturer_id",
+              "type": "string",
+              "description": "Manufacturer ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "camera[name]",
+              "type": "string",
+              "description": "Model",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "camera[shape]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "dome",
+                  "bullet",
+                  "box"
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[resolution]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "",
+                  "1280x1024",
+                  "1280x720",
+                  "1280x721",
+                  "1280x722",
+                  "1280x723",
+                  "1280x800",
+                  "1280x960",
+                  "160x128",
+                  "1920x1080",
+                  "2048x1536",
+                  "2592x1944",
+                  "384x288",
+                  "640x480",
+                  "704x576",
+                  "704×480",
+                  "720x576",
+                  "736x576",
+                  "768x576",
+                  "800x600"
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[onvif]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[psia]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[ptz]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[infrared]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[varifocal]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[sd_card]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[upnp]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[audio_in]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[audio_out]",
+              "type": "string",
+              "description": null,
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "camera[default_username]",
+              "type": "string",
+              "description": "Default Username",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "camera[default_password]",
+              "type": "string",
+              "description": "Default Password",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "camera[jpeg_url]",
+              "type": "string",
+              "description": "JPEG URL",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "camera[h264_url]",
+              "type": "string",
+              "description": "H264 URL",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "camera[mjpeg_url]",
+              "type": "string",
+              "description": "MJPEG URL",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 404,
+              "message": "Not Found"
+            },
+            {
+              "code": 406,
+              "message": "Not Acceptable"
+            }
+          ],
+          "method": "put",
+          "nickname": "Api::V1::Cameras#update"
+        }
+      ]
     }
-  ],
-  "resourcePath": "cameras"
+  ]
 }
