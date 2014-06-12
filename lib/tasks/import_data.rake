@@ -7,14 +7,20 @@ task :import_csv => :environment do
       camera.delete :framerate
       camera.delete :data_sheet
       camera.delete :user
+      camera.delete :mpeg4_url
       camera.delete :"detailed_shape_/_type_as_in_vendor_catalog"
-      camera.delete_if { |k, v| v.empty? }
+      camera.delete_if { |k, v| v.to_s.empty? }
       camera[:official_url] = camera.delete :page_reference
       camera[:manual_url] = camera.delete :user_manual
       camera[:default_username] = camera.delete :default_user
       camera[:sd_card] = camera.delete :sd_card_storage
-      camera[:audio_in] = camera.delete :audio
-      camera[:audio_out] = camera[:audio_in]
+      if camera[:audio]
+        camera[:audio_in] = camera.delete :audio
+        camera[:audio_out] = camera[:audio_in]
+      end
+      if camera[:default_user]
+        camera[:default_username] = camera.delete :default_user
+      end
       camera[:manufacturer_id] = Manufacturer.where(:name => camera[:manufacturer]).first_or_create.id
       camera.delete :manufacturer
       if camera[:resolution]
