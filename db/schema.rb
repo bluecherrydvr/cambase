@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140610090235) do
+ActiveRecord::Schema.define(version: 20140612141902) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,10 @@ ActiveRecord::Schema.define(version: 20140610090235) do
     t.string   "default_username"
     t.string   "default_password"
     t.hstore   "additional_information"
+    t.boolean  "discontinued"
+    t.boolean  "wifi"
+    t.boolean  "poe"
+    t.string   "official_url"
   end
 
   add_index "cameras", ["camera_slug"], name: "index_cameras_on_camera_slug", using: :btree

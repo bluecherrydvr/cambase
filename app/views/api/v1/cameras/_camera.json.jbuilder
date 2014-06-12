@@ -14,10 +14,14 @@ json.infrared camera['infrared']
 json.varifocal camera['varifocal']
 json.sd_card camera['sd_card']
 json.upnp camera['upnp']
+json.poe camera['poe']
+json.wifi camera['wifi']
+json.discontinued camera['discontinued']
 json.audio_in camera['audio_in']
 json.audio_out camera['audio_out']
 json.default_username camera['default_username']
 json.default_password camera['default_password']
+json.official_url camera['official_url']
 json.images do
   json.array! camera.images.sorted, partial: 'api/v1/image', as: :image
 end

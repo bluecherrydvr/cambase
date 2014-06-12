@@ -5,13 +5,11 @@ task :import_csv => :environment do
     SmarterCSV.process(file).each do |camera|
       camera.delete :megapixel
       camera.delete :framerate
-      camera.delete :page_reference
-      camera.delete :poe
       camera.delete :data_sheet
       camera.delete :user
-      camera.delete :wifi
       camera.delete :"detailed_shape_/_type_as_in_vendor_catalog"
       camera.delete_if { |k, v| v.empty? }
+      camera[:official_url] = camera.delete :page_reference
       camera[:manual_url] = camera.delete :user_manual
       camera[:default_username] = camera.delete :default_user
       camera[:sd_card] = camera.delete :sd_card_storage

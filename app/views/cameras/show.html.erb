@@ -165,6 +165,16 @@
                   <td class="icon-edit"></td>
                 </tr>
                 <tr>
+                  <td>PoE</td>
+                  <%= editable @camera, :poe, tag: :td  %>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr>
+                  <td>WiFi</td>
+                  <%= editable @camera, :wifi, tag: :td  %>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr>
                   <td>JPEG URL</td>
                   <%= editable @camera, :jpeg_url, tag: :td %>
                   <td class="icon-edit"></td>
@@ -197,6 +207,13 @@
                 <tr>
                   <td>Default Password</td>
                   <%= editable @camera, :default_password, tag: :td %>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr class="clickable">
+                  <td>Official Page</td>
+                  <td>
+                    <%= editable @camera, :official_url, tag: :a, href: @camera.official_url, target: '_blank' %>
+                  </td>
                   <td class="icon-edit"></td>
                 </tr>
                 <% if @camera.additional_information %>
@@ -267,6 +284,16 @@
                   <td class="icon-edit"></td>
                 </tr>
                 <tr>
+                  <td>PoE</td>
+                  <td><%= human_boolean(@camera.poe) || 'Unknown' %></td>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr>
+                  <td>WiFi</td>
+                  <td><%= human_boolean(@camera.wifi) || 'Unknown' %></td>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr>
                   <td>JPEG URL</td>
                   <td><%= @camera.jpeg_url || 'Unknown' %></td>
                   <td class="icon-edit"></td>
@@ -299,6 +326,17 @@
                 <tr>
                   <td>Default Password</td>
                   <td><%= @camera.default_password || 'Unknown' %></td>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr>
+                  <td>Official Page</td>
+                  <td>
+                    <% if @camera.official_url %>
+                    <%= link_to @camera.official_url, @camera.official_url, target: '_blank' %>
+                    <% else %>
+                    'Unknown'
+                    <% end %>
+                  </td>
                   <td class="icon-edit"></td>
                 </tr>
                 <% if @camera.additional_information %>
