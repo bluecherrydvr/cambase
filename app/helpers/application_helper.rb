@@ -41,5 +41,11 @@ module ApplicationHelper
   def xeditable? object = nil
     true
   end
+
+  def combine_features
+    any_feature = @features.map { |n| n.downcase.gsub(' ','_') }
+    any_feature = any_feature.inject { |x, y| "#{x}_or_#{y}" }
+    any_feature = "#{any_feature}_true"
+  end
 end
 

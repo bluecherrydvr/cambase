@@ -1,3 +1,4 @@
+<% @features = ['Onvif', 'PSIA', 'PTZ', 'Infrared', 'Varifocal', 'SD Card', 'UPnP'] %>
 <nav class="navbar navbar-default container" role="navigation">
   <div class="row" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav col-sm-12">
@@ -6,31 +7,41 @@
           <div class="form-group">
             <%= search_form_for @search, :prefix => 'filter', url: search_cameras_path, html: { method: :get } do |f| %>
             <div class="search-filters row">
-              <div class="col-sm-4">
-                <%= f.collection_select(:manufacturer_id_eq, Manufacturer.order(:name), :id, :name, :include_blank => 'Manufacturer') %>
-                <%= f.select(:resolution_eq, Camera.uniq.pluck(:resolution).compact.sort, :include_blank => 'Resolution') %>
-                <%= f.select(:shape_eq, options_for_select(Camera::SHAPES), :include_blank => 'Shape') %>
-              </div>
-              <div class="col-sm-2">
-                &nbsp;
-              </div>
               <div class="col-sm-6">
-                <div class="features">
-                  <%= f.check_box :onvif_true, :id => 'filter_onvif_true' %>
-                  <%= f.check_box :psia_true, :id => 'filter_psia_true' %>
-                  <%= f.check_box :ptz_true, :id => 'filter_ptz_true' %>
-                  <%= f.check_box :infrared_true, :id => 'filter_infrared_true' %>
-                  <%= f.check_box :varifocal_true, :id => 'filter_varifocal_true' %>
-                  <%= f.check_box :sd_card_true, :id => 'filter_sd_card_true' %>
-                  <%= f.check_box :upnp_true, :id => 'filter_upnp_true' %>
-                  <p>Select Features</p>
-                  <% Camera::FEATURES.reverse_each do |feature| %>
-                  <span id='<%= "filter_#{feature}_true_icon" %>' class="icon-camera_feature_<%= feature %>"></span>
-                  <% end %>
+                <div class="col-sm-4">
+                  <%= f.label 'Manufacturer' %>
+                  <%= f.collection_select(:manufacturer_id_eq, Manufacturer.order(:name), :id, :name, :include_blank => 'Any') %>
                 </div>
-              </div>
-              <div class="row actions">
-                <%= f.submit "filter", :class => 'button right' %>
+                <div class="col-sm-4">
+                  <%= f.label 'Resolution' %>
+                  <%= f.select(:resolution_eq, Camera.uniq.pluck(:resolution).compact.sort, :include_blank => 'Any') %>
+                </div>
+                <div class="col-sm-4">
+                  <%= f.label 'Shape' %>
+                  <%= f.select(:shape_eq, options_for_select(Camera::SHAPES), :include_blank => 'Any') %>
+                </div>
+                <div class="col-sm-12 feature-filters">
+                  <%= f.label 'Features' %>
+                  <div>
+                    <span>
+                      <label>
+                        <%= f.check_box combine_features, :id => 'any' %>
+                        Any
+                      </label>
+                    </span>
+                    <% @features.each do |feature| %>
+                    <span>
+                      <label>
+                        <%= f.check_box "#{feature.downcase.gsub(' ','_')}_true", :id => "filter_#{feature.downcase.gsub(' ','_')}_true" %>
+                        <%= feature %>
+                      </label>
+                    </span>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-12 actions">
+                  <%= f.submit "search", :class => 'button' %>
+                </div>
               </div>
             </div>
             <% end %>

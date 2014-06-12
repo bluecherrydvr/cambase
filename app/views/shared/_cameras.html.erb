@@ -12,7 +12,15 @@ Camera Listing
           <th>Manufacturer</th>
           <th>Resolution</th>
           <th>Shape</th>
-          <th>Features</th>
+          <% @features.each do |feature| %>
+          <th class="rotate">
+            <div>
+              <span>
+                <%= feature %>
+              </span>
+            </div>
+          </th>
+          <% end %>
         </tr>
       </thead>
 
@@ -36,13 +44,13 @@ Camera Listing
             <span class='icon-camera_shape_<%= camera.shape %>'></span>
             <% end %>
           </td>
-          <td>
-            <% Camera::FEATURES.each do |feature| %>
-            <% if camera[feature] %>
-            <span class="icon-camera_feature_<%= feature %>"></span>
-            <% end %>
+          <% @features.each do |feature| %>
+          <td class="feature">
+            <% if camera[feature.downcase.gsub(' ','_')] %>
+            <span class="dot"></span>
             <% end %>
           </td>
+          <% end %>
         </tr>
         <% end %>
       </tbody>

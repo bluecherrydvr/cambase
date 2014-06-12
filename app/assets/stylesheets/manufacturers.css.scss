@@ -20,10 +20,37 @@
         font-size: 14px;
         color: $darkgreen;
       }
+      th.rotate {
+        height: 95px;
+        white-space: nowrap;
+        font-style: normal;
+        border-left: none;
+        border-right: none;
+      }
+
+      th.rotate > div {
+        transform: translate(-7px, 13px) rotate(-45deg);
+        width: 0px;
+      }
+      th.rotate > div > span {
+        padding: 5px 10px;
+      }
       td{
         border-top: none;
         border-bottom: none;
         vertical-align: middle;
+        &.feature{
+          text-align: center;
+          border-width: 1px;
+          padding: 0;
+          .dot{
+            display: inline-block;
+            background: $mediumgreen;
+            width: 15px;
+            height: 15px;
+            border-radius: 15px;
+          }
+        }
         &:first-child{
           a{
             display: block;
