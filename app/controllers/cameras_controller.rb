@@ -107,19 +107,6 @@ class CamerasController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def camera_params
-    params.require(:camera).permit(:model,
-                                   :manufacturer_id,
-                                   :shape,
-                                   :manual_url,
-                                   :jpeg_url,
-                                   :h264_url,
-                                   :mjpeg_url,
-                                   :resolution,
-                                   :firmware,
-                                   :default_username,
-                                   :default_password,
-                                   Camera::FEATURES,
-                                   :image, images_attributes: [:id, :file, :position, :_destroy],
-                                   additional_information: [:sub_models])
+    params.require(:camera).permit!.except(:id, :created_at, :updated_at)
   end
 end
