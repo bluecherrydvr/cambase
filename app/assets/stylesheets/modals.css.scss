@@ -101,9 +101,15 @@
       text-align: left;
     }
     span{
-      display: inline-block;
+      display: block;
       float: none;
       margin: 0 5px;
+    }
+    label{
+      font-weight: normal;
+    }
+    input{
+      width: auto;
     }
   }
 }

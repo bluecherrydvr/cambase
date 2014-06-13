@@ -12,7 +12,7 @@ class Camera < ActiveRecord::Base
     'bullet',
     'box'
   ]
-  FEATURES = [:onvif, :psia, :ptz, :infrared, :varifocal, :sd_card, :upnp].freeze
+  FEATURES = ['Onvif', 'PSIA', 'PTZ', 'Infrared', 'Varifocal', 'SD Card', 'UPnP', 'Discontinued', 'Audio In', 'Audio Out', 'PoE', 'WiFi'].freeze
 
   validates :model, presence: true, :case_sensitive => false, :uniqueness => {:scope => :manufacturer_id}
   validates :manufacturer, presence: true

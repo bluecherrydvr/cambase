@@ -1,4 +1,3 @@
-<% @features = ['Onvif', 'PSIA', 'PTZ', 'Infrared', 'Varifocal', 'SD Card', 'UPnP'] %>
 <nav class="navbar navbar-default container" role="navigation">
   <div class="row" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav col-sm-12">
@@ -29,10 +28,10 @@
                         Any
                       </label>
                     </span>
-                    <% @features.each do |feature| %>
+                    <% Camera::FEATURES.each do |feature| %>
                     <span>
                       <label>
-                        <%= f.check_box "#{feature.downcase.gsub(' ','_')}_true", :id => "filter_#{feature.downcase.gsub(' ','_')}_true" %>
+                        <%= f.check_box "#{feature.parameterize.underscore}_true", :id => "filter_#{feature.parameterize.underscore}_true" %>
                         <%= feature %>
                       </label>
                     </span>
