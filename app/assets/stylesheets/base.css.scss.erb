@@ -105,7 +105,7 @@ a:focus {
 
 <% Camera::FEATURES.each do |feature| %>
 <%= ".icon-camera_feature_#{feature}" %>{
-  @include icon(<%= "camera_feature_#{feature}" %>);
+  @include icon(<%= "camera_feature_#{feature.parameterize.underscore}" %>);
   background-position: 5px 5px;
   border-radius: 42px;
   float: left;
