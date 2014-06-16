@@ -12,7 +12,6 @@ task :import_csv => :environment do
       camera.delete_if { |k, v| v.to_s.empty? }
       camera[:official_url] = camera.delete :page_reference
       camera[:manual_url] = camera.delete :user_manual
-      camera[:default_username] = camera.delete :default_user
       camera[:sd_card] = camera.delete :sd_card_storage
       if camera[:audio]
         camera[:audio_in] = camera.delete :audio
@@ -67,16 +66,22 @@ end
 desc "Import images"
 
 task :import_images => :environment do
-
-  Dir.foreach('db/seeds/images/') do |item|
-    next if item == '.' or item == '..'
-    model_name = item.match(/^[^\_]*/).to_s
-    puts model_name
-    camera = Camera.find_by_model(model_name)
-    if camera
-      File.open("db/seeds/images/#{item}") do |f|
-        image = Image.create(:file => f)
-        camera.images.append(image)
+  Dir.foreach('db/seeds/images/') do |folder|
+    puts folder
+    next if folder == '.' or folder == '..'
+    Dir.foreach("db/seeds/images/#{folder}") do |item|
+      next if item == '.' or item == '..'
+      model_name = item.match(/^[^\_]*/).to_s
+      puts model_name
+      puts folder
+      manufacturer = Manufacturer.find_by_manufacturer_slug(folder.to_url).id
+      camera = Camera.where(model: model_name, manufacturer_id: manufacturer).first
+      if camera
+        puts camera
+        File.open("db/seeds/images/#{folder}/#{item}") do |f|
+          image = Image.create(:file => f)
+          camera.images.append(image)
+        end
       end
     end
   end
@@ -154,3 +159,4 @@ def print_file(file_id)
     puts "An error occurred: #{result.data['error']['message']}"
   end
 end
+
