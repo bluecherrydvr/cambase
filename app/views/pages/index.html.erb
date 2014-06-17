@@ -7,11 +7,19 @@
     <% if image.owner %>
     <% owner = image.owner_type.classify.constantize.find(image.owner_id) %>
     <% if image.owner_type == "Camera" %>
+    <% if image.position == 1 %>
+    <div class="tile tile-big tile-image col-sm-4">
+      <div class="tile-content">
+        <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.model}"), "/#{owner.manufacturer.manufacturer_slug}/#{owner.camera_slug}") %>
+      </div>
+    </div>
+    <% else %>
     <div class="tile tile-small tile-image col-sm-2">
       <div class="tile-content">
         <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.model}"), "/#{owner.manufacturer.manufacturer_slug}/#{owner.camera_slug}") %>
       </div>
     </div>
+    <% end %>
     <% else %>
     <div class="tile tile-big tile-image col-sm-4">
       <div class="tile-content">
