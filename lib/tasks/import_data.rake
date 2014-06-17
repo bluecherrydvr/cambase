@@ -31,9 +31,12 @@ task :import_csv => :environment do
       end
 
       camera.update(camera){|key,value| clean_csv_values(value)}
-      Camera.where(:model => camera[:model]).first_or_initialize.update_attributes(camera)
+      c = Camera.where(:model => camera[:model]).first_or_initialize
+      c.update_attributes(camera)
+      puts "#{c.model} \n #{c.errors.messages.inspect} \n\n" unless c.errors.messages.blank?
     end
   end
+  puts "\nCSV Import complete! \n\n"
 end
 
 def clean_csv_values(value)
@@ -67,14 +70,13 @@ desc "Import images"
 
 task :import_images => :environment do
   Dir.foreach('db/seeds/images/') do |folder|
-    puts folder
     next if folder == '.' or folder == '..'
     Dir.foreach("db/seeds/images/#{folder}") do |item|
       next if item == '.' or item == '..'
       model_name = item.match(/^[^\_]*/).to_s
-      puts model_name
       puts folder
-      manufacturer = Manufacturer.find_by_manufacturer_slug(folder.to_url).id
+      puts model_name
+      manufacturer = Manufacturer.where(:manufacturer_slug => folder.to_url).first_or_create.id
       camera = Camera.where(model: model_name, manufacturer_id: manufacturer).first
       if camera
         puts camera
@@ -83,9 +85,10 @@ task :import_images => :environment do
           camera.images.append(image)
         end
       end
+      puts
     end
   end
-
+  puts "\nImage Import complete! \n\n"
 end
 
 desc "Import documents"
@@ -104,7 +107,7 @@ task :import_documents => :environment do
     :scope => 'https://www.googleapis.com/auth/drive.readonly',
     :issuer => ENV['GOOGLE_DRIVE_ISSUER'],
     :signing_key => key
-  )
+    )
   @client.authorization.fetch_access_token!
   @drive = @client.discovered_api('drive', 'v2')
 
@@ -114,7 +117,7 @@ task :import_documents => :environment do
       maxResults: 1000,
       q: "mimeType = 'application/pdf' and ('04010857713529984123' in owners or '02928049532232239685' in owners) "
     }
-  )
+    )
 
   result.data.items.each do |item|
     folder = print_parents(item.id).first.id
@@ -137,7 +140,7 @@ def print_parents(file_id)
   result = @client.execute(
     :api_method => @drive.parents.list,
     :parameters => { 'fileId' => file_id }
-  )
+    )
   if result.status == 200
     parents = result.data
     parents.items.each do |parent|
@@ -152,7 +155,7 @@ def print_file(file_id)
   result = @client.execute(
     :api_method => @drive.files.get,
     :parameters => { 'fileId' => file_id }
-  )
+    )
   if result.status == 200
     file = result.data
   else
