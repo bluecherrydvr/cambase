@@ -47,7 +47,7 @@ Camera Listing
           <% Camera::FEATURES.each do |feature| %>
           <td class="feature">
             <% if camera[feature.parameterize.underscore] %>
-            <span class="dot"></span>
+            <span class="dot" title="<%= feature %>"></span>
             <% end %>
           </td>
           <% end %>
