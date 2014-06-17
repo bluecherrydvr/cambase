@@ -25,6 +25,7 @@
       }
       th.rotate {
         height: 95px;
+        width: 31px;
         white-space: nowrap;
         font-style: normal;
         border-left: none;
@@ -36,7 +37,7 @@
         width: 0px;
       }
       th.rotate > div > span {
-        padding: 5px 10px;
+        padding: 5px 9px;
       }
       td{
         border-top: none;
@@ -69,7 +70,7 @@
   &.table-cameras{
     tr td:nth-child(4){
       text-align: center;
-      width: 82px;
+      width: 75px;
     }
   }
   &.table-manufacturers{
