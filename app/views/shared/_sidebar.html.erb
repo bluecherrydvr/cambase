@@ -10,6 +10,6 @@
     <%= pluralize(Manufacturer.all.length, 'Manufacturer') %>
   </p>
   <p class="sidebar-stats icon-images">
-    <%= pluralize(Image.all.length, 'Image') %>
+    <%= pluralize(Image.where(owner_type: "Camera").length, 'Image') %>
   </p>
 </div>
