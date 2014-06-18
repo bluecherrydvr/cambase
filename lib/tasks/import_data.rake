@@ -73,11 +73,12 @@ task :import_images => :environment do
     next if folder == '.' or folder == '..'
     Dir.foreach("db/seeds/images/#{folder}") do |item|
       next if item == '.' or item == '..'
-      model_name = item.match(/^[^\_]*/).to_s
+      last_underscore = item.rindex('_')
+      model_slug = item[0...last_underscore].to_url
       puts folder
-      puts model_name
+      puts model_slug
       manufacturer = Manufacturer.where(:manufacturer_slug => folder.to_url).first_or_create.id
-      camera = Camera.where(model: model_name, manufacturer_id: manufacturer).first
+      camera = Camera.where(camera_slug: model_slug, manufacturer_id: manufacturer).first
       if camera
         puts camera
         File.open("db/seeds/images/#{folder}/#{item}") do |f|
