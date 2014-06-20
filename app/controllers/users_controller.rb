@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     end
 
     parameters = {
-      redirect_uri: "http://localhost:3000/users/auth",
+      redirect_uri: "http://www.cambase.io/users/auth",
       code: code,
       client_id: '3d0e289b',
       client_secret: ENV['EVERCAM_KEY'],
