@@ -51,6 +51,8 @@ gem 'smarter_csv'
 
 gem 'google-api-client'
 
+gem 'faraday'
+
 group :production do
   gem 'rails_12factor'
 # gem 'unicorn'

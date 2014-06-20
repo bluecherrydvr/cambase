@@ -47,12 +47,20 @@
   color: #333;
 }
 
+.nav > li > a:hover,
+.nav > li > a:focus,
 .navbar-default .nav > li > a:hover,
 .navbar-default .nav > li > a:focus {
   background-color: #fff;
 }
 
-.avatar{
+.navbar-nav > li > a.sign_in{
+  padding-right: 5px;
+  padding-left: 5px;
+  padding-bottom: 0;
+}
+
+.nav > li > a.avatar{
   padding-bottom: 0;
   padding-top: 5px;
   margin-bottom: -10px;

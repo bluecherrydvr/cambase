@@ -6,41 +6,10 @@
         <h4 class="modal-title text-center">Sign Up or Log In</h4>
       </div>
       <div class="modal-body clearfix">
-        <%= devise_error_messages! %>
-        <div class="col-md-6">
-          <h3>Sign up</h3>
-          <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-          <p>
-            <%= f.email_field :email, :placeholder => 'Email Address' %>
-          </p>
-          <p>
-            <%= f.text_field :username, :placeholder => 'Username' %>
-          </p>
-          <p>
-            <%= f.password_field :password, autocomplete: "off", :placeholder => 'Password' %>
-          </p>
-          <p>
-            <%= f.submit "sign up", class: 'modal-button absolute-right' %>
-          </p>
-          <% end %>
-        </div>
-        <div class="col-md-6">
-          <h3>Log In</h3>
-          <%= form_for :user, :url => session_path(:user) do |f| %>
-          <p>
-            <%= f.text_field :login, autofocus: true, :placeholder => 'Email or Username' %>
-          </p>
-          <p>
-            <%= f.password_field :password, :placeholder => 'Password' %>
-          </p>
-          <p>
-            <%= link_to "Forgot password?", new_password_path(:user), :class => 'forgot-password' %>
-          </p>
-          <p>
-            <%= f.submit 'log in', class: 'modal-button absolute-left' %>
-          </p>
-          <% end %>
-        </div>
+        <div class="singin-text text-center">Already have an account?</div>
+        <%= link_to image_tag('modal_sign_in.png'), 'https://api.evercam.io/oauth2/authorize?client_id=3d0e289b&amp;scope=user:view:all&amp;response_type=code&amp;redirect_uri=http://localhost:3000/users/auth', class: 'sign_in text-center' %>
+        <div class="singin-text text-center">- or -</div>
+        <%= link_to image_tag('modal_sign_up.png'), 'https://dashboard.evercam.io/signup', class: 'sign_in text-center' %>
       </div>
     </div>
   </div>

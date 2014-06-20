@@ -336,6 +336,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   compass-rails
   devise
+  faraday
   google-api-client
   jazz_hands
   jbuilder (~> 2.0)
