@@ -8,6 +8,7 @@ task :import_csv => :environment do
       camera.delete :data_sheet
       camera.delete :user
       camera.delete :mpeg4_url
+      camera.delete :audio_url
       camera.delete :"detailed_shape_/_type_as_in_vendor_catalog"
       camera.delete_if { |k, v| v.to_s.empty? }
       camera[:official_url] = camera.delete :page_reference
