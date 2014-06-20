@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   post '/admin/history', to: 'cameras#history', as: :cameras_history
   post "/versions", to: "versions#change", :as => "change_version"
 
+  get '/users/auth', to: 'users#auth'
+
   devise_for :users
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
