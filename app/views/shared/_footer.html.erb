@@ -17,6 +17,13 @@
         <li>
           <%= link_to("Github", "https://github.com/evercam/Cambase") %>
         </li>
+        <li>
+          <% if user_signed_in? %>
+          <%= link_to "Contribute", '#add-camera-modal', data: { toggle: "modal", target: "#add-camera-modal" } %>
+          <% else %>
+          <%= link_to "Contribute", '#signin-modal', data: { toggle: "modal", target: "#signin-modal" } %>
+          <% end %>
+        </li>
       </ul>
     </div>
     <div class="row">
