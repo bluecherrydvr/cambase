@@ -1,53 +1,53 @@
 <nav class="navbar navbar-default container" role="navigation">
   <div class="row" id="bs-example-navbar-collapse-1">
-    <ul class="nav navbar-nav col-sm-12">
-      <li class="col-sm-12">
-        <div class="navbar-form col-sm-12" role="search">
-          <div class="form-group">
-            <%= search_form_for @search, :prefix => 'filter', url: search_cameras_path, html: { method: :get } do |f| %>
-            <div class="search-filters row">
-              <div class="col-sm-6">
-                <div class="col-sm-4">
-                  <%= f.label 'Manufacturer' %>
-                  <%= f.collection_select(:manufacturer_id_eq, Manufacturer.order(:name), :id, :name, :include_blank => 'Any') %>
-                </div>
-                <div class="col-sm-4">
-                  <%= f.label 'Resolution' %>
-                  <%= f.select(:resolution_eq, Camera.uniq.pluck(:resolution).compact.sort, :include_blank => 'Any') %>
-                </div>
-                <div class="col-sm-4">
-                  <%= f.label 'Shape' %>
-                  <%= f.select(:shape_eq, options_for_select(Camera::SHAPES), :include_blank => 'Any') %>
-                </div>
-                <div class="col-sm-12 feature-filters">
-                  <%= f.label 'Features' %>
-                  <div>
-                    <span>
-                      <label>
-                        <%= f.check_box combine_features, :id => 'any', checked: true %>
-                        Any
-                      </label>
-                    </span>
-                    <% Camera::FEATURES.each do |feature| %>
-                    <span>
-                      <label>
-                        <%= f.check_box "#{feature.parameterize.underscore}_true", :id => "filter_#{feature.parameterize.underscore}_true" %>
-                        <%= feature %>
-                      </label>
-                    </span>
-                    <% end %>
-                  </div>
-                </div>
-                <div class="col-sm-12 actions">
-                  <%= f.submit "search", :class => 'button' %>
+    <div class="col-sm-12">
+      <div class="navbar-form col-sm-12" role="search">
+        <div class="form-group">
+          <%= search_form_for @search, :prefix => 'filter', url: search_cameras_path, html: { method: :get } do |f| %>
+          <div class="search-filters row">
+            <div class="col-sm-6">
+              <div class="col-sm-12">
+                <%= f.text_field :model_or_manufacturer_name_cont, :placeholder => "Camera Model", :class => "search_model" %>
+              </div>
+              <div class="col-sm-4">
+                <%= f.label 'Manufacturer' %>
+                <%= f.collection_select(:manufacturer_id_eq, Manufacturer.order(:name), :id, :name, :include_blank => 'Any') %>
+              </div>
+              <div class="col-sm-4">
+                <%= f.label 'Resolution' %>
+                <%= f.select(:resolution_eq, Camera.uniq.pluck(:resolution).compact.sort, :include_blank => 'Any') %>
+              </div>
+              <div class="col-sm-4">
+                <%= f.label 'Shape' %>
+                <%= f.select(:shape_eq, options_for_select(Camera::SHAPES), :include_blank => 'Any') %>
+              </div>
+              <div class="col-sm-12 feature-filters">
+                <%= f.label 'Features' %>
+                <div>
+                  <span>
+                    <label>
+                      <%= f.check_box combine_features, :id => 'any', checked: true %>
+                      Any
+                    </label>
+                  </span>
+                  <% Camera::FEATURES.each do |feature| %>
+                  <span>
+                    <label>
+                      <%= f.check_box "#{feature.parameterize.underscore}_true", :id => "filter_#{feature.parameterize.underscore}_true" %>
+                      <%= feature %>
+                    </label>
+                  </span>
+                  <% end %>
                 </div>
               </div>
+              <div class="col-sm-12 actions">
+                <%= f.submit "Search", :class => 'button' %>
+              </div>
             </div>
-            <% end %>
-
           </div>
+          <% end %>
         </div>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 </nav>

@@ -9,6 +9,11 @@
     <a class="navbar-brand" href="/">
       <h1>Cambase</h1>
     </a>
+    <ul class="nav navbar-nav navbar-left">
+      <li><%= link_to('Cameras', cameras_path) %></li>
+      <li><%= link_to('Manufacturers', manufacturers_path) %></li>
+      <li><%= link_to('API', api_docs_path) %></li>
+    </ul>
     <ul class="nav navbar-nav navbar-right">
       <% if user_signed_in? %>
       <li class="dropdown">
@@ -24,35 +29,6 @@
       <% else %>
       <li><%= link_to 'sign in', 'https://api.evercam.io/oauth2/authorize?client_id=3d0e289b&amp;scope=user:view:all&amp;response_type=code&amp;redirect_uri=http://www.cambase.io/users/auth', class: 'sign_in' %></li>
       <% end %>
-    </ul>
-  </div>
-</nav>
-<nav class="navbar navbar-default container" role="navigation">
-  <div class="row" id="bs-example-navbar-collapse-1">
-    <ul class="nav navbar-nav col-sm-12">
-      <li class="col-sm-1-8">
-        <%= link_to('/cameras', cameras_path) %>
-      </li>
-      <li class="col-sm-1-8">
-        <%= link_to('/manufacturers', manufacturers_path) %>
-      </li>
-      <li class="col-sm-1-8">
-        <% if user_signed_in? %>
-        <%= link_to "/contribute", '#add-camera-modal', data: { toggle: "modal", target: "#add-camera-modal" } %>
-        <% else %>
-        <%= link_to "/contribute", '#signin-modal', data: { toggle: "modal", target: "#signin-modal" } %>
-        <% end %>
-      </li>
-      <li class="col-sm-1-8">
-        <%= link_to('/api', api_docs_path) %>
-      </li>
-      <li class="col-sm-6">
-        <div class="navbar-form col-sm-12" role="search">
-          <div class="form-group">
-            <%= render "shared/search" %>
-          </div>
-        </div>
-      </li>
     </ul>
   </div>
 </nav>

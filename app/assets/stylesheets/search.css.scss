@@ -11,8 +11,9 @@
       border: none;
       font-style: italic;
       border-radius: 0;
-      width: 91%;
+      width: 100%;
       float: left;
+      margin-bottom: 10px;
     }
     a.icon-dropdown{
       float: right;
@@ -59,6 +60,9 @@
   }
   .col-sm-12{
     margin-top: 5px;
+    &:first-child{
+      margin-top: 0;
+    }
   }
   label{
     font-weight: normal;
