@@ -128,3 +128,8 @@ $ ->
 
   $fullsize_image_wrap.add(".table-cameras a > img").on "mouseleave", ->
     $fullsize_image_wrap.empty().addClass "hidden"
+
+  if $('#manufacturers-show').length
+    slug = window.location.pathname.replace('/','')
+    manufacturer = $('.manufacturer-name').first().text()
+    $("#q_manufacturer_id_eq option:contains('#{manufacturer}')").attr('selected', 'selected')
