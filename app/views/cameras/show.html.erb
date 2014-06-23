@@ -209,6 +209,11 @@
                   <%= editable @camera, :default_password, tag: :td %>
                   <td class="icon-edit"></td>
                 </tr>
+                <tr>
+                  <td>Discontinued</td>
+                  <%= editable @camera, :discontinued, tag: :td %>
+                  <td class="icon-edit"></td>
+                </tr>
                 <tr class="clickable">
                   <td>Official Page</td>
                   <td>
@@ -329,12 +334,17 @@
                   <td class="icon-edit"></td>
                 </tr>
                 <tr>
+                  <td>Discontinued</td>
+                  <td><%= human_boolean(@camera.discontinued) || 'Unknown' %></td>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr>
                   <td>Official Page</td>
                   <td>
                     <% if @camera.official_url %>
                     <%= link_to @camera.official_url, @camera.official_url, target: '_blank' %>
                     <% else %>
-                    'Unknown'
+                    Unknown
                     <% end %>
                   </td>
                   <td class="icon-edit"></td>
