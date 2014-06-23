@@ -60,26 +60,20 @@
   padding-bottom: 0;
 }
 
-.nav > li > a.avatar{
-  padding-bottom: 0;
-  padding-top: 5px;
-  margin-bottom: -10px;
-  margin-right: -10px;
+.nav > li > a.username{
   &:hover{
     background-color: transparent;
   }
   img{
-    width: 50px;
-    height: 50px;
-    border-radius: 50px;
+    border-radius: 2px;
   }
 }
 
-.nav .open > a.avatar,
-.nav .open > a.avatar:hover,
-.nav .open > a.avatar:focus,
-.nav > li > a.avatar:hover,
-.nav > li > a.avatar:focus{
+.nav .open > a.username,
+.nav .open > a.username:hover,
+.nav .open > a.username:focus,
+.nav > li > a.username:hover,
+.nav > li > a.username:focus{
   background-color: transparent;
   border-color: #428bca;
 }
@@ -96,7 +90,7 @@
 
 @media (min-width: 768px){
   .navbar-right .dropdown-menu {
-    right: 15px;
+    // right: 15px;
     left: auto;
   }
 }
