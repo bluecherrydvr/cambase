@@ -35,7 +35,7 @@ module ApplicationHelper
 
   def avatar_url(user)
     gravatar_id = Digest::MD5::hexdigest(user.email).downcase
-    "http://gravatar.com/avatar/#{gravatar_id}.png?s=100"
+    "http://gravatar.com/avatar/#{gravatar_id}.png?s=16&d=mm&f=y"
   end
 
   def xeditable? object = nil
