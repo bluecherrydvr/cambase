@@ -40,33 +40,6 @@ task :import_csv => :environment do
   puts "\nCSV Import complete! \n\n"
 end
 
-def clean_csv_values(value)
-  case value
-  when /^YES/i
-    true
-  when /^NO|N0/i
-    false
-  when /Bi-directional/i
-    true
-  when /FishEye|FixedDome|Vandal-Resistant Dome|PTZ Domes/i
-    'dome'
-  when /Dome|Box|Bullet/i
-    value.downcase
-  when '4CIF', '4cif'
-    '704×480'
-  when '1080p', '1920x1081'
-    '1920x1080'
-  when '2058x1536', '2050x1536', '2048X1536'
-    '2048x1536'
-  when '40x480'
-    '640x480'
-  when '?', 'Wireless'
-    nil
-  else
-    value
-  end
-end
-
 desc "Import images"
 
 task :import_images => :environment do
@@ -117,7 +90,7 @@ task :import_documents => :environment do
     api_method: @drive.files.list,
     parameters: {
       maxResults: 1000,
-      q: "mimeType = 'application/pdf' and ('04010857713529984123' in owners or '02928049532232239685' in owners) "
+      q: "mimeType = 'application/pdf' and ('04010857713529984123' in owners or '02928049532232239685' in owners or '13940272261418201147' in owners)"
     }
     )
 
@@ -135,6 +108,65 @@ task :import_documents => :environment do
       end
       File.delete("#{Rails.root}/tmp/#{item.title}")
     end
+  end
+end
+
+
+desc "Import csv from google drive"
+
+task :import_csv_from_google_drive => :environment do
+
+  require 'google/api_client'
+
+  key = OpenSSL::PKey::RSA.new(ENV['GOOGLE_DRIVE_KEY'], 'notasecret')
+
+  @client = Google::APIClient.new({:application_name => "cambase-io", :application_version => "1.0"})
+  @client.authorization = Signet::OAuth2::Client.new(
+    :person => ENV['GOOGLE_DRIVE_PERSON'],
+    :token_credential_uri => 'https://accounts.google.com/o/oauth2/token',
+    :audience => 'https://accounts.google.com/o/oauth2/token',
+    :scope => 'https://www.googleapis.com/auth/drive.readonly',
+    :issuer => ENV['GOOGLE_DRIVE_ISSUER'],
+    :signing_key => key
+    )
+  @client.authorization.fetch_access_token!
+  @drive = @client.discovered_api('drive', 'v2')
+
+  spreadsheet_url = "https://docs.google.com/a/mhlabs.net/spreadsheets/d/1TVUA5rVoCvA-ZHo1dw_uqr-e3n1qOYy-j7Ia1xetWTo/export?exportFormat=csv&amp;gid=0"
+
+  file_content = @client.execute(:uri => spreadsheet_url).body
+  File.open("#{Rails.root}/tmp/update.csv", 'wb') do |file|
+    file.write(file_content)
+  end
+end
+
+desc "Import csv dump"
+
+task :import_csv_dump => :environment do
+  SmarterCSV.process("#{Rails.root}/tmp/update.csv").each do |camera|
+    camera = Hash[camera.map{ |k, v| [k, v.to_s] }]
+    camera[:manufacturer_id] = Manufacturer.where(:name => camera[:"name_[manufacturer]"]).first_or_create.id
+    camera.delete :id
+    camera.delete :created_at
+    camera.delete :updated_at
+    camera.delete :"id_[manufacturer]"
+    camera.delete :"info_[manufacturer]"
+    camera.delete :"created_at_[manufacturer]"
+    camera.delete :"updated_at_[manufacturer]"
+    camera.delete :"manufacturer_slug_[manufacturer]"
+    camera.delete :"url_[manufacturer]"
+    camera.delete :"id_[images]"
+    camera.delete :"position_[images]"
+    camera.delete :"created_at_[images]"
+    camera.delete :"updated_at_[images]"
+    camera.delete :"file_[images]"
+    camera.delete :"name_[manufacturer]"
+
+    camera.update(camera){|key,value| clean_exported_csv_values(value)}
+
+    c = Camera.where(:model => camera[:model]).first_or_initialize
+    c.update_attributes(camera)
+    puts "#{c.manufacturer.name} \n#{c.model} \n #{c.errors.messages.inspect} \n\n" unless c.errors.messages.blank?
   end
 end
 
@@ -165,3 +197,48 @@ def print_file(file_id)
   end
 end
 
+def search_for(query)
+  result = @client.execute(
+    api_method: @drive.files.list,
+    parameters: {
+      maxResults: 1000,
+      q: "#{query}"
+    }
+    )
+end
+
+def clean_csv_values(value)
+  case value
+  when /^YES/i
+    true
+  when /^NO|N0/i
+    false
+  when /Bi-directional/i
+    true
+  when /FishEye|FixedDome|Vandal-Resistant Dome|PTZ Domes/i
+    'dome'
+  when /Dome|Box|Bullet/i
+    value.downcase
+  when '4CIF', '4cif'
+    '704×480'
+  when '1080p', '1920x1081'
+    '1920x1080'
+  when '2058x1536', '2050x1536', '2048X1536'
+    '2048x1536'
+  when '40x480'
+    '640x480'
+  when '?', 'Wireless'
+    nil
+  else
+    value
+  end
+end
+
+def clean_exported_csv_values(value)
+  case value
+  when '?', '-', 'nil'
+    nil
+  else
+    value
+  end
+end
