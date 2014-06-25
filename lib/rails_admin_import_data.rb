@@ -21,7 +21,7 @@ module RailsAdmin
           Proc.new do
             download_csv_from_google_drive
 
-            import_csv_from_google_drive
+            call_rake('import_csv_from_google_drive')
 
             redirect_to back_or_index
           end
