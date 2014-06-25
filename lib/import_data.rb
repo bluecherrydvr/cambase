@@ -119,7 +119,7 @@ def import_images_from_google_drive
    end
    puts item.originalFilename
    puts
-   sleep 5
+   sleep 10
  end
 
 end
