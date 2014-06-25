@@ -21,3 +21,9 @@
 
 en:
   hello: "Hello world"
+  admin:
+    actions:
+      import_csv:
+        menu: "Import Data"
+      import_images:
+        menu: "Import Images"

@@ -1,3 +1,5 @@
+require Rails.root.join('lib', 'import_data.rb')
+
 desc "Import csv"
 
 task :import_csv => :environment do
@@ -40,33 +42,6 @@ task :import_csv => :environment do
   puts "\nCSV Import complete! \n\n"
 end
 
-def clean_csv_values(value)
-  case value
-  when /^YES/i
-    true
-  when /^NO|N0/i
-    false
-  when /Bi-directional/i
-    true
-  when /FishEye|FixedDome|Vandal-Resistant Dome|PTZ Domes/i
-    'dome'
-  when /Dome|Box|Bullet/i
-    value.downcase
-  when '4CIF', '4cif'
-    '704×480'
-  when '1080p', '1920x1081'
-    '1920x1080'
-  when '2058x1536', '2050x1536', '2048X1536'
-    '2048x1536'
-  when '40x480'
-    '640x480'
-  when '?', 'Wireless'
-    nil
-  else
-    value
-  end
-end
-
 desc "Import images"
 
 task :import_images => :environment do
@@ -93,75 +68,26 @@ task :import_images => :environment do
   puts "\nImage Import complete! \n\n"
 end
 
-desc "Import documents"
+desc "Import documents from google drive"
 
-task :import_documents => :environment do
-
-  require 'google/api_client'
-
-  key = OpenSSL::PKey::RSA.new(ENV['GOOGLE_DRIVE_KEY'], 'notasecret')
-
-  @client = Google::APIClient.new({:application_name => "cambase-io", :application_version => "1.0"})
-  @client.authorization = Signet::OAuth2::Client.new(
-    :person => ENV['GOOGLE_DRIVE_PERSON'],
-    :token_credential_uri => 'https://accounts.google.com/o/oauth2/token',
-    :audience => 'https://accounts.google.com/o/oauth2/token',
-    :scope => 'https://www.googleapis.com/auth/drive.readonly',
-    :issuer => ENV['GOOGLE_DRIVE_ISSUER'],
-    :signing_key => key
-    )
-  @client.authorization.fetch_access_token!
-  @drive = @client.discovered_api('drive', 'v2')
-
-  result = @client.execute(
-    api_method: @drive.files.list,
-    parameters: {
-      maxResults: 1000,
-      q: "mimeType = 'application/pdf' and ('04010857713529984123' in owners or '02928049532232239685' in owners) "
-    }
-    )
-
-  result.data.items.each do |item|
-    folder = print_parents(item.id).first.id
-    folder_name = print_file(folder).title
-    puts folder_name
-    camera = Camera.find_by_model(folder_name)
-    if camera and item.downloadUrl
-      file_content = @client.execute(:uri => item.downloadUrl).body
-      File.open("#{Rails.root}/tmp/#{item.title}", 'wb') do |file|
-        file.write(file_content)
-        document = Document.create(:file => file)
-        camera.documents.append(document)
-      end
-      File.delete("#{Rails.root}/tmp/#{item.title}")
-    end
-  end
+task :import_documents_from_google_drive => :environment do
+  import_documents_from_google_drive
 end
 
-def print_parents(file_id)
-  result = @client.execute(
-    :api_method => @drive.parents.list,
-    :parameters => { 'fileId' => file_id }
-    )
-  if result.status == 200
-    parents = result.data
-    parents.items.each do |parent|
-      parent
-    end
-  else
-    puts "An error occurred: #{result.data['error']['message']}"
-  end
+desc "Import images from google drive"
+
+task :import_images_from_google_drive => :environment do
+  import_images_from_google_drive
 end
 
-def print_file(file_id)
-  result = @client.execute(
-    :api_method => @drive.files.get,
-    :parameters => { 'fileId' => file_id }
-    )
-  if result.status == 200
-    file = result.data
-  else
-    puts "An error occurred: #{result.data['error']['message']}"
-  end
+desc "Downloads csv from google drive"
+
+task :download_csv_from_google_drive => :environment do
+  download_csv_from_google_drive
 end
 
+desc "Import csv from google drive"
+
+task :import_csv_from_google_drive => :environment do
+  import_csv_from_google_drive
+end

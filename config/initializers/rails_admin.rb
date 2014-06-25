@@ -1,4 +1,18 @@
 require Rails.root.join('lib', 'rails_admin_approve_change.rb')
+require Rails.root.join('lib', 'rails_admin_import_data.rb')
+
+module RailsAdmin
+  module Config
+    module Actions
+      class ImportCSV < RailsAdmin::Config::Actions::Base
+        RailsAdmin::Config::Actions.register(self)
+      end
+      class ImportImages < RailsAdmin::Config::Actions::Base
+        RailsAdmin::Config::Actions.register(self)
+      end
+    end
+  end
+end
 
 RailsAdmin.config do |config|
 
@@ -32,5 +46,9 @@ RailsAdmin.config do |config|
     ## With an audit adapter, you can add:
     history_index
     history_show
+
+    import_csv
+    import_images
+
   end
 end
