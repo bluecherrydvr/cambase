@@ -1,3 +1,5 @@
+require Rails.root.join('lib', 'import_data.rb')
+
 desc "Add Missing Data"
 
 task :add_urls_to_hikvision => :environment do
@@ -32,3 +34,37 @@ task :fix_resolutions => :environment do
   end
 end
 
+desc "Delete duplicate images"
+
+task :delete_duplicate_images => :environment do
+  client = auth_google_drive_client
+
+  drive = client.discovered_api('drive', 'v2')
+
+  result = client.execute(
+    api_method: drive.files.list,
+    parameters: {
+      maxResults: 1000,
+      q: "mimeType contains 'image' and ('04010857713529984123' in owners or '02928049532232239685' in owners or '13940272261418201147' in owners)"
+    }
+    )
+
+  result.data.items.each do |item|
+    folder = print_parents(item.id).first.id
+    if folder
+      folder_name = print_file(folder).title
+      puts folder_name
+      camera = Camera.find_by_model(folder_name)
+      if camera and item.downloadUrl
+        camera.images.each do |image|
+          image.destroy
+        end
+        camera.save
+      end
+    end
+    puts item.originalFilename
+    puts
+    sleep 10
+  end
+  puts "\nDuplicate images deleted! \n\n"
+end
