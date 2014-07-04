@@ -1,7 +1,7 @@
 class Manufacturer < ActiveRecord::Base
   has_one  :image, as: :owner
   has_many :cameras
-  before_save :make_slug
+  before_create :make_slug
   has_paper_trail
 
   accepts_nested_attributes_for :image, allow_destroy: true, reject_if: :all_blank

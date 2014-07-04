@@ -91,3 +91,29 @@ desc "Import csv from google drive"
 task :import_csv_from_google_drive => :environment do
   import_csv_from_google_drive
 end
+
+desc "Import MAC addresses from Evercam"
+
+task :import_mac_addresses => :environment do
+  connection = Faraday.new(url: "https://api.evercam.io:443") do |faraday|
+    faraday.request :url_encoded
+    faraday.adapter Faraday.default_adapter
+  end
+
+  response = connection.get "/v1/vendors.json?api_id=3d0e289b&api_key=#{ENV['EVERCAM_KEY']}"
+
+  vendors = JSON.parse(response.body)['vendors']
+
+  vendors.each do |vendor|
+    manufacturer = Manufacturer.where(manufacturer_slug: vendor['id']).first
+    if manufacturer
+      puts 'known_macs:'
+      puts vendor['known_macs'].to_s
+      manufacturer.mac = vendor['known_macs']
+      manufacturer.save
+    else
+      puts 'no mac addresses for the vendor'
+    end
+    puts
+  end
+end
