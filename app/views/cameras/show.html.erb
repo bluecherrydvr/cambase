@@ -70,18 +70,22 @@
       <div class="table-responsive">
         <table class="table table-striped">
           <tr class="clickable">
-            <td>Name</td>
-            <td>
+            <td class="col-sm-3">Name</td>
+            <td class="col-sm-9">
               <%= editable @camera.manufacturer, :name, tag: :a, href: "/#{@camera.manufacturer.manufacturer_slug}" %>
             </td>
-            <td class="icon-edit"></td>
           </tr>
           <tr class="clickable">
             <td>Website</td>
             <td>
               <%= editable @camera.manufacturer, :url, tag: :a, href: @camera.manufacturer.url, target: '_blank' %>
             </td>
-            <td class="icon-edit"></td>
+          </tr>
+          <tr>
+            <td>MAC Range</td>
+            <td>
+              <%= @camera.manufacturer.mac.to_s.gsub('"', '').gsub('[', '').gsub(']', '').gsub(',', '<br/>').html_safe %>
+            </td>
           </tr>
         </table>
       </div>
@@ -107,12 +111,12 @@
               <tbody>
                 <% if user_signed_in? %>
                 <tr class="clickable">
-                  <td>Manufacturer</td>
-                  <td class="manufacturer-website">
+                  <td class="col-sm-3">Manufacturer</td>
+                  <td class="col-sm-8 manufacturer-website">
                     <%= editable @camera, :manufacturer_id, source: Manufacturer.all.map{ |manufacturer| {value: manufacturer.id, text: manufacturer.name}}, type: :select, tag: :a, href: "/#{@camera.manufacturer.manufacturer_slug}" %>
                     <%= link_to('Website', @camera.manufacturer.url, target: "_blank", class: 'icon-link') %>
                   </td>
-                  <td class="icon-edit"></td>
+                  <td class="col-sm-1 icon-edit"></td>
                 </tr>
                 <tr>
                   <td>Model</td>
@@ -234,9 +238,9 @@
                 <% end %>
                 <% else %>
                 <tr>
-                  <td>Manufacturer</td>
-                  <td><%= @camera.manufacturer.name || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
+                  <td class="col-sm-3">Manufacturer</td>
+                  <td class="col-sm-8"><%= @camera.manufacturer.name || 'Unknown' %></td>
+                  <td class="col-sm-1" class="icon-edit"></td>
                 </tr>
                 <tr>
                   <td>Model</td>
