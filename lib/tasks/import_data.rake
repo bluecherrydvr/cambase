@@ -8,6 +8,7 @@ task :import_csv => :environment do
       camera.delete :megapixel
       camera.delete :framerate
       camera.delete :data_sheet
+      camera.delete :availability
       camera.delete :user
       camera.delete :mpeg4_url
       camera.delete :audio_url
