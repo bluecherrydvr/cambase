@@ -19,7 +19,7 @@
               </div>
               <div class="col-sm-4">
                 <%= f.label 'Shape' %>
-                <%= f.select(:shape_eq, options_for_select(Camera::SHAPES), :include_blank => 'Any') %>
+                <%= f.select(:shape_eq, Camera.uniq.pluck(:shape).compact.sort, :include_blank => 'Any') %>
               </div>
               <div class="col-sm-12 feature-filters">
                 <%= f.label 'Features' %>

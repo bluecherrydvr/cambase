@@ -61,5 +61,7 @@ end
 group :development do
   gem 'jazz_hands'
   gem "awesome_print"
-# gem 'capistrano-rails'
+  gem 'rails-footnotes', '>= 4.0.0', '<5'
 end
+
+gem 'dotenv-rails', :groups => [:development, :test]

@@ -5,6 +5,7 @@ desc "Import csv"
 task :import_csv => :environment do
   Dir.glob('db/seeds/*.csv') do |file|
     SmarterCSV.process(file).each do |camera|
+      original_camera = camera.clone
       camera.delete :megapixel
       camera.delete :framerate
       camera.delete :data_sheet
@@ -37,6 +38,17 @@ task :import_csv => :environment do
       camera.update(camera){|key,value| clean_csv_values(value)}
       c = Camera.where(:model => camera[:model]).first_or_initialize
       c.update_attributes(camera)
+      c.attributes.each do |k, v|
+        if v == 'f'
+          if camera[k.to_sym]
+            c[k.to_sym] = camera[k.to_sym]
+          else
+            c[k.to_sym] = 'Unknown'
+          end
+        end
+        c.save
+      end
+
       puts "#{c.model} \n #{c.errors.messages.inspect} \n\n" unless c.errors.messages.blank?
     end
   end

@@ -18,7 +18,7 @@
             <%= f.select(:resolution, Camera.uniq.pluck(:resolution).compact.sort, :include_blank => 'Resolution')%>
           </p>
           <p>
-            <%= f.select(:shape, options_for_select(Camera::SHAPES), :include_blank => 'Shape') %>
+            <%= f.select(:shape, Camera.uniq.pluck(:shape).compact.sort, :include_blank => 'Shape') %>
           </p>
           <p>
             <%= f.fields_for :images, camera, :html => {:multipart => true} do |asset| %>

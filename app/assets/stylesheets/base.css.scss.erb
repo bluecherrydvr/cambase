@@ -113,8 +113,8 @@ a:focus {
 <% end %>
 
 <% Camera::SHAPES.each do |shape| %>
-<%= ".icon-camera_shape_#{shape}" %>{
-  @include icon(<%= "camera_shape_#{shape}" %>);
+<%= ".icon-camera_shape_#{shape.downcase}" %>{
+  @include icon(<%= "camera_shape_#{shape.downcase}" %>);
   background-position: 5px 5px;
   border-radius: 42px;
   display: inline-block;

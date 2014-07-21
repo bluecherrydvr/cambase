@@ -24,7 +24,7 @@ class Api::V1::CamerasController < ApplicationController
     summary "Creates a new Camera"
     param :form, :manufacturer_id, :string, :required, "Manufacturer ID"
     param :form, 'camera[model]', :string, :required, "Model"
-    param_list :form, 'camera[shape]', :string, :optional, "Shape", Camera::SHAPES
+    param_list :form, 'camera[shape]', :string, :optional, "Shape", Camera.uniq.pluck(:resolution).compact.sort
     param_list :form, 'camera[resolution]', :string, :optional, "Resolution", Camera.uniq.pluck(:resolution).compact.sort
     param_list :form, 'camera[onvif]', :string, :optional, "ONVIF", [true, false]
     param_list :form, 'camera[psia]', :string, :optional, "PSIA", [true, false]
@@ -49,7 +49,7 @@ class Api::V1::CamerasController < ApplicationController
     param :path, :id, :string, :required, "Camera ID"
     param :form, :manufacturer_id, :string, :required, "Manufacturer ID"
     param :form, 'camera[name]', :string, :optional, "Model"
-    param_list :form, 'camera[shape]', :string, :optional, "Shape", Camera::SHAPES
+    param_list :form, 'camera[shape]', :string, :optional, "Shape", Camera.uniq.pluck(:resolution).compact.sort
     param_list :form, 'camera[resolution]', :string, :optional, "Resolution", Camera.uniq.pluck(:resolution).compact.sort
     param_list :form, 'camera[onvif]', :string, :optional, "ONVIF", [true, false]
     param_list :form, 'camera[psia]', :string, :optional, "PSIA", [true, false]
@@ -75,7 +75,7 @@ class Api::V1::CamerasController < ApplicationController
     param :query, :page, :integer, :optional, "Page number"
     param :query, 'q[model_cont]', :string, :optional, "Model"
     param :query, 'q[manufacturer_name_cont]', :string, :optional, "Manufacturer"
-    param_list :query, 'q[shape_eq]', :string, :optional, "Shape", Camera::SHAPES
+    param_list :query, 'q[shape_eq]', :string, :optional, "Shape", Camera.uniq.pluck(:resolution).compact.sort
     param_list :query, 'q[resolution_eq]', :string, :optional, "Resolution", Camera.uniq.pluck(:resolution).compact.sort
     param_list :query, 'q[onvif_true]', :string, :optional, "ONVIF", [true, false]
     param_list :query, 'q[psia_true]', :string, :optional, "PSIA", [true, false]

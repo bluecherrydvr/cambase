@@ -155,7 +155,7 @@
                 </tr>
                 <tr class="shapes">
                   <td>Shape</td>
-                  <%= editable @camera, :shape, source: Camera::SHAPES, type: :select, tag: :td %>
+                  <%= editable @camera, :shape, source: Camera.uniq.pluck(:shape).compact.sort.map{ |shape| {value: shape, text: shape}}, type: :select, tag: :td %>
                   <td class="icon-edit"></td>
                 </tr>
                 <tr>

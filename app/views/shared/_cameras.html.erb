@@ -40,8 +40,10 @@ Camera Listing
           <td class="manufacturer-name"><%= link_to camera.manufacturer.name, "/#{camera.manufacturer.manufacturer_slug}" %></td>
           <td><%= camera.resolution %></td>
           <td>
-            <% if Camera::SHAPES.include? camera.shape %>
-            <span class='icon-camera_shape_<%= camera.shape %>' title='<%= camera.shape.titleize %>'></span>
+            <% if Camera::SHAPES.include? camera.shape.downcase %>
+            <span class='icon-camera_shape_<%= camera.shape.downcase %>' title='<%= camera.shape.titleize %>'></span>
+            <% else %>
+            <%= camera.shape.titleize %>
             <% end %>
           </td>
           <% Camera::FEATURES.each do |feature| %>

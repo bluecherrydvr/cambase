@@ -54,7 +54,7 @@
   </p>
   <p>
     <%= f.label :shape %>
-    <%= f.select(:shape, options_for_select(Camera::SHAPES), :include_blank => 'Shape') %>
+    <%= f.select(:shape, Camera.uniq.pluck(:shape).compact.sort, :include_blank => 'Shape') %>
   </p>
   <p>
     <%= f.label :onvif %>
