@@ -17,6 +17,7 @@ class Camera < ActiveRecord::Base
 
   validates :model, presence: true, :case_sensitive => false, :uniqueness => {:scope => :manufacturer_id}
   validates :manufacturer, presence: true
+  validates :shape, presence: true
 
   rails_admin do
     edit do
