@@ -3,6 +3,7 @@ class Camera < ActiveRecord::Base
   has_many :documents, as: :owner
   belongs_to :manufacturer
   before_save :make_slug
+  before_save :titleize_shape
   has_paper_trail
 
   accepts_nested_attributes_for :images, allow_destroy: true, reject_if: :all_blank
@@ -30,6 +31,10 @@ class Camera < ActiveRecord::Base
 
   def make_slug
     self.camera_slug = self.model.to_url
+  end
+
+  def titleize_shape
+    self.shape = self.shape.titleize
   end
 
   def next
