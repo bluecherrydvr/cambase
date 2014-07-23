@@ -59,7 +59,8 @@ group :production do
 end
 
 group :development do
-  gem 'jazz_hands'
+  gem 'jazz_hands', github: 'nixme/jazz_hands', branch: 'bring-your-own-debugger'
+  gem 'pry-byebug'
   gem "awesome_print"
   gem 'rails-footnotes', '>= 4.0.0', '<5'
 end
