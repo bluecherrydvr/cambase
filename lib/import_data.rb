@@ -104,23 +104,28 @@ def import_images_from_google_drive
     folder = print_parents(item.id).first.id
     if folder
       folder_name = print_file(folder).title
-      puts folder_name
-      camera = Camera.find_by_model(folder_name)
-      if camera and item.downloadUrl
-       file_content = client.execute(:uri => item.downloadUrl).body
-       File.open("#{Rails.root}/tmp/#{item.originalFilename}", 'wb') do |file|
-         file.write(file_content)
-         image = Image.create(:file => file)
-         camera.images.append(image)
-         puts "#{camera.manufacturer.name} \n#{camera.model} \n #{camera.errors.messages.inspect} \n\n" unless camera.errors.messages.blank?
-       end
-       File.delete("#{Rails.root}/tmp/#{item.originalFilename}")
-     end
-   end
-   puts item.originalFilename
-   puts
-   sleep 10
- end
+      file_parent_folder_name = print_parents(folder).first.id
+      manufacturer_name = print_file(file_parent_folder_name).title
+      manufacturer = Manufacturer.where(manufacturer_slug: manufacturer_name.to_url).first
+      puts "#{manufacturer_name} - #{folder_name}"
+      if manufacturer
+        camera = Camera.where(camera_slug: folder_name.to_url, manufacturer_id: manufacturer.id).first
+        if camera and item.downloadUrl
+          file_content = client.execute(:uri => item.downloadUrl).body
+          File.open("#{Rails.root}/tmp/#{item.originalFilename}", 'wb') do |file|
+            file.write(file_content)
+            image = Image.create(:file => file)
+            camera.images.append(image)
+            puts "#{camera.manufacturer.name} \n#{camera.model} \n #{camera.errors.messages.inspect} \n\n" unless camera.errors.messages.blank?
+          end
+          File.delete("#{Rails.root}/tmp/#{item.originalFilename}")
+        end
+      end
+    end
+    puts item.originalFilename
+    puts
+    sleep 10
+  end
 
 end
 
