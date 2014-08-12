@@ -2,28 +2,36 @@ class UsersController < ApplicationController
 
   def auth
     code = params[:code]
-    
-    connection = Faraday.new(url: 'https://api.evercam.io') do |faraday|
+
+    evercam_dashboard = Faraday.new(url: 'https://dashboard.evercam.io/') do |faraday|
+      faraday.request :url_encoded
+      faraday.adapter Faraday.default_adapter
+    end
+
+    evercam_api = Faraday.new(url: 'https://api.evercam.io/') do |faraday|
       faraday.request :url_encoded
       faraday.adapter Faraday.default_adapter
     end
 
     parameters = {
-      redirect_uri: "http://www.cambase.io/users/auth",
+      redirect_uri: "#{root_url}users/auth",
       code: code,
       client_id: '3d0e289b',
       client_secret: ENV['EVERCAM_KEY'],
       grant_type: 'authorization_code'
     }
-    response = connection.post '/oauth2/authorize', parameters
+
+    # binding.pry
+
+    response = evercam_dashboard.post '/oauth2/authorize', parameters
 
     access_token = JSON.parse(response.body)['access_token']
 
-    response = connection.get "/oauth2/tokeninfo?access_token=#{access_token}"
+    response = evercam_dashboard.get "/oauth2/tokeninfo?access_token=#{access_token}"
 
     user_id = JSON.parse(response.body)['userid']
 
-    response = connection.get do |request|
+    response = evercam_api.get do |request|
       request.url "/v1/users/#{user_id}"
       request.headers['Authorization'] = "bearer #{access_token}"
     end

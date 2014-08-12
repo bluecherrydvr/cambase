@@ -27,7 +27,7 @@
         </ul>
       </li>
       <% else %>
-      <li><%= link_to 'Sign In', 'https://api.evercam.io/oauth2/authorize?client_id=3d0e289b&amp;scope=user:view:all&amp;response_type=code&amp;redirect_uri=http://www.cambase.io/users/auth', class: 'sign_in' %></li>
+      <li><%= link_to 'Sign In', "https://dashboard.evercam.io/oauth2/authorize?client_id=3d0e289b&scope=user:view:all&response_type=code&redirect_uri=#{root_url}users/auth", class: 'sign_in' %></li>
       <% end %>
     </ul>
   </div>
