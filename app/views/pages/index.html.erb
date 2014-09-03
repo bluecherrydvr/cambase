@@ -4,30 +4,30 @@
 <div class="col-sm-9">
   <div class="row" id="masonry-container">
     <% @images.each_with_index do |image, index| %>
-    <% if image.owner %>
-    <% owner = image.owner_type.classify.constantize.find(image.owner_id) %>
-    <% if image.owner_type == "Camera" %>
-    <% if image.position == 1 %>
-    <div class="tile tile-big col-sm-4">
-      <div class="tile-content">
-        <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.model}"), "/#{owner.manufacturer.manufacturer_slug}/#{owner.camera_slug}") %>
-      </div>
-    </div>
-    <% else %>
-    <div class="tile tile-small col-sm-2">
-      <div class="tile-content">
-        <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.model}"), "/#{owner.manufacturer.manufacturer_slug}/#{owner.camera_slug}") %>
-      </div>
-    </div>
-    <% end %>
-    <% else %>
-    <div class="tile tile-big col-sm-4">
-      <div class="tile-content">
-        <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.name}"), "/#{owner.manufacturer_slug}") %>
-      </div>
-    </div>
-    <% end %>
-    <% end %>
+        <% if image.owner %>
+            <% owner = image.owner_type.classify.constantize.find(image.owner_id) %>
+            <% if image.owner_type == "Camera" %>
+                <% if image.position == 1 %>
+                    <div class="tile tile-big col-sm-4">
+                      <div class="tile-content">
+                        <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.model}"), "/#{owner.manufacturer.manufacturer_slug}/#{owner.camera_slug}") %>
+                      </div>
+                    </div>
+                <% else %>
+                    <div class="tile tile-small col-sm-2">
+                      <div class="tile-content">
+                        <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.model}"), "/#{owner.manufacturer.manufacturer_slug}/#{owner.camera_slug}") %>
+                      </div>
+                    </div>
+                <% end %>
+            <% else %>
+                <div class="tile tile-big col-sm-4">
+                  <div class="tile-content">
+                    <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.name}"), "/#{owner.manufacturer_slug}") %>
+                  </div>
+                </div>
+            <% end %>
+        <% end %>
     <% end %>
   </div>
 </div>
