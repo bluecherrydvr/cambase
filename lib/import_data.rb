@@ -66,7 +66,7 @@ def import_documents_from_google_drive
     api_method: drive.files.list,
     parameters: {
       maxResults: 1000,
-      q: "mimeType = 'application/pdf' and ('04010857713529984123' in owners or '02928049532232239685' in owners or '13940272261418201147' in owners)"
+      q: "mimeType = 'application/pdf' and ('04010857713529984123' in owners or '02928049532232239685' in owners or '13940272261418201147' in owners or '14262798246273853605' in owners)"
     }
     )
 
