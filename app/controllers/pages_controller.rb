@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   def index
-    @images = Image.where(owner_type: ["Manufacturer"]).all().reverse
+    @images = Image.where(owner_type: ["Manufacturer"]).all.reverse
   end
   def about_cambase
   end

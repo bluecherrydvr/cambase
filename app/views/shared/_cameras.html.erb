@@ -8,6 +8,7 @@ Camera Listing
     <table class="table table-list table-cameras">
       <thead>
         <tr>
+          <th><%= sort_link @search, :model, 'Images' %></th>
           <th><%= sort_link @search, :model, 'Model' %></th>
           <th><%= sort_link @search, :manufacturer, 'Manufacturer' %></th>
           <th><%= sort_link @search, :resolution, 'Resolution' %></th>
@@ -28,14 +29,12 @@ Camera Listing
         <% @cameras.each do |camera| %>
         <tr>
           <td>
-            <% if camera.images.empty? %>
+            <% if camera.images.empty? ==false %>
+              <%= image_tag(camera.images.sorted.first.file.url(:medium), class: 'align-center', data: { fullsize: camera.images.sorted.first.file.url(:medium) }) %>
+            <% end %>
+          </td>
+          <td>
             <%= link_to_camera_url(camera.model, camera) %>
-            <% else %>
-            <%= link_to(manufacturer_camera_path(camera.manufacturer.manufacturer_slug, camera.camera_slug)) do %>
-            <%= camera.model %>
-            <%= image_tag(camera.images.sorted.first.file.url(:medium), class: 'align-right', data: { fullsize: camera.images.sorted.first.file.url(:medium) }) %>
-            <% end %>
-            <% end %>
           </td>
           <td class="manufacturer-name"><%= link_to camera.manufacturer.name, "/#{camera.manufacturer.manufacturer_slug}" %></td>
           <td><%= camera.resolution %></td>
