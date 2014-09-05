@@ -128,54 +128,9 @@
                   <%= editable @camera, :resolution, source: Camera.uniq.pluck(:resolution).compact.sort.map{ |resolution| {value: resolution, text: resolution}}, type: :select, tag: :td %>
                   <td class="icon-edit"></td>
                 </tr>
-                <tr>
-                  <td>ONVIF</td>
-                  <%= editable @camera, :onvif, tag: :td  %>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>PSIA</td>
-                  <%= editable @camera, :psia, tag: :td  %>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>PTZ</td>
-                  <%= editable @camera, :ptz, tag: :td  %>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>Infrared</td>
-                  <%= editable @camera, :infrared, tag: :td  %>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>Varifocal</td>
-                  <%= editable @camera, :varifocal, tag: :td  %>
-                  <td class="icon-edit"></td>
-                </tr>
                 <tr class="shapes">
                   <td>Shape</td>
                   <%= editable @camera, :shape, source: Camera.uniq.pluck(:shape).compact.sort.map{ |shape| {value: shape, text: shape}}, type: :select, tag: :td %>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>SD Card Storage</td>
-                  <%= editable @camera, :sd_card, tag: :td  %>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>UPnP</td>
-                  <%= editable @camera, :upnp, tag: :td  %>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>PoE</td>
-                  <%= editable @camera, :poe, tag: :td  %>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>WiFi</td>
-                  <%= editable @camera, :wifi, tag: :td  %>
                   <td class="icon-edit"></td>
                 </tr>
                 <tr>
@@ -194,16 +149,6 @@
                   <td class="icon-edit"></td>
                 </tr>
                 <tr>
-                  <td>Audio In</td>
-                  <%= editable @camera, :audio_in, tag: :td %>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>Audio Out</td>
-                  <%= editable @camera, :audio_out, tag: :td %>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
                   <td>Default Username</td>
                   <%= editable @camera, :default_username, tag: :td %>
                   <td class="icon-edit"></td>
@@ -211,11 +156,6 @@
                 <tr>
                   <td>Default Password</td>
                   <%= editable @camera, :default_password, tag: :td %>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>Discontinued</td>
-                  <%= editable @camera, :discontinued, tag: :td %>
                   <td class="icon-edit"></td>
                 </tr>
                 <tr class="clickable">
@@ -252,54 +192,9 @@
                   <td><%= @camera.resolution || 'Unknown' %></td>
                   <td class="icon-edit"></td>
                 </tr>
-                <tr>
-                  <td>ONVIF</td>
-                  <td><%= human_boolean(@camera.onvif) || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>PSIA</td>
-                  <td><%= human_boolean(@camera.psia) || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>PTZ</td>
-                  <td><%= human_boolean(@camera.ptz) || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>Infrared</td>
-                  <td><%= human_boolean(@camera.infrared) || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>Varifocal</td>
-                  <td><%= human_boolean(@camera.varifocal) || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
                 <tr class="shapes">
                   <td>Shape</td>
                   <td><%= @camera.shape || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>SD Card Storage</td>
-                  <td><%= human_boolean(@camera.sd_card) || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>UPnP</td>
-                  <td><%= human_boolean(@camera.upnp) || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>PoE</td>
-                  <td><%= human_boolean(@camera.poe) || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>WiFi</td>
-                  <td><%= human_boolean(@camera.wifi) || 'Unknown' %></td>
                   <td class="icon-edit"></td>
                 </tr>
                 <tr>
@@ -318,16 +213,6 @@
                   <td class="icon-edit"></td>
                 </tr>
                 <tr>
-                  <td>Audio In</td>
-                  <td><%= human_boolean(@camera.audio_in) || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>Audio Out</td>
-                  <td><%= human_boolean(@camera.audio_out) || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
                   <td>Default Username</td>
                   <td><%= @camera.default_username || 'Unknown' %></td>
                   <td class="icon-edit"></td>
@@ -335,11 +220,6 @@
                 <tr>
                   <td>Default Password</td>
                   <td><%= @camera.default_password || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>Discontinued</td>
-                  <td><%= human_boolean(@camera.discontinued) || 'Unknown' %></td>
                   <td class="icon-edit"></td>
                 </tr>
                 <tr>
@@ -363,6 +243,79 @@
                 <% end %>
                 <% end %>
                 <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="module module-table module-information">
+        <div class="module-header">
+          <h4>Camera Features</h4>
+        </div>
+        <div class="module-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <td class="col-sm-3">ONVIF</td>
+                  <%= editable @camera, :onvif, tag: :td  %>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr>
+                  <td>PSIA</td>
+                  <%= editable @camera, :psia, tag: :td  %>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr>
+                  <td>PTZ</td>
+                  <%= editable @camera, :ptz, tag: :td  %>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr>
+                  <td>Infrared</td>
+                  <%= editable @camera, :infrared, tag: :td  %>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr>
+                  <td>Varifocal</td>
+                  <%= editable @camera, :varifocal, tag: :td  %>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr>
+                  <td>SD Card Storage</td>
+                  <%= editable @camera, :sd_card, tag: :td  %>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr>
+                  <td>UPnP</td>
+                  <%= editable @camera, :upnp, tag: :td  %>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr>
+                  <td>PoE</td>
+                  <%= editable @camera, :poe, tag: :td  %>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr>
+                  <td>WiFi</td>
+                  <%= editable @camera, :wifi, tag: :td  %>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr>
+                  <td>Audio In</td>
+                  <%= editable @camera, :audio_in, tag: :td %>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr>
+                  <td>Audio Out</td>
+                  <%= editable @camera, :audio_out, tag: :td %>
+                  <td class="icon-edit"></td>
+                </tr>
+                <tr>
+                  <td>Discontinued</td>
+                  <%= editable @camera, :discontinued, tag: :td %>
+                  <td class="icon-edit"></td>
+                </tr>
               </tbody>
             </table>
           </div>
