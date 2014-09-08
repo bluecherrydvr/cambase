@@ -5,10 +5,10 @@
 <div class="camera-heading clearfix">
   <h1><%= "#{@camera.manufacturer.name} #{@camera.model}" %></h1>
   <% if @camera.prev %>
-  <%= link_to "prev", manufacturer_camera_path(@camera.prev.manufacturer.manufacturer_slug, @camera.prev.camera_slug), class: 'align-left' %>
+    <%= link_to "prev", manufacturer_camera_path(@camera.prev.manufacturer.manufacturer_slug, @camera.prev.camera_slug), class: 'align-left' %>
   <% end %>
   <% if @camera.next %>
-  <%= link_to "next", manufacturer_camera_path(@camera.next.manufacturer.manufacturer_slug, @camera.next.camera_slug), class: 'align-left' %>
+    <%= link_to "next", manufacturer_camera_path(@camera.next.manufacturer.manufacturer_slug, @camera.next.camera_slug), class: 'align-left' %>
   <% end %>
   <%= link_to "json", "/api/v1/cameras/#{@camera.camera_slug}", class: 'align-right' %>
   <%= link_to "url", '', class: 'align-right' %>
@@ -19,43 +19,43 @@
       <h4 class="add-new-image">Images</h4>
     </div>
     <% unless @camera.images.empty? %>
-    <div class="module-body">
-      <img class="module-image-main" src="<%= @camera.images.sorted.first.file.url(:medium) %>">
-      <ul class="thumbnails row">
-        <% if @camera.images.count > 1 %>
-        <% @camera.images.sorted.each do |image| %>
-        <li class="col-md-3">
-          <%= link_to(image_tag(image.file.url(:medium)), image.file.url(:medium)) %>
-        </li>
-        <% end %>
-        <% end %>
-        <li class="col-md-3">
-          <%= link_to(image_tag('icons/add_new_image.png', :class => 'add-new-image')) %>
-        </li>
-      </ul>
-    </div>
+      <div class="module-body">
+        <img class="module-image-main" src="<%= @camera.images.sorted.first.file.url(:medium) %>">
+        <ul class="thumbnails row">
+          <% if @camera.images.count > 1 %>
+            <% @camera.images.sorted.each do |image| %>
+              <li class="col-md-3">
+                <%= link_to(image_tag(image.file.url(:medium)), image.file.url(:medium)) %>
+              </li>
+            <% end %>
+          <% end %>
+          <li class="col-md-3">
+            <%= link_to(image_tag('icons/add_new_image.png', :class => 'add-new-image')) %>
+          </li>
+        </ul>
+      </div>
     <% end %>
     <%= form_for(@camera) do |f| %>
-    <%= f.fields_for :images, @camera, :html => {:multipart => true} do |asset| %>
-    <%= asset.file_field :file %>
-    <% end %>
-    <%= f.submit 'contribute' %>
+      <%= f.fields_for :images, @camera, :html => {:multipart => true} do |asset| %>
+        <%= asset.file_field :file %>
+      <% end %>
+      <%= f.submit 'contribute' %>
     <% end %>
   </div>
   <% unless @camera.documents.empty? %>
-  <div class="module module-documents">
-    <div class="module-header">
-      <h4>Downloads</h4>
+    <div class="module module-documents">
+      <div class="module-header">
+        <h4>Downloads</h4>
+      </div>
+      <div class="module-body">
+        <% @camera.documents.each do |document| %>
+          <a href="<%= document.file.url %>">
+            <span class="icon-document"></span>
+            <%= document.file_file_name %>
+          </a>
+        <% end %>
+      </div>
     </div>
-    <div class="module-body">
-      <% @camera.documents.each do |document| %>
-      <a href="<%= document.file.url %>">
-        <span class="icon-document"></span>
-        <%= document.file_file_name %>
-      </a>
-      <% end %>
-    </div>
-  </div>
   <% end %>
   <div class="module module-table module-manufacturer">
     <div class="module-header">
@@ -63,22 +63,22 @@
     </div>
     <div class="module-body">
       <% if @camera.manufacturer.image %>
-      <%= link_to(image_tag(@camera.manufacturer.image.file.url(:medium)), "/#{@camera.manufacturer.manufacturer_slug}", :class => 'add-new-image') %>
+        <%= link_to(image_tag(@camera.manufacturer.image.file.url(:medium)), "/#{@camera.manufacturer.manufacturer_slug}", :class => 'add-new-image') %>
       <% else %>
-      <%= link_to('Add Logo', '', :class => 'add-new-image add-logo') %>
+        <%= link_to('Add Logo', '', :class => 'add-new-image add-logo') %>
       <% end %>
       <div class="table-responsive">
         <table class="table table-striped">
           <tr class="clickable">
             <td class="col-sm-3">Name</td>
             <td class="col-sm-9">
-              <%= editable @camera.manufacturer, :name, tag: :a, href: "/#{@camera.manufacturer.manufacturer_slug}" %>
+              <%= @camera.manufacturer.name %>
             </td>
           </tr>
           <tr class="clickable">
             <td>Website</td>
             <td>
-              <%= editable @camera.manufacturer, :url, tag: :a, href: @camera.manufacturer.url, target: '_blank' %>
+              <%= link_to @camera.manufacturer.name, @camera.manufacturer.url, target: '_blank' %>
             </td>
           </tr>
           <tr>
@@ -91,10 +91,10 @@
       </div>
     </div>
     <%= form_for(@camera.manufacturer) do |f| %>
-    <%= f.fields_for :image, @camera.manufacturer, :html => {:multipart => true} do |asset| %>
-    <%= asset.file_field :file %>
-    <% end %>
-    <%= f.submit 'contribute' %>
+      <%= f.fields_for :image, @camera.manufacturer, :html => {:multipart => true} do |asset| %>
+        <%= asset.file_field :file %>
+      <% end %>
+      <%= f.submit 'contribute' %>
     <% end %>
   </div>
 </div>
@@ -110,138 +110,138 @@
             <table class="table table-striped">
               <tbody>
                 <% if user_signed_in? %>
-                <tr class="clickable">
-                  <td class="col-sm-3">Manufacturer</td>
-                  <td class="col-sm-8 manufacturer-website">
-                    <%= editable @camera, :manufacturer_id, source: Manufacturer.all.map{ |manufacturer| {value: manufacturer.id, text: manufacturer.name}}, type: :select, tag: :a, href: "/#{@camera.manufacturer.manufacturer_slug}" %>
-                    <%= link_to('Website', @camera.manufacturer.url, target: "_blank", class: 'icon-link') %>
-                  </td>
-                  <td class="col-sm-1 icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>Model</td>
-                  <%= editable @camera, :model, tag: :td, link_url: request.url %>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>Resolution</td>
-                  <%= editable @camera, :resolution, source: Camera.uniq.pluck(:resolution).compact.sort.map{ |resolution| {value: resolution, text: resolution}}, type: :select, tag: :td %>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr class="shapes">
-                  <td>Shape</td>
-                  <%= editable @camera, :shape, source: Camera.uniq.pluck(:shape).compact.sort.map{ |shape| {value: shape, text: shape}}, type: :select, tag: :td %>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>JPEG URL</td>
-                  <%= editable @camera, :jpeg_url, tag: :td %>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>H264 URL</td>
-                  <%= editable @camera, :h264_url, tag: :td %>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>MJPEG URL</td>
-                  <%= editable @camera, :mjpeg_url, tag: :td %>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>Default Username</td>
-                  <%= editable @camera, :default_username, tag: :td %>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>Default Password</td>
-                  <%= editable @camera, :default_password, tag: :td %>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr class="clickable">
-                  <td>Official Page</td>
-                  <td>
-                    <%= editable @camera, :official_url, tag: :a, href: @camera.official_url, target: '_blank' %>
-                  </td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <% if @camera.additional_information %>
-                <% @camera.additional_information.each do |key, value| %>
-                <tr>
-                  <td><%= key %></td>
-                  <td class='editable additional_information' data-model='camera[additional_information]' data-name='<%= key %>' data-placeholder='Additional information' data-type='text' data-url='/cameras/<%= @camera.id %>' data-value='<%= @camera.additional_information[key] %>' title='<%= @camera.additional_information[key] %>'>
-                    <%= @camera.additional_information[key] %>
-                  </td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <% end %>
-                <% end %>
-                <% else %>
-                <tr>
-                  <td class="col-sm-3">Manufacturer</td>
-                  <td class="col-sm-8"><%= @camera.manufacturer.name || 'Unknown' %></td>
-                  <td class="col-sm-1" class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>Model</td>
-                  <td><%= @camera.model || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>Resolution</td>
-                  <td><%= @camera.resolution || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr class="shapes">
-                  <td>Shape</td>
-                  <td><%= @camera.shape || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>JPEG URL</td>
-                  <td><%= @camera.jpeg_url || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>H264 URL</td>
-                  <td><%= @camera.h264_url || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>MJPEG URL</td>
-                  <td><%= @camera.mjpeg_url || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>Default Username</td>
-                  <td><%= @camera.default_username || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>Default Password</td>
-                  <td><%= @camera.default_password || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <tr>
-                  <td>Official Page</td>
-                  <td>
-                    <% if @camera.official_url %>
-                    <%= link_to @camera.official_url, @camera.official_url, target: '_blank' %>
-                    <% else %>
-                    Unknown
+                  <tr class="clickable">
+                    <td class="col-sm-3">Manufacturer</td>
+                    <td class="col-sm-8 manufacturer-website">
+                      <%= editable @camera, :manufacturer_id, source: Manufacturer.all.map{ |manufacturer| {value: manufacturer.id, text: manufacturer.name}}, type: :select, tag: :a, href: "/#{@camera.manufacturer.manufacturer_slug}" %>
+                      <%= link_to('Website', @camera.manufacturer.url, target: "_blank", class: 'icon-link') %>
+                    </td>
+                    <td class="col-sm-1 icon-edit"></td>
+                  </tr>
+                  <tr>
+                    <td>Model</td>
+                    <%= editable @camera, :model, tag: :td, link_url: request.url %>
+                    <td class="icon-edit"></td>
+                  </tr>
+                  <tr>
+                    <td>Resolution</td>
+                    <%= editable @camera, :resolution, source: Camera.uniq.pluck(:resolution).compact.sort.map{ |resolution| {value: resolution, text: resolution}}, type: :select, tag: :td %>
+                    <td class="icon-edit"></td>
+                  </tr>
+                  <tr class="shapes">
+                    <td>Shape</td>
+                    <%= editable @camera, :shape, source: Camera.uniq.pluck(:shape).compact.sort.map{ |shape| {value: shape, text: shape}}, type: :select, tag: :td %>
+                    <td class="icon-edit"></td>
+                  </tr>
+                  <tr>
+                    <td>JPEG URL</td>
+                    <%= editable @camera, :jpeg_url, tag: :td %>
+                    <td class="icon-edit"></td>
+                  </tr>
+                  <tr>
+                    <td>H264 URL</td>
+                    <%= editable @camera, :h264_url, tag: :td %>
+                    <td class="icon-edit"></td>
+                  </tr>
+                  <tr>
+                    <td>MJPEG URL</td>
+                    <%= editable @camera, :mjpeg_url, tag: :td %>
+                    <td class="icon-edit"></td>
+                  </tr>
+                  <tr>
+                    <td>Default Username</td>
+                    <%= editable @camera, :default_username, tag: :td %>
+                    <td class="icon-edit"></td>
+                  </tr>
+                  <tr>
+                    <td>Default Password</td>
+                    <%= editable @camera, :default_password, tag: :td %>
+                    <td class="icon-edit"></td>
+                  </tr>
+                  <tr class="clickable">
+                    <td>Official Page</td>
+                    <td>
+                      <%= editable @camera, :official_url, tag: :a, href: @camera.official_url, target: '_blank' %>
+                    </td>
+                    <td class="icon-edit"></td>
+                  </tr>
+                  <% if @camera.additional_information %>
+                    <% @camera.additional_information.each do |key, value| %>
+                      <tr>
+                        <td><%= key %></td>
+                        <td class='editable additional_information' data-model='camera[additional_information]' data-name='<%= key %>' data-placeholder='Additional information' data-type='text' data-url='/cameras/<%= @camera.id %>' data-value='<%= @camera.additional_information[key] %>' title='<%= @camera.additional_information[key] %>'>
+                          <%= @camera.additional_information[key] %>
+                        </td>
+                        <td class="icon-edit"></td>
+                      </tr>
                     <% end %>
-                  </td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <% if @camera.additional_information %>
-                <% @camera.additional_information.each do |key, value| %>
-                <tr>
-                  <td><%= key %></td>
-                  <td><%= @camera.additional_information[key] || 'Unknown' %></td>
-                  <td class="icon-edit"></td>
-                </tr>
-                <% end %>
-                <% end %>
+                  <% end %>
+                <% else %>
+                  <tr>
+                    <td class="col-sm-3">Manufacturer</td>
+                    <td class="col-sm-8"><%= @camera.manufacturer.name || 'Unknown' %></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Model</td>
+                    <td><%= @camera.model || 'Unknown' %></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Resolution</td>
+                    <td><%= @camera.resolution || 'Unknown' %></td>
+                    <td></td>
+                  </tr>
+                  <tr class="shapes">
+                    <td>Shape</td>
+                    <td><%= @camera.shape || 'Unknown' %></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>JPEG URL</td>
+                    <td><%= @camera.jpeg_url || 'Unknown' %></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>H264 URL</td>
+                    <td><%= @camera.h264_url || 'Unknown' %></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>MJPEG URL</td>
+                    <td><%= @camera.mjpeg_url || 'Unknown' %></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Default Username</td>
+                    <td><%= @camera.default_username || 'Unknown' %></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Default Password</td>
+                    <td><%= @camera.default_password || 'Unknown' %></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Official Page</td>
+                    <td>
+                      <% if @camera.official_url %>
+                        <%= link_to @camera.official_url, @camera.official_url, target: '_blank' %>
+                      <% else %>
+                        Unknown
+                      <% end %>
+                    </td>
+                    <td></td>
+                  </tr>
+                  <% if @camera.additional_information %>
+                    <% @camera.additional_information.each do |key, value| %>
+                      <tr>
+                        <td><%= key %></td>
+                        <td><%= @camera.additional_information[key] || 'Unknown' %></td>
+                        <td></td>
+                      </tr>
+                    <% end %>
+                  <% end %>
                 <% end %>
               </tbody>
             </table>
@@ -259,62 +259,62 @@
                 <tr>
                   <td class="col-sm-3">ONVIF</td>
                   <%= editable @camera, :onvif, tag: :td  %>
-                  <td class="icon-edit"></td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td>PSIA</td>
                   <%= editable @camera, :psia, tag: :td  %>
-                  <td class="icon-edit"></td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td>PTZ</td>
                   <%= editable @camera, :ptz, tag: :td  %>
-                  <td class="icon-edit"></td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td>Infrared</td>
                   <%= editable @camera, :infrared, tag: :td  %>
-                  <td class="icon-edit"></td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td>Varifocal</td>
                   <%= editable @camera, :varifocal, tag: :td  %>
-                  <td class="icon-edit"></td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td>SD Card Storage</td>
                   <%= editable @camera, :sd_card, tag: :td  %>
-                  <td class="icon-edit"></td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td>UPnP</td>
                   <%= editable @camera, :upnp, tag: :td  %>
-                  <td class="icon-edit"></td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td>PoE</td>
                   <%= editable @camera, :poe, tag: :td  %>
-                  <td class="icon-edit"></td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td>WiFi</td>
                   <%= editable @camera, :wifi, tag: :td  %>
-                  <td class="icon-edit"></td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td>Audio In</td>
                   <%= editable @camera, :audio_in, tag: :td %>
-                  <td class="icon-edit"></td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td>Audio Out</td>
                   <%= editable @camera, :audio_out, tag: :td %>
-                  <td class="icon-edit"></td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td>Discontinued</td>
                   <%= editable @camera, :discontinued, tag: :td %>
-                  <td class="icon-edit"></td>
+                  <td></td>
                 </tr>
               </tbody>
             </table>
