@@ -130,7 +130,13 @@
               </tr>
               <tr>
                 <td>H264 URL</td>
-                <td><%= @camera.h264_url || 'Unknown' %></td>
+                <td>
+                  <% if @camera.h264_url=="/" || @camera.h264_url=="<blank>"%>
+                    None
+                  <% else %>
+                    <%= @camera.h264_url || 'Unknown' %>
+                  <% end %>
+                </td>
               </tr>
               <tr>
                 <td>MJPEG URL</td>
