@@ -23,6 +23,15 @@ task :add_credentials_to_samsung => :environment do
   end
 end
 
+task :change_acm_cameras_url => :environment do
+  acti = Manufacturer.where(name: "ACTi").first
+  cameras = acti.cameras.where("model like?", "ACM%")
+  cameras.each do |camera|
+    camera.h264_url = '/'
+    camera.save
+  end
+end
+
 desc "Fix duplicate resolutions"
 
 task :fix_resolutions => :environment do
