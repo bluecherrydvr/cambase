@@ -4,44 +4,44 @@ desc "Import csv"
 
 task :import_csv => :environment do
   Dir.glob('db/seeds/*.csv') do |file|
-    SmarterCSV.process(file).each do |camera|
-      original_camera = camera.clone
-      camera.delete :megapixel
-      camera.delete :framerate
-      camera.delete :data_sheet
-      camera.delete :availability
-      camera.delete :user
-      camera.delete :mpeg4_url
-      camera.delete :audio_url
-      camera.delete :"detailed_shape_/_type_as_in_vendor_catalog"
-      camera.delete_if { |k, v| v.to_s.empty? }
-      camera[:official_url] = camera.delete :page_reference
-      camera[:manual_url] = camera.delete :user_manual
-      camera[:sd_card] = camera.delete :sd_card_storage
-      if camera[:audio]
-        camera[:audio_in] = camera.delete :audio
-        camera[:audio_out] = camera[:audio_in]
+    SmarterCSV.process(file).each do |model|
+      original_model = model.clone
+      model.delete :megapixel
+      model.delete :framerate
+      model.delete :data_sheet
+      model.delete :availability
+      model.delete :user
+      model.delete :mpeg4_url
+      model.delete :audio_url
+      model.delete :"detailed_shape_/_type_as_in_vendor_catalog"
+      model.delete_if { |k, v| v.to_s.empty? }
+      model[:official_url] = model.delete :page_reference
+      model[:manual_url] = model.delete :user_manual
+      model[:sd_card] = model.delete :sd_card_storage
+      if model[:audio]
+        model[:audio_in] = model.delete :audio
+        model[:audio_out] = model[:audio_in]
       end
-      if camera[:default_user]
-        camera[:default_username] = camera.delete :default_user
+      if model[:default_user]
+        model[:default_username] = model.delete :default_user
       end
-      camera[:manufacturer_id] = Manufacturer.where(:name => camera[:manufacturer]).first_or_create.id
-      camera.delete :manufacturer
-      if camera[:resolution]
-        if camera[:resolution] == '?'
-          camera[:resolution] = ''
+      model[:vendor_id] = Vendor.where(:name => model[:manufacturer]).first_or_create.id
+      model.delete :manufacturer
+      if model[:resolution]
+        if model[:resolution] == '?'
+          model[:resolution] = ''
         else
-          camera[:resolution] = camera[:resolution].gsub(/\s+/, "").gsub(/×/, "x").downcase
+          model[:resolution] = model[:resolution].gsub(/\s+/, "").gsub(/×/, "x").downcase
         end
       end
 
-      camera.update(camera){|key,value| clean_csv_values(value)}
-      c = Camera.where(:model => camera[:model]).first_or_initialize
-      c.update_attributes(camera)
+      model.update(model){|key,value| clean_csv_values(value)}
+      c = Model.where(:model => model[:model]).first_or_initialize
+      c.update_attributes(model)
       c.attributes.each do |k, v|
         if v == 'f'
-          if camera[k.to_sym]
-            c[k.to_sym] = camera[k.to_sym]
+          if model[k.to_sym]
+            c[k.to_sym] = model[k.to_sym]
           else
             c[k.to_sym] = 'Unknown'
           end
@@ -66,13 +66,13 @@ task :import_images => :environment do
       model_slug = item[0...last_underscore].to_url
       puts folder
       puts model_slug
-      manufacturer = Manufacturer.where(:manufacturer_slug => folder.to_url).first_or_create.id
-      camera = Camera.where(camera_slug: model_slug, manufacturer_id: manufacturer).first
-      if camera
-        puts camera
+      vendor = Vendor.where(:vendor_slug => folder.to_url).first_or_create.id
+      model = Model.where(model_slug: model_slug, vendor_id: vendor).first
+      if model
+        puts model
         File.open("db/seeds/images/#{folder}/#{item}") do |f|
           image = Image.create(:file => f)
-          camera.images.append(image)
+          model.images.append(image)
         end
       end
       puts
@@ -118,12 +118,12 @@ task :import_mac_addresses => :environment do
   vendors = JSON.parse(response.body)['vendors']
 
   vendors.each do |vendor|
-    manufacturer = Manufacturer.where(manufacturer_slug: vendor['id']).first
-    if manufacturer
+    vendor = Vendor.where(vendor_slug: vendor['id']).first
+    if vendor
       puts 'known_macs:'
       puts vendor['known_macs'].to_s
-      manufacturer.mac = vendor['known_macs']
-      manufacturer.save
+      vendor.mac = vendor['known_macs']
+      vendor.save
     else
       puts 'no mac addresses for the vendor'
     end

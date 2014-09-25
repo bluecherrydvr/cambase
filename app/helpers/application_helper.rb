@@ -7,8 +7,8 @@ module ApplicationHelper
     @resource ||= User.new
   end
 
-  def camera
-    @camera ||= Camera.new
+  def model
+    @model ||= Model.new
   end
 
   def devise_mapping
@@ -43,7 +43,7 @@ module ApplicationHelper
   end
 
   def combine_features
-    any_feature = Camera::FEATURES.map { |n| n.parameterize.underscore }
+    any_feature = Model::FEATURES.map { |n| n.parameterize.underscore }
     any_feature = any_feature.inject { |x, y| "#{x}_or_#{y}" }
     any_feature = "#{any_feature}_true"
   end

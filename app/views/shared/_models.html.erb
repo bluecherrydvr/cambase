@@ -1,0 +1,62 @@
+<% content_for :title do %>
+Model Listing
+<% end %>
+
+<%= render 'shared/filters' %>
+<div class="col-md-12">
+  <div class="table-responsive">
+    <table class="table table-list table-cameras">
+      <thead>
+        <tr>
+          <th><%= sort_link @search, :model, 'Images' %></th>
+          <th><%= sort_link @search, :model, 'Model' %></th>
+          <th><%= sort_link @search, :vendor, 'Vendor' %></th>
+          <th><%= sort_link @search, :resolution, 'Resolution' %></th>
+          <th class='shape'><%= sort_link @search, :shape, 'Shape' %></th>
+          <% Model::FEATURES.each do |feature| %>
+          <th class="rotate">
+            <div>
+              <span>
+                <%= sort_link @search, :"#{feature.parameterize.underscore}", feature %>
+              </span>
+            </div>
+          </th>
+          <% end %>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @models.each do |model| %>
+        <tr>
+          <td>
+            <% if model.images.empty? ==false %>
+              <%= image_tag(model.images.sorted.first.file.url(:medium), class: 'align-center', data: { fullsize: model.images.sorted.first.file.url(:medium) }) %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to_model_url(model.model, model) %>
+          </td>
+          <td class="manufacturer-name"><%= link_to model.vendor.name, "/#{model.vendor.vendor_slug}" %></td>
+          <td><%= model.resolution %></td>
+          <td>
+            <% if Model::SHAPES.include? model.shape.downcase %>
+            <span class='icon-camera_shape_<%= model.shape.downcase %>' title='<%= model.shape.titleize %>'></span>
+            <% else %>
+            <%= model.shape.titleize %>
+            <% end %>
+          </td>
+          <% Model::FEATURES.each do |feature| %>
+          <td class="feature">
+            <% if model[feature.parameterize.underscore] %>
+            <span class="dot" title="<%= feature %>"></span>
+            <% end %>
+          </td>
+          <% end %>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate @models %>
+  </div>
+</div>
+<div class="fullsize-image hidden"></div>

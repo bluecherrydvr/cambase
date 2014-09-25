@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   after_filter :store_location
 
   def set_global_search_variable
-    @search = Camera.search()
+    @search = Model.search()
   end
 
   protected

@@ -1,0 +1,28 @@
+<% content_for :title do %>
+  Vendor Listing
+<% end %>
+
+<div class="col-md-12">
+  <div class="table-responsive">
+    <table class="table table-list table-manufacturers">
+      <thead>
+        <tr>
+          <th>Vendor</th>
+          <th>Logo</th>
+          <th>#</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @vendors.each do |vendor| %>
+        <tr>
+          <td><%= link_to vendor.name, "/#{vendor.vendor_slug}" %></td>
+          <td><%= image_tag(vendor.image.file.url(:small)) if vendor.image %></td>
+          <td><%= vendor.models.size %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate @vendors %>
+  </div>
+</div>
