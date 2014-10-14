@@ -20,6 +20,20 @@
                 </div>
               </div>
             <% end %>
+          <% elsif image.owner_type == "Recorder" %>
+            <% if image.position == 1 %>
+              <div class="tile tile-big col-sm-4">
+                <div class="tile-content">
+                  <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.recorder}"), "/#{owner.vendor.vendor_slug}/#{owner.recorder_slug}") %>
+                </div>
+              </div>
+            <% else %>
+              <div class="tile tile-small col-sm-2">
+                <div class="tile-content">
+                  <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.recorder}"), "/#{owner.vendor.vendor_slug}/#{owner.recorder_slug}") %>
+                </div>
+              </div>
+            <% end %>
           <% else %>
             <div class="tile tile-big col-sm-4">
               <div class="tile-content">

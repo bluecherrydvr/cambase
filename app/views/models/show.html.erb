@@ -1,14 +1,14 @@
 <% content_for :title do %>
-<%= "#{@model.vendor.name} #{@model.model}" %>
+  <%= "#{@model.vendor.name} #{@model.model}" %>
 <% end %>
 
 <div class="camera-heading clearfix">
   <h1><%= "#{@model.vendor.name} #{@model.model}" %></h1>
   <% if @model.prev %>
-    <%= link_to "prev", vendor_model_path(@model.prev.vendor.vendor_slug, @model.prev.model_slug), class: 'align-left' %>
+    <%= link_to "prev", "/#{model.prev.vendor.name.downcase}/models/#{model.prev.model_slug}", class: 'align-left' %>
   <% end %>
   <% if @model.next %>
-    <%= link_to "next", vendor_model_path(@model.next.vendor.vendor_slug, @model.next.model_slug), class: 'align-left' %>
+    <%= link_to "next", "/#{model.next.vendor.name.downcase}/models/#{model.next.model_slug}", class: 'align-left' %>
   <% end %>
   <%= link_to "json", "/api/v1/models/#{@model.model_slug}", class: 'align-right' %>
   <%= link_to "url", '', class: 'align-right' %>
@@ -56,11 +56,13 @@
   <% end %>
   <div class="module module-table module-manufacturer">
     <div class="module-header">
-      <h4 class="">Manufacturer Information</h4>
+      <h4 class="">Vendor Information</h4>
     </div>
     <div class="module-body">
-      <% if @camera.manufacturer.image %>
-        <%= link_to(image_tag(@camera.manufacturer.image.file.url(:medium)), "/#{@camera.manufacturer.manufacturer_slug}", :class => '') %>
+      <% if @model.vendor.image %>
+        <%= link_to(image_tag(@model.vendor.image.file.url(:medium)), "/#{@model.vendor.vendor_slug}", :class => '') %>
+      <% else %>
+        <%= link_to('Add Logo', '', :class => 'add-new-image add-logo') %>
       <% end %>
       <div class="table-responsive">
         <table class="table table-striped">
@@ -104,122 +106,6 @@
           <div class="table-responsive">
             <table class="table table-striped">
               <tbody>
-<<<<<<< .mine
-              <tr class="clickable">
-                <td class="col-sm-3">Manufacturer</td>
-                <td class="col-sm-9 manufacturer-website">
-                  <% #= editable @camera, :manufacturer_id, source: Manufacturer.all.map{ |manufacturer| {value: manufacturer.id, text: manufacturer.name}}, type: :select, tag: :a, href: "/#{@camera.manufacturer.manufacturer_slug}" %>
-                  <%= link_to @camera.manufacturer.name, "/#{@camera.manufacturer.manufacturer_slug}" %>
-                  <%= link_to('Website', @camera.manufacturer.url, target: "_blank", class: 'icon-link') %>
-                </td>
-              </tr>
-              <tr>
-                <td>Model</td>
-                <td><%= @camera.model || 'Unknown' %></td>
-              </tr>
-              <tr>
-                <td>Resolution</td>
-                <td><%= @camera.resolution || 'Unknown' %></td>
-              </tr>
-              <tr class="shapes">
-                <td>Shape</td>
-                <td><%= @camera.shape || 'Unknown' %></td>
-              </tr>
-              <tr>
-                <td>JPEG URL</td>
-                <td><%= @camera.jpeg_url || 'Unknown' %></td>
-              </tr>
-              <tr>
-                <td>H264 URL</td>
-                <td>
-                  <% if @camera.h264_url=="<blank>"%>
-                    None
-                  <% else %>
-                    <%= @camera.h264_url || 'Unknown' %>
-                  <% end %>
-                </td>
-              </tr>
-              <tr>
-                <td>MJPEG URL</td>
-                <td><%= @camera.mjpeg_url || 'Unknown' %></td>
-              </tr>
-              <tr>
-                <td>Default Username</td>
-                <td><%= @camera.default_username || 'Unknown' %></td>
-              </tr>
-              <tr>
-                <td>Default Password</td>
-                <td><%= @camera.default_password || 'Unknown' %></td>
-              </tr>
-              <tr>
-                <td>Official Page</td>
-                <td>
-                  <% if @camera.official_url %>
-                    <%= link_to @camera.official_url, @camera.official_url, target: '_blank' %>
-                  <% else %>
-                    Unknown
-                  <% end %>
-                </td>
-              </tr>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=======
                 <% if user_signed_in? %>
                   <tr class="clickable">
                     <td class="col-sm-3">Vendor</td>
@@ -334,7 +220,6 @@
                     <td></td>
                   </tr>
                 <% end %>
->>>>>>> .theirs
               </tbody>
             </table>
           </div>
@@ -384,13 +269,8 @@
               <tbody>
                 <tr>
                   <td class="col-sm-3">ONVIF</td>
-<<<<<<< .mine
-                  <%= editable @camera, :onvif, tag: :td, class: "col-sm-9" %>
-
-=======
                   <%= editable @model, :onvif, tag: :td  %>
                   <td></td>
->>>>>>> .theirs
                 </tr>
                 <tr>
                   <td>PSIA</td>

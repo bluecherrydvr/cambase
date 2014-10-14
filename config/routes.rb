@@ -38,10 +38,18 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :vendors, :only => [:index, :update, :create]
-
-  resources :vendors, :except => [:new], :path => '' do
-    resources :models, :path => '', :except => [:index, :new]
+  resources :recorders, :only => [:index, :update] do
+    collection do
+      match 'search' => 'recorders#search', via: [:get, :post], as: :search
+    end
   end
+
+  resources :vendors, :only => [:index, :update, :create]
+  resources :recorders, :path => ':vendor_slug/recorders/'
+  resources :models, :path => ':vendor_slug/models/'
+ 
+  #resources :vendors, :except => [:new], :path => '' do
+  #  resources :models, :path => ':vendor_id/models/', :except => [:index, :new]
+  #end
 
 end

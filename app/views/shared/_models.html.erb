@@ -36,7 +36,7 @@ Model Listing
           <td>
             <%= link_to_model_url(model.model, model) %>
           </td>
-          <td class="manufacturer-name"><%= link_to model.vendor.name, "/#{model.vendor.vendor_slug}" %></td>
+          <td class="manufacturer-name"><%= link_to model.vendor.name, "/#{model.vendor.vendor_slug}/models" %></td>
           <td><%= model.resolution %></td>
           <td>
             <% if Model::SHAPES.include? model.shape.downcase %>

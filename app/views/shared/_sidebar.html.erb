@@ -4,10 +4,13 @@
   <p>We encourage individuals and vendors to contribute more information to Cambase.io as a resource for future developers.</p>
   <p>This data is licensed under creative commons and is freely available for both private and commercial use.</p>
   <p class="sidebar-stats icon-cameras">
-    <%= pluralize(Model.all.length, 'Model') %>
+    <%= link_to pluralize(Model.all.length, 'Model'), models_path %>
+  </p>
+  <p class="sidebar-stats icon-recorders">
+    <%= link_to pluralize(Recorder.all.length, 'Recorder'), recorders_path %>
   </p>
   <p class="sidebar-stats icon-manufacturers">
-    <%= pluralize(Vendor.all.length, 'Vendor') %>
+    <%= link_to pluralize(Vendor.all.length, 'Vendor'), vendors_path %>
   </p>
   <p class="sidebar-stats icon-images">
     <%= pluralize(Image.where(owner_type: "Model").length, 'Image') %>

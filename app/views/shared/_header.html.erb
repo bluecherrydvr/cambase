@@ -1,26 +1,9 @@
 <div class="front-header navbar navbar-top">
   <div class="container">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <a class="navbar-brand" href="/">
-      <h1>Cambase</h1>
-    </a>
-    <ul class="nav navbar-nav navbar-left">
-      <li><%= link_to('Models', models_path) %></li>
-      <li><%= link_to('Vendors', vendors_path) %></li>
-      <li><%= link_to('API', api_docs_path) %></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <% if user_signed_in? %>
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle username" data-toggle="dropdown">
-          <%= image_tag(avatar_url(current_user)) %>
-          <%= current_user.username %>
-          <b class="caret"></b>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <a class="navbar-brand" href="/">
+          <%= image_tag(asset_url('logo.jpg')) %>
         </a>
 
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -32,8 +15,9 @@
 
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-left">
-            <li><%= link_to('Cameras', cameras_path) %></li>
-            <li><%= link_to('Manufacturers', manufacturers_path) %></li>
+            <li><%= link_to('Models', models_path) %></li>
+            <li><%= link_to('Vendors', vendors_path) %></li>
+            <li><%= link_to('Recorders', recorders_path) %></li>
             <li><%= link_to('API', api_docs_path) %></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">

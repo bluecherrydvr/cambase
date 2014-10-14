@@ -1,5 +1,6 @@
 class Vendor < ActiveRecord::Base
   has_one  :image, as: :owner
+  has_many :recorders
   has_many :models
   before_create :make_slug
   has_paper_trail
