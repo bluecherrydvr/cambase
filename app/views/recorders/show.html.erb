@@ -1,0 +1,235 @@
+<% content_for :title do %>
+  <%= "#{@recorder.vendor.name} #{@recorder.model}" %>
+<% end %>
+
+<div class="camera-heading clearfix">
+  <h1><%= "#{@recorder.vendor.name} #{@recorder.model}" %></h1>
+  <% if @recorder.prev %>
+    <%= link_to "prev", "/#{recorder.prev.vendor.name.downcase}/recorders/#{recorder.prev.model.downcase}", class: 'align-left' %>
+  <% end %>
+  <% if @recorder.next %>
+    <%= link_to "next", "/#{recorder.next.vendor.name.downcase}/recorders/#{recorder.next.model.downcase}", class: 'align-left' %>
+  <% end %>
+  <%= link_to "json", "/api/v1/recorders/#{@recorder.recorder_slug}", class: 'align-right' %>
+  <%= link_to "url", '', class: 'align-right' %>
+</div>
+<div class="sidebar col-sm-3">
+  <div class="module module-images">
+    <div class="module-header">
+      <h4 class="add-new-image">Images</h4>
+    </div>
+    <% unless @recorder.images.empty? %>
+      <div class="module-body">
+        <img class="module-image-main" src="<%= @recorder.images.sorted.first.file.url(:medium) %>">
+        <ul class="thumbnails row">
+          <% if @recorder.images.count > 1 %>
+            <% @recorder.images.sorted.each do |image| %>
+              <li class="col-md-3">
+                <%= link_to(image_tag(image.file.url(:medium)), image.file.url(:medium)) %>
+              </li>
+            <% end %>
+          <% end %>
+          <li class="col-md-3">
+            <%= link_to(image_tag('icons/add_new_image.png', :class => 'add-new-image')) %>
+          </li>
+        </ul>
+      </div>
+    <% end %>
+    <%= form_for(@recorder) do |f| %>
+      <%= f.fields_for :images, @recorder, :html => {:multipart => true} do |asset| %>
+        <%= asset.file_field :file %>
+      <% end %>
+      <%= f.submit 'contribute' %>
+    <% end %>
+  </div>
+  <% unless @recorder.documents.empty? %>
+    <div class="module module-documents">
+      <div class="module-header">
+        <h4>Downloads</h4>
+      </div>
+      <div class="module-body">
+        <% @recorder.documents.each do |document| %>
+          <a href="<%= document.file.url %>">
+            <span class="icon-document"></span>
+            <%= document.file_file_name %>
+          </a>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <div class="module module-table module-manufacturer">
+    <div class="module-header">
+      <h4 class="add-new-image">Vendor Information</h4>
+    </div>
+    <div class="module-body">
+      <% if @recorder.vendor.image %>
+        <%= link_to(image_tag(@recorder.vendor.image.file.url(:medium)), "/#{@recorder.vendor.vendor_slug}", :class => 'add-new-image') %>
+      <% else %>
+        <%= link_to('Add Logo', '', :class => 'add-new-image add-logo') %>
+      <% end %>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <tr class="clickable">
+            <td class="col-sm-3">Name</td>
+            <td class="col-sm-9">
+              <%= @recorder.vendor.name %>
+            </td>
+          </tr>
+          <tr class="clickable">
+            <td>Website</td>
+            <td>
+              <%= link_to @recorder.vendor.name, @recorder.vendor.url, target: '_blank' %>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <%= form_for(@recorder.vendor) do |f| %>
+      <%= f.fields_for :image, @recorder.vendor, :html => {:multipart => true} do |asset| %>
+        <%= asset.file_field :file %>
+      <% end %>
+      <%= f.submit 'contribute' %>
+    <% end %>
+  </div>
+</div>
+<div class="col-sm-9">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="module module-table module-information">
+        <div class="module-header">
+          <h4>Recorder Information</h4>
+        </div>
+        <div class="module-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <tbody>
+                  <tr>
+                    <td class="col-sm-3">Vendor</td>
+                    <td><%= @recorder.vendor.name || 'Unknown' %>
+                      <%= link_to('Website', @recorder.vendor.url, target: "_blank", class: 'icon-link') %></td>
+                  </tr>
+                  <tr>
+                    <td>Name</td>
+                    <td><%= @recorder.name || 'Unknown' %></td>
+                  </tr>
+                  <tr>
+                    <td>Model</td>
+                    <td><%= @recorder.model || 'Unknown' %></td>
+                  </tr>
+                  <tr>
+                    <td>Max. Resolution</td>
+                    <td><%= @recorder.resolution || 'Unknown' %></td>
+                  </tr>
+                  <tr class="shapes">
+                    <td>Type</td>
+                    <td><%= @recorder.recorder_type || 'Unknown' %></td>
+                  </tr>
+                  <tr>
+                    <td>Input Channels</td>
+                    <td><%= @recorder.input_channels || 'Unknown' %></td>
+                  </tr>
+                  <tr>
+                    <td>Playback Channels</td>
+                    <td><%= @recorder.playback_channels || 'Unknown' %></td>
+                  </tr>
+                  <tr>
+                    <td>JPEG URL</td>
+                    <td><%= @recorder.jpeg_url || 'Unknown' %></td>
+                  </tr>
+                  <tr>
+                    <td>H264 URL</td>
+                    <td><%= @recorder.h264_url || 'Unknown' %></td>
+                  </tr>
+                  <tr>
+                    <td>MJPEG URL</td>
+                    <td><%= @recorder.mjpeg_url || 'Unknown' %></td>
+                  </tr>
+                  <tr>
+                    <td>Default Username</td>
+                    <td><%= @recorder.default_username || 'Unknown' %></td>
+                  </tr>
+                  <tr>
+                    <td>Default Password</td>
+                    <td><%= @recorder.default_password || 'Unknown' %></td>
+                  </tr>
+                  <tr>
+                    <td>Official Page</td>
+                    <td>
+                      <% if @recorder.official_url %>
+                        <%= link_to @recorder.official_url, @recorder.official_url, target: '_blank' %>
+                      <% else %>
+                        Unknown
+                      <% end %>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="module module-table module-information">
+        <div class="module-header">
+          <h4>Recorder Features</h4>
+        </div>
+        <div class="module-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <td class="col-sm-3">ONVIF</td>
+                  <%= editable @recorder, :onvif, tag: :td  %>
+                </tr>
+                <tr>
+                  <td>PSIA</td>
+                  <%= editable @recorder, :psia, tag: :td  %>
+                </tr>
+                <tr>
+                  <td>PTZ</td>
+                  <%= editable @recorder, :ptz, tag: :td  %>
+                </tr>
+                <tr>
+                  <td>UPnP</td>
+                  <%= editable @recorder, :upnp, tag: :td  %>
+                </tr>
+                <tr>
+                  <td>3rdparty Support</td>
+                  <%= editable @recorder, :support_3rdparty, tag: :td  %>
+                </tr>
+                <tr>
+                  <td>Audio In</td>
+                  <%= editable @recorder, :audio_in, tag: :td %>
+                </tr>
+                <tr>
+                  <td>Audio Out</td>
+                  <%= editable @recorder, :audio_out, tag: :td %>
+                </tr>
+                <tr>
+                  <td>Discontinued</td>
+                  <%= editable @recorder, :discontinued, tag: :td %>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="module module-tips">
+        <div class="module-header">
+          <h4>Tips</h4>
+        </div>
+        <div class="module-body">
+          <div id="disqus_thread"></div>
+          <script async type="text/javascript">
+            var disqus_shortname = 'cambase';
+            (function() {
+              var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+              dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+          <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

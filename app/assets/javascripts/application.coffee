@@ -56,7 +56,7 @@ $ ->
 
   $(".features span").on 'click', ->
     feature_id = $(this).attr("id").replace('_icon', '')
-    $("#{feature_id}").trigger "click"
+    $("##{feature_id}").trigger "click"
     $(this).toggleClass "selected"
 
   $(".features input[type=checkbox]").each ->
