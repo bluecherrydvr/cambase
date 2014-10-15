@@ -5,10 +5,10 @@
 <div class="camera-heading clearfix">
   <h1><%= "#{@recorder.vendor.name} #{@recorder.model}" %></h1>
   <% if @recorder.prev %>
-    <%= link_to "prev", "/#{recorder.prev.vendor.name.downcase}/recorders/#{recorder.prev.model.downcase}", class: 'align-left' %>
+    <%= link_to "prev", "/#{@recorder.prev.vendor.name.downcase}/recorders/#{@recorder.prev.model.downcase}", class: 'align-left' %>
   <% end %>
   <% if @recorder.next %>
-    <%= link_to "next", "/#{recorder.next.vendor.name.downcase}/recorders/#{recorder.next.model.downcase}", class: 'align-left' %>
+    <%= link_to "next", "/#{@recorder.next.vendor.name.downcase}/recorders/#{@recorder.next.model.downcase}", class: 'align-left' %>
   <% end %>
   <%= link_to "json", "/api/v1/recorders/#{@recorder.recorder_slug}", class: 'align-right' %>
   <%= link_to "url", '', class: 'align-right' %>
@@ -29,9 +29,6 @@
               </li>
             <% end %>
           <% end %>
-          <li class="col-md-3">
-            <%= link_to(image_tag('icons/add_new_image.png', :class => 'add-new-image')) %>
-          </li>
         </ul>
       </div>
     <% end %>
@@ -64,8 +61,6 @@
     <div class="module-body">
       <% if @recorder.vendor.image %>
         <%= link_to(image_tag(@recorder.vendor.image.file.url(:medium)), "/#{@recorder.vendor.vendor_slug}", :class => 'add-new-image') %>
-      <% else %>
-        <%= link_to('Add Logo', '', :class => 'add-new-image add-logo') %>
       <% end %>
       <div class="table-responsive">
         <table class="table table-striped">
@@ -103,65 +98,67 @@
           <div class="table-responsive">
             <table class="table table-striped">
               <tbody>
-                  <tr>
-                    <td class="col-sm-3">Vendor</td>
-                    <td><%= @recorder.vendor.name || 'Unknown' %>
-                      <%= link_to('Website', @recorder.vendor.url, target: "_blank", class: 'icon-link') %></td>
-                  </tr>
-                  <tr>
-                    <td>Name</td>
-                    <td><%= @recorder.name || 'Unknown' %></td>
-                  </tr>
-                  <tr>
-                    <td>Model</td>
-                    <td><%= @recorder.model || 'Unknown' %></td>
-                  </tr>
-                  <tr>
-                    <td>Max. Resolution</td>
-                    <td><%= @recorder.resolution || 'Unknown' %></td>
-                  </tr>
-                  <tr class="shapes">
-                    <td>Type</td>
-                    <td><%= @recorder.recorder_type || 'Unknown' %></td>
-                  </tr>
-                  <tr>
-                    <td>Input Channels</td>
-                    <td><%= @recorder.input_channels || 'Unknown' %></td>
-                  </tr>
-                  <tr>
-                    <td>Playback Channels</td>
-                    <td><%= @recorder.playback_channels || 'Unknown' %></td>
-                  </tr>
-                  <tr>
-                    <td>JPEG URL</td>
-                    <td><%= @recorder.jpeg_url || 'Unknown' %></td>
-                  </tr>
-                  <tr>
-                    <td>H264 URL</td>
-                    <td><%= @recorder.h264_url || 'Unknown' %></td>
-                  </tr>
-                  <tr>
-                    <td>MJPEG URL</td>
-                    <td><%= @recorder.mjpeg_url || 'Unknown' %></td>
-                  </tr>
-                  <tr>
-                    <td>Default Username</td>
-                    <td><%= @recorder.default_username || 'Unknown' %></td>
-                  </tr>
-                  <tr>
-                    <td>Default Password</td>
-                    <td><%= @recorder.default_password || 'Unknown' %></td>
-                  </tr>
-                  <tr>
-                    <td>Official Page</td>
-                    <td>
-                      <% if @recorder.official_url %>
-                        <%= link_to @recorder.official_url, @recorder.official_url, target: '_blank' %>
-                      <% else %>
-                        Unknown
-                      <% end %>
-                    </td>
-                  </tr>
+                <tr class="clickable">
+                  <td class="col-sm-3">Vendor</td>
+                  <td class="col-sm-9 manufacturer-website">
+                    <%= @recorder.vendor.name || 'Unknown' %>
+                    <%= link_to('Website', @recorder.vendor.url, target: "_blank", class: 'icon-link') %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Name</td>
+                  <td><%= @recorder.name || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>Model</td>
+                  <td><%= @recorder.model || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>Max. Resolution</td>
+                  <td><%= @recorder.resolution || 'Unknown' %></td>
+                </tr>
+                <tr class="shapes">
+                  <td>Type</td>
+                  <td><%= @recorder.recorder_type || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>Input Channels</td>
+                  <td><%= @recorder.input_channels || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>Playback Channels</td>
+                  <td><%= @recorder.playback_channels || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>JPEG URL</td>
+                  <td><%= @recorder.jpeg_url || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>H264 URL</td>
+                  <td><%= @recorder.h264_url || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>MJPEG URL</td>
+                  <td><%= @recorder.mjpeg_url || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>Default Username</td>
+                  <td><%= @recorder.default_username || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>Default Password</td>
+                  <td><%= @recorder.default_password || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>Official Page</td>
+                  <td>
+                    <% if @recorder.official_url %>
+                      <%= link_to @recorder.official_url, @recorder.official_url, target: '_blank' %>
+                    <% else %>
+                      Unknown
+                    <% end %>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>

@@ -7,6 +7,11 @@ class ModelsController < ApplicationController
     if params[:q].blank?
       @search = Model.search()
       @models = Model.page params[:page]
+
+      unless params[:vendor_slug].blank?
+        @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug])
+        @models = @models.where(:vendor_id => @vendor.id)
+      end
     else
       @search = Model.search(params[:q])
       @models = @search.result.page params[:page]
@@ -25,7 +30,10 @@ class ModelsController < ApplicationController
   # GET /models/1
   # GET /models/1.json
   def show
-    @model = Model.find_by_model_slug(params[:id])
+    unless params[:vendor_slug].blank?
+      @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug])
+      @model = Model.where(:model_slug => params[:id]).where(:vendor_id => @vendor.id).first
+    end
     respond_to do |format|
       format.html
       format.json {

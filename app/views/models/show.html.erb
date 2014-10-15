@@ -5,10 +5,10 @@
 <div class="camera-heading clearfix">
   <h1><%= "#{@model.vendor.name} #{@model.model}" %></h1>
   <% if @model.prev %>
-    <%= link_to "prev", "/#{model.prev.vendor.name.downcase}/models/#{model.prev.model_slug}", class: 'align-left' %>
+    <%= link_to "prev", "/#{@model.prev.vendor.name.downcase}/models/#{@model.prev.model_slug}", class: 'align-left' %>
   <% end %>
   <% if @model.next %>
-    <%= link_to "next", "/#{model.next.vendor.name.downcase}/models/#{model.next.model_slug}", class: 'align-left' %>
+    <%= link_to "next", "/#{@model.next.vendor.name.downcase}/models/#{@model.next.model_slug}", class: 'align-left' %>
   <% end %>
   <%= link_to "json", "/api/v1/models/#{@model.model_slug}", class: 'align-right' %>
   <%= link_to "url", '', class: 'align-right' %>
@@ -61,8 +61,6 @@
     <div class="module-body">
       <% if @model.vendor.image %>
         <%= link_to(image_tag(@model.vendor.image.file.url(:medium)), "/#{@model.vendor.vendor_slug}", :class => '') %>
-      <% else %>
-        <%= link_to('Add Logo', '', :class => 'add-new-image add-logo') %>
       <% end %>
       <div class="table-responsive">
         <table class="table table-striped">
@@ -106,120 +104,56 @@
           <div class="table-responsive">
             <table class="table table-striped">
               <tbody>
-                <% if user_signed_in? %>
-                  <tr class="clickable">
-                    <td class="col-sm-3">Vendor</td>
-                    <td class="col-sm-8 manufacturer-website">
-                      <%= editable @model, :vendor_id, source: Vendor.all.map{ |vendor| {value: vendor.id, text: vendor.name}}, type: :select, tag: :a, href: "/#{@model.vendor.vendor_slug}" %>
-                      <%= link_to('Website', @model.vendor.url, target: "_blank", class: 'icon-link') %>
-                    </td>
-                    <td class="col-sm-1 icon-edit"></td>
-                  </tr>
-                  <tr>
-                    <td>Model</td>
-                    <%= editable @model, :model, tag: :td, link_url: request.url %>
-                    <td class="icon-edit"></td>
-                  </tr>
-                  <tr>
-                    <td>Resolution</td>
-                    <%= editable @model, :resolution, source: Model.uniq.pluck(:resolution).compact.sort.map{ |resolution| {value: resolution, text: resolution}}, type: :select, tag: :td %>
-                    <td class="icon-edit"></td>
-                  </tr>
-                  <tr class="shapes">
-                    <td>Shape</td>
-                    <%= editable @model, :shape, source: Model.uniq.pluck(:shape).compact.sort.map{ |shape| {value: shape, text: shape}}, type: :select, tag: :td %>
-                    <td class="icon-edit"></td>
-                  </tr>
-                  <tr>
-                    <td>JPEG URL</td>
-                    <%= editable @model, :jpeg_url, tag: :td %>
-                    <td class="icon-edit"></td>
-                  </tr>
-                  <tr>
-                    <td>H264 URL</td>
-                    <%= editable @model, :h264_url, tag: :td %>
-                    <td class="icon-edit"></td>
-                  </tr>
-                  <tr>
-                    <td>MJPEG URL</td>
-                    <%= editable @model, :mjpeg_url, tag: :td %>
-                    <td class="icon-edit"></td>
-                  </tr>
-                  <tr>
-                    <td>Default Username</td>
-                    <%= editable @model, :default_username, tag: :td %>
-                    <td class="icon-edit"></td>
-                  </tr>
-                  <tr>
-                    <td>Default Password</td>
-                    <%= editable @model, :default_password, tag: :td %>
-                    <td class="icon-edit"></td>
-                  </tr>
-                  <tr class="clickable">
-                    <td>Official Page</td>
-                    <td>
-                      <%= editable @model, :official_url, tag: :a, href: @model.official_url, target: '_blank' %>
-                    </td>
-                    <td class="icon-edit"></td>
-                  </tr>
-                <% else %>
-                  <tr>
-                    <td class="col-sm-3">Vendor</td>
-                    <td class="col-sm-8"><%= @model.vendor.name || 'Unknown' %></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>Model</td>
-                    <td><%= @model.model || 'Unknown' %></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>Resolution</td>
-                    <td><%= @model.resolution || 'Unknown' %></td>
-                    <td></td>
-                  </tr>
-                  <tr class="shapes">
-                    <td>Shape</td>
-                    <td><%= @model.shape || 'Unknown' %></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>JPEG URL</td>
-                    <td><%= @model.jpeg_url || 'Unknown' %></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>H264 URL</td>
-                    <td><%= @model.h264_url || 'Unknown' %></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>MJPEG URL</td>
-                    <td><%= @model.mjpeg_url || 'Unknown' %></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>Default Username</td>
-                    <td><%= @model.default_username || 'Unknown' %></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>Default Password</td>
-                    <td><%= @model.default_password || 'Unknown' %></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>Official Page</td>
-                    <td>
-                      <% if @model.official_url %>
-                        <%= link_to @model.official_url, @model.official_url, target: '_blank' %>
-                      <% else %>
-                        Unknown
-                      <% end %>
-                    </td>
-                    <td></td>
-                  </tr>
-                <% end %>
+                <tr class="clickable">
+                  <td class="col-sm-3">Vendor</td>
+                  <td class="col-sm-9 manufacturer-website">
+                    <%= link_to @model.vendor.name, "/#{@model.vendor.vendor_slug}" %>
+                    <%= link_to('Website', @model.vendor.url, target: "_blank", class: 'icon-link') %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Model</td>
+                  <td><%= @model.model || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>Resolution</td>
+                  <td><%= @model.resolution || 'Unknown' %></td>
+                </tr>
+                <tr class="shapes">
+                  <td>Shape</td>
+                  <td><%= @model.shape || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>JPEG URL</td>
+                  <td><%= @model.jpeg_url || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>H264 URL</td>
+                  <td><%= @model.h264_url || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>MJPEG URL</td>
+                  <td><%= @model.mjpeg_url || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>Default Username</td>
+                  <td><%= @model.default_username || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>Default Password</td>
+                  <td><%= @model.default_password || 'Unknown' %></td>
+                </tr>
+                <tr>
+                  <td>Official Page</td>
+                  <td>
+                    <% if @model.official_url %>
+                      <%= link_to @model.official_url, @model.official_url, target: '_blank' %>
+                    <% else %>
+                      Unknown
+                    <% end %>
+                  </td>
+                  <td></td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -234,24 +168,12 @@
             <div class="table-responsive">
               <table class="table table-striped">
                 <tbody>
-                  <% if user_signed_in? %>
-                    <% @model.additional_information.each do |key, value| %>
-                      <tr>
-                        <td><%= key %></td>
-                        <td class='editable additional_information' data-model='model[additional_information]' data-name='<%= key %>' data-placeholder='Additional information' data-type='text' data-url='/models/<%= @model.id %>' data-value='<%= @model.additional_information[key] %>' title='<%= @model.additional_information[key] %>'>
-                          <%= @model.additional_information[key] %>
-                        </td>
-                        <td class="icon-edit"></td>
-                      </tr>
-                    <% end %>
-                  <% else %>
-                    <% @model.additional_information.each do |key, value| %>
-                      <tr>
-                        <td><%= key %></td>
-                        <td><%= @model.additional_information[key] || 'Unknown' %></td>
-                        <td></td>
-                      </tr>
-                    <% end %>
+                  <% @model.additional_information.each do |key, value| %>
+                    <tr>
+                      <td><%= key %></td>
+                      <td><%= @model.additional_information[key] || 'Unknown' %></td>
+                      <td></td>
+                    </tr>
                   <% end %>
                 </tbody>
               </table>
@@ -270,7 +192,6 @@
                 <tr>
                   <td class="col-sm-3">ONVIF</td>
                   <%= editable @model, :onvif, tag: :td  %>
-                  <td></td>
                 </tr>
                 <tr>
                   <td>PSIA</td>
