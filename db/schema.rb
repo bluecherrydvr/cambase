@@ -11,46 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140612141902) do
+ActiveRecord::Schema.define(version: 20140929150902) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
-
-  create_table "cameras", force: true do |t|
-    t.integer  "manufacturer_id"
-    t.string   "model"
-    t.text     "manual_url"
-    t.text     "jpeg_url"
-    t.text     "h264_url"
-    t.text     "mjpeg_url"
-    t.string   "resolution"
-    t.string   "firmware"
-    t.string   "shape"
-    t.integer  "fov"
-    t.boolean  "onvif"
-    t.boolean  "psia"
-    t.boolean  "ptz"
-    t.boolean  "infrared"
-    t.boolean  "varifocal"
-    t.boolean  "sd_card"
-    t.boolean  "upnp"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "camera_slug"
-    t.boolean  "audio_in"
-    t.boolean  "audio_out"
-    t.string   "default_username"
-    t.string   "default_password"
-    t.hstore   "additional_information"
-    t.boolean  "discontinued"
-    t.boolean  "wifi"
-    t.boolean  "poe"
-    t.string   "official_url"
-  end
-
-  add_index "cameras", ["camera_slug"], name: "index_cameras_on_camera_slug", using: :btree
-  add_index "cameras", ["manufacturer_id"], name: "index_cameras_on_manufacturer_id", using: :btree
 
   create_table "documents", force: true do |t|
     t.integer  "owner_id"
@@ -77,18 +42,69 @@ ActiveRecord::Schema.define(version: 20140612141902) do
     t.string   "file_fingerprint"
   end
 
-  create_table "manufacturers", force: true do |t|
-    t.string   "name"
-    t.text     "info"
-    t.text     "mac",               default: [], array: true
-    t.text     "text",              default: [], array: true
+  create_table "models", force: true do |t|
+    t.integer  "vendor_id"
+    t.string   "model"
+    t.text     "manual_url"
+    t.text     "jpeg_url"
+    t.text     "h264_url"
+    t.text     "mjpeg_url"
+    t.string   "resolution"
+    t.string   "firmware"
+    t.string   "shape"
+    t.integer  "fov"
+    t.boolean  "onvif"
+    t.boolean  "psia"
+    t.boolean  "ptz"
+    t.boolean  "infrared"
+    t.boolean  "varifocal"
+    t.boolean  "sd_card"
+    t.boolean  "upnp"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "manufacturer_slug"
-    t.string   "url"
+    t.string   "model_slug"
+    t.boolean  "audio_in"
+    t.boolean  "audio_out"
+    t.string   "default_username"
+    t.string   "default_password"
+    t.hstore   "additional_information"
+    t.boolean  "discontinued"
+    t.boolean  "wifi"
+    t.boolean  "poe"
+    t.string   "official_url"
   end
 
-  add_index "manufacturers", ["manufacturer_slug"], name: "index_manufacturers_on_manufacturer_slug", unique: true, using: :btree
+  add_index "models", ["model_slug"], name: "index_models_on_model_slug", using: :btree
+  add_index "models", ["vendor_id"], name: "index_models_on_vendor_id", using: :btree
+
+  create_table "recorders", force: true do |t|
+    t.integer  "vendor_id"
+    t.string   "recorder_slug"
+    t.string   "name"
+    t.string   "model"
+    t.string   "official_url"
+    t.text     "jpeg_url"
+    t.text     "h264_url"
+    t.text     "mjpeg_url"
+    t.string   "resolution"
+    t.string   "default_username"
+    t.string   "default_password"
+    t.string   "recorder_type"
+    t.integer  "input_channels"
+    t.integer  "playback_channels"
+    t.boolean  "audio_in"
+    t.boolean  "audio_out"
+    t.boolean  "onvif"
+    t.boolean  "psia"
+    t.boolean  "ptz"
+    t.boolean  "upnp"
+    t.boolean  "discontinued"
+    t.boolean  "support_3rdparty"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "recorders", ["vendor_id"], name: "index_recorders_on_vendor_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -109,6 +125,19 @@ ActiveRecord::Schema.define(version: 20140612141902) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
+
+  create_table "vendors", force: true do |t|
+    t.string   "name"
+    t.text     "info"
+    t.text     "mac",         default: [], array: true
+    t.text     "text",        default: [], array: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "vendor_slug"
+    t.string   "url"
+  end
+
+  add_index "vendors", ["vendor_slug"], name: "index_vendors_on_vendor_slug", unique: true, using: :btree
 
   create_table "versions", force: true do |t|
     t.string   "item_type",      null: false

@@ -1,0 +1,121 @@
+.table-list{
+  border: 4px solid $grayborder;
+  margin-bottom: 0;
+  border-collapse: inherit;
+  thead, tbody{
+    tr{
+      min-width: 100%;
+      max-width: 100%;
+      th, td{
+        border-right: 4px solid $grayborder;
+        background-color: #fff;
+        &:last-child{
+          border-right: none;
+        }
+      }
+      th{
+        border-top: 4px solid $grayborder;
+        border-bottom: 4px solid $grayborder;
+        a{
+          font-size: 14px;
+          color: $darkgreen;
+        }
+      }
+      th.shape{
+        text-align: center;
+      }
+      th.rotate {
+        height: 95px;
+        width: 31px;
+        white-space: nowrap;
+        font-style: normal;
+        border-left: none;
+        border-right: none;
+      }
+
+      th.rotate > div {
+        transform: translate(-7px, 13px) rotate(-45deg);
+        width: 0px;
+      }
+      th.rotate > div > span {
+        padding: 5px 9px;
+      }
+      td{
+        border-top: none;
+        border-bottom: none;
+        vertical-align: middle;
+        &.feature{
+          text-align: center;
+          border-width: 1px;
+          padding: 0;
+          .dot{
+            display: inline-block;
+            background: $mediumgreen;
+            width: 10px;
+            height: 10px;
+            border-radius: 15px;
+          }
+        }
+        &:first-child{
+          a{
+            display: block;
+            line-height: 3.5;
+          }
+        }
+        img{
+          max-height: 50px;
+        }
+      }
+    }
+  }
+  &.table-models{
+    tr td:nth-child(4){
+      text-align: center;
+      width: 80px;
+    }
+  }
+  &.table-vendors{
+    td{
+      height: 50px;
+    }
+    tr td:nth-child(3),
+    tr th:nth-child(3){
+      text-align: center;
+      width: 42px;
+    }
+  }
+}
+
+.pagination{
+  margin-top: 0;
+  padding: 8px;
+  width: 100%;
+  border: 4px solid $grayborder;
+  border-top: none;
+  background: #fff;
+  span{
+    &.current{
+      font-weight: bold;
+    }
+    padding: 4px;
+    background: $offwhite;
+    &:first-child{
+      padding-left: 8px;
+    }
+    &:last-child{
+      padding-right: 8px;
+    }
+    a{
+      color: $darkgreen;
+    }
+  }
+}
+
+.fullsize-image{
+  position: absolute;
+  z-index: 10;
+  border: 4px solid #eaeaea;
+  &.hidden {
+    display: none;
+  }
+}

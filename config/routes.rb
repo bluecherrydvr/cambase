@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get '/api-docs' => 'pages#api_docs'
   get '/settings' => 'pages#settings'
 
-  post '/admin/history', to: 'cameras#history', as: :cameras_history
+  post '/admin/history', to: 'models#history', as: :cameras_history
   post "/versions", to: "versions#change", :as => "change_version"
 
   get '/users/auth', to: 'users#auth'
@@ -22,26 +22,34 @@ Rails.application.routes.draw do
     get '/' => '/api#index'
     namespace :v1 do
       get '/' => '/api#index'
-      resources :cameras do
+      resources :models do
         collection do
-          get 'search' => 'cameras#search', as: :search
+          get 'search' => 'models#search', as: :search
         end
       end
-      resources :manufacturers
+      resources :vendors
       resources :changes
     end
   end
 
-  resources :cameras, :only => [:index, :update] do
+  resources :models, :only => [:index, :update] do
     collection do
-      match 'search' => 'cameras#search', via: [:get, :post], as: :search
+      match 'search' => 'models#search', via: [:get, :post], as: :search
     end
   end
 
-  resources :manufacturers, :only => [:index, :update, :create]
-
-  resources :manufacturers, :except => [:new], :path => '' do
-    resources :cameras, :path => '', :except => [:index, :new]
+  resources :recorders, :only => [:index, :update] do
+    collection do
+      match 'search' => 'recorders#search', via: [:get, :post], as: :search
+    end
   end
+
+  resources :vendors, :only => [:index, :update, :create]
+  resources :recorders, :path => ':vendor_slug/recorders/'
+  resources :models, :path => ':vendor_slug/models/'
+ 
+  #resources :vendors, :except => [:new], :path => '' do
+  #  resources :models, :path => ':vendor_id/models/', :except => [:index, :new]
+  #end
 
 end

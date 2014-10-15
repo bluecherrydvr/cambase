@@ -1,15 +1,18 @@
 <div class="sidebar-content col-sm-12">
   <h2>About Cambase</h2>
-  <p>Cambase.io is a project by Evercam.io in order to make it easier for software developers to have a reliable, up to date source of camera hardware information available via a public API.</p>
-  <p>We encourage individuals and manufacturers to contribute more information to Cambase.io as a resource for future developers.</p>
+  <p>Cambase.io is a project by Evercam.io in order to make it easier for software developers to have a reliable, up to date source of model hardware information available via a public API.</p>
+  <p>We encourage individuals and vendors to contribute more information to Cambase.io as a resource for future developers.</p>
   <p>This data is licensed under creative commons and is freely available for both private and commercial use.</p>
   <p class="sidebar-stats icon-cameras">
-    <%= pluralize(Camera.all.length, 'Camera') %>
+    <%= link_to pluralize(Model.all.length, 'Model'), models_path %>
+  </p>
+  <p class="sidebar-stats icon-recorders">
+    <%= link_to pluralize(Recorder.all.length, 'Recorder'), recorders_path %>
   </p>
   <p class="sidebar-stats icon-manufacturers">
-    <%= pluralize(Manufacturer.all.length, 'Manufacturer') %>
+    <%= link_to pluralize(Vendor.all.length, 'Vendor'), vendors_path %>
   </p>
   <p class="sidebar-stats icon-images">
-    <%= pluralize(Image.where(owner_type: "Camera").length, 'Image') %>
+    <%= pluralize(Image.where(owner_type: "Model").length, 'Image') %>
   </p>
 </div>

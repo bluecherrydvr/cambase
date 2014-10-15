@@ -3,23 +3,23 @@
     <div class="col-sm-12">
       <div class="navbar-form col-sm-12" role="search">
         <div class="form-group">
-          <%= search_form_for @search, :prefix => 'filter', url: search_cameras_path, html: { method: :get } do |f| %>
+          <%= search_form_for @search, :prefix => 'filter', url: search_models_path, html: { method: :get } do |f| %>
           <div class="search-filters row">
             <div class="col-sm-6">
               <div class="col-sm-12">
-                <%= f.text_field :model_or_manufacturer_name_cont, :placeholder => "Search Make / Model Name", :class => "search_model" %>
+                <%= f.text_field :model_or_vendor_name_cont, :placeholder => "Search Make / Model Name", :class => "search_model" %>
               </div>
               <div class="col-sm-4">
-                <%= f.label 'Manufacturer' %>
-                <%= f.collection_select(:manufacturer_id_eq, Manufacturer.order(:name), :id, :name, :include_blank => 'Any') %>
+                <%= f.label 'Vendor' %>
+                <%= f.collection_select(:vendor_id_eq, Vendor.order(:name), :id, :name, :include_blank => 'Any') %>
               </div>
               <div class="col-sm-4">
                 <%= f.label 'Resolution' %>
-                <%= f.select(:resolution_eq, Camera.uniq.pluck(:resolution).compact.sort, :include_blank => 'Any') %>
+                <%= f.select(:resolution_eq, Model.uniq.pluck(:resolution).compact.sort, :include_blank => 'Any') %>
               </div>
               <div class="col-sm-4">
                 <%= f.label 'Shape' %>
-                <%= f.select(:shape_eq, Camera.uniq.pluck(:shape).compact.sort, :include_blank => 'Any') %>
+                <%= f.select(:shape_eq, Model.uniq.pluck(:shape).compact.sort, :include_blank => 'Any') %>
               </div>
               <div class="col-sm-12 feature-filters">
                 <%= f.label 'Features' %>
@@ -30,7 +30,7 @@
                       Any
                     </label>
                   </span>
-                  <% Camera::FEATURES.each do |feature| %>
+                  <% Model::FEATURES.each do |feature| %>
                   <span>
                     <label>
                       <%= f.check_box "#{feature.parameterize.underscore}_true", :id => "filter_#{feature.parameterize.underscore}_true" %>

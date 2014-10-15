@@ -19,7 +19,7 @@
         </li>
         <li>
           <% if user_signed_in? %>
-          <%= link_to "Contribute", '#add-camera-modal', data: { toggle: "modal", target: "#add-camera-modal" } %>
+          <%= link_to "Contribute", '#add-model-modal', data: { toggle: "modal", target: "#add-model-modal" } %>
           <% else %>
           <%= link_to "Contribute", '#signin-modal', data: { toggle: "modal", target: "#signin-modal" } %>
           <% end %>

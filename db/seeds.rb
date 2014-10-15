@@ -10,12 +10,12 @@ seed_file = File.join(Rails.root, 'db', 'seeds', 'cameras.yml')
 documents = YAML.load_stream(open(seed_file))
 
 documents.each do |doc|
-  doc.each do |camera|
-    camera.delete 'id'
-    camera.delete 'credentials'
-    camera['manufacturer'].delete 'id'
-    manufacturer = Manufacturer.where(camera['manufacturer']).first_or_create
-    camera['manufacturer'] = manufacturer
-    Camera.create(camera)
+  doc.each do |model|
+    model.delete 'id'
+    model.delete 'credentials'
+    model['vendor'].delete 'id'
+    vendor = Vendor.where(model['vendor']).first_or_create
+    model['vendor'] = vendor
+    Model.create(model)
   end
 end

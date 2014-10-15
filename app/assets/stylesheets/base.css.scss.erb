@@ -102,7 +102,7 @@ a:focus {
   float: left;
 }
 
-<% Camera::FEATURES.each do |feature| %>
+<% Model::FEATURES.each do |feature| %>
 <%= ".icon-camera_feature_#{feature}" %>{
   @include icon(<%= "camera_feature_#{feature.parameterize.underscore}" %>);
   background-position: 5px 5px;
@@ -111,7 +111,7 @@ a:focus {
 }
 <% end %>
 
-<% Camera::SHAPES.each do |shape| %>
+<% Model::SHAPES.each do |shape| %>
 <%= ".icon-camera_shape_#{shape.downcase}" %>{
   @include icon(<%= "camera_shape_#{shape.downcase}" %>);
   background-position: 5px 5px;

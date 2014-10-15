@@ -1,0 +1,39 @@
+<div id="add-manufacturer-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title text-center">Add a Vendor</h4>
+      </div>
+      <div class="modal-body clearfix">
+        <%= form_for(vendor = Vendor.new) do |f| %>
+        <%= devise_error_messages! %>
+        <div class="col-md-6">
+          <h3>Add a Vendor</h3>
+          <h4><%= link_to "Add a Model", '#add-model-modal', data: { toggle: "modal", target: "#add-model-modal", dismiss: "modal" } %></h4>
+          <p>
+            <%= f.text_field :name, :placeholder => "Vendor Name" %>
+          </p>
+          <p>
+          <%= f.text_field :url, :placeholder => "Vendor Website" %>
+          </p>
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+          <div>
+            <button type="button" class="close modal-button absolute-right" data-dismiss="modal" aria-hidden="true">cancel</button>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <p>
+            <%= f.fields_for :image, vendor, :html => {:multipart => true} do |asset| %>
+            <%= asset.file_field :file %>
+            <% end %>
+          </p>
+          <div>
+            <%= f.submit 'contribute', class: 'modal-button absolute-left' %>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

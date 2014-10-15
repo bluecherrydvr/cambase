@@ -1,0 +1,115 @@
+<% content_for :title do %>
+Recorder Listing
+<% end %>
+
+<nav class="navbar navbar-default container" role="navigation">
+  <div class="row" id="bs-example-navbar-collapse-1">
+    <div class="col-sm-12">
+      <div class="navbar-form col-sm-12" role="search">
+        <div class="form-group">
+          <%= search_form_for @search, :prefix => 'filter', url: search_recorders_path, html: { method: :get } do |f| %>
+          <div class="search-filters row">
+            <div class="col-sm-6">
+              <div class="col-sm-12">
+                <%= f.text_field :model_or_vendor_name_cont, :placeholder => "Search Make / Model Name", :class => "search_model" %>
+              </div>
+              <div class="col-sm-4">
+                <%= f.label 'Vendor' %>
+                <%= f.collection_select(:vendor_id_eq, Vendor.order(:name), :id, :name, :include_blank => 'Any') %>
+              </div>
+              <div class="col-sm-4">
+                <%= f.label 'Max. Resolution' %>
+                <%= f.select(:resolution_eq, Recorder.uniq.pluck(:resolution).compact.sort, :include_blank => 'Any') %>
+              </div>
+              <div class="col-sm-4">
+                <%= f.label 'Type' %>
+                <%= f.select(:recorder_type_eq, Recorder.uniq.pluck(:recorder_type).compact.sort, :include_blank => 'Any') %>
+              </div>
+              <div class="col-sm-12 feature-filters">
+                <%= f.label 'Features' %>
+                <div>
+                  <span>
+                    <label>
+                      <%= f.check_box combine_features, :id => 'any', checked: true %>
+                      Any
+                    </label>
+                  </span>
+                  <% Recorder::FEATURES.each do |feature| %>
+                  <span>
+                    <label>
+                      <%= f.check_box "#{feature.parameterize.underscore}_true", :id => "filter_#{feature.parameterize.underscore}_true" %>
+                      <%= feature %>
+                    </label>
+                  </span>
+                  <% end %>
+                </div>
+              </div>
+              <div class="col-sm-12 actions">
+                <%= f.submit "Search", :class => 'button' %>
+              </div>
+            </div>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="col-md-12">
+  <div class="table-responsive">
+    <table class="table table-list table-cameras">
+      <thead>
+        <tr>
+          <th><%= sort_link @search, :model, 'Images' %></th>
+          <th><%= sort_link @search, :model, 'Model' %></th>
+          <th><%= sort_link @search, :vendor, 'Vendor' %></th>
+          <th><%= sort_link @search, :resolution, 'Max Resolution' %></th>
+          <th class='type'><%= sort_link @search, :recorder_type, 'Type' %></th>
+          <% Recorder::FEATURES.each do |feature| %>
+          <th class="rotate">
+            <div>
+              <span>
+                <%= sort_link @search, :"#{feature.parameterize.underscore}", feature %>
+              </span>
+            </div>
+          </th>
+          <% end %>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @recorders.each do |recorder| %>
+        <tr>
+          <td>
+            <% if recorder.images.empty? ==false %>
+              <%= image_tag(recorder.images.sorted.first.file.url(:medium), class: 'align-center', data: { fullsize: recorder.images.sorted.first.file.url(:medium) }) %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to recorder.model, "/#{recorder.vendor.vendor_slug}/recorders/#{recorder.model.downcase}" %>
+          </td>
+          <td class="manufacturer-name"><%= link_to recorder.vendor.name, "/#{recorder.vendor.vendor_slug}/recorders" %></td>
+          <td><%= recorder.resolution %></td>
+          <td>
+            <% if Recorder::TYPES.include? recorder.recorder_type %>
+            <span class='icon-camera_shape_<%= recorder.recorder_type %>' title='<%= recorder.recorder_type %>'></span>
+            <% else %>
+            <%= recorder.recorder_type %>
+            <% end %>
+          </td>
+          <% Recorder::FEATURES.each do |feature| %>
+          <td class="feature">
+            <% if recorder[feature.parameterize.underscore] %>
+            <span class="dot" title="<%= feature %>"></span>
+            <% end %>
+          </td>
+          <% end %>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate @recorders %>
+  </div>
+</div>
+<div class="fullsize-image hidden"></div>
