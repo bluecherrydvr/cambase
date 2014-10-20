@@ -33,7 +33,7 @@ Rails.application.routes.draw do
         end
       end
       resources :vendors
-      #resources :changes
+      resources :changes
     end
   end
 
@@ -52,9 +52,5 @@ Rails.application.routes.draw do
   resources :vendors, :only => [:index, :update, :create]
   resources :models, :path => ':vendor_slug/models/'
   resources :recorders, :path => ':vendor_slug/recorders/'
- 
-  #resources :vendors, :except => [:new], :path => '' do
-  #  resources :models, :path => ':vendor_id/models/', :except => [:index, :new]
-  #end
 
 end
