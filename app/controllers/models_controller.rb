@@ -33,6 +33,24 @@ class ModelsController < ApplicationController
     unless params[:vendor_slug].blank?
       @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug])
       @model = Model.where(:model_slug => params[:id]).where(:vendor_id => @vendor.id).first
+      # fix blank URLs to '/' for all ACTi cameras 
+      if @vendor.name.downcase == "acti" #&& @model.model.downcase.start_with?('acm')
+        if @model.jpeg_url && (@model.jpeg_url.downcase == "<blank>" || @model.jpeg_url.downcase == "" || @model.jpeg_url.downcase == "f")
+          @model.jpeg_url = '/'
+        end
+        if @model.h264_url && (@model.h264_url.downcase == "<blank>" || @model.h264_url.downcase == "" || @model.h264_url.downcase == "f")
+          @model.h264_url = '/'
+        end
+        if @model.mjpeg_url && (@model.mjpeg_url.downcase == "<blank>" || @model.mjpeg_url.downcase == "" || @model.mjpeg_url.downcase == "f")
+          @model.mjpeg_url = '/'
+        end
+        if @model.official_url && (@model.official_url.downcase == "<blank>" || @model.official_url.downcase == "" || @model.official_url.downcase == "f")
+          @model.official_url = '/'
+        end
+        if @model.manual_url && (@model.manual_url.downcase == "<blank>" || @model.manual_url.downcase == "" || @model.manual_url.downcase == "f")
+          @model.manual_url = '/'
+        end
+      end
     end
     respond_to do |format|
       format.html

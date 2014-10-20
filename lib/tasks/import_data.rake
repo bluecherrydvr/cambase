@@ -1,6 +1,209 @@
+require 'aws-sdk'
+require 'open-uri'
 require Rails.root.join('lib', 'import_data.rb')
 
-desc "Import csv"
+desc "Download images from S3 and save to database"
+task :import_files_s3_to_db => :environment do
+  AWS.config(
+    :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
+    :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
+    :s3_endpoint => 's3-eu-west-1.amazonaws.com'
+  )
+  s3 = AWS::S3.new
+  s3.buckets['cambase.io'].objects.with_prefix('Google drive/').each do |obj|
+
+    info = obj.key.split('/')
+    if info.size == 4
+      ### looping through Google drive/vendors/models/files
+      vendor_name = info[1]
+      model_name = info[2]
+      file_name = File.basename(obj.key)
+
+      vendor = Vendor.where(vendor_slug: vendor_name.to_url).first
+      if vendor
+        model = Model.where(model_slug: model_name.to_url, vendor_id: vendor.id).first
+        if model 
+          begin
+            temp_file = Tempfile.new(file_name.split(/(.\w+)$/))
+            temp_file.binmode
+            temp_file.write(obj.read)
+            if File.extname(info.last) == ".jpg" || File.extname(info.last) == ".png" || File.extname(info.last) == ".gif"
+              image = Image.create(:file => temp_file)
+              model.images.append(image)
+              puts "\n  + " + "/" + vendor_name + "/" + model_name + "/" + info.last
+            elsif File.extname(info.last) == ".pdf" || File.extname(info.last) == ".doc" || File.extname(info.last) == ".txt"
+              document = Document.create(:file => temp_file)
+              model.documents.append(document)
+              puts "\n  + " + "/" + vendor_name + "/" + model_name + "/" + info.last
+            else
+              puts "\n  - " + file_name
+            end
+            ###### FOR TESTING ONLY ######
+            #break
+            ##############################
+          rescue => e
+            puts "ERR: " + e.message
+          ensure # ensure we don't keep dead links
+            temp_file.close
+            temp_file.unlink
+          end
+        end
+      end
+    end
+  end
+  puts " Models files downloaded from AWS S3 to database \n"
+end
+
+
+desc "Download images from S3 and save to local directory"
+task :import_files_s3_dir => :environment do
+  AWS.config(
+    :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
+    :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
+    :s3_endpoint => 's3-eu-west-1.amazonaws.com'
+  )
+  s3 = AWS::S3.new
+  s3.buckets['cambase.io'].objects.with_prefix('Google drive/').each do |img|
+    
+    # creating root directory if does not exist
+    if Dir.exists?("#{Rails.root}/db/seeds/s3") == false
+      Dir.mkdir("#{Rails.root}/db/seeds/s3")
+    end
+
+    # dropping 'Google drive/' from path info
+    info = img.key.split('/').drop(1)
+    if info.size == 1
+      # looping through vendors
+      if Dir.exists?("#{Rails.root}/db/seeds/s3/" + info[0]) == false
+        Dir.mkdir("#{Rails.root}/db/seeds/s3/" + info[0])
+        puts "\n  + " + "/s3/" + info[0]
+      end
+    elsif info.size == 2
+      ## looping through vendors/models
+      if Dir.exists?("#{Rails.root}/db/seeds/s3/" + info[0] + "/" + info[1]) == false
+        Dir.mkdir("#{Rails.root}/db/seeds/s3/" + info[0] + "/" + info[1])
+        puts "\n    + " + "/s3/" + info[0] + "/" + info[1]
+      end
+    elsif info.size == 3
+      if File.extname(info.last) == ".jpg" || File.extname(info.last) == ".png" || File.extname(info.last) == ".pdf" || File.extname(info.last) == ".doc" || File.extname(info.last) == ".txt"
+        ### looping through vendors/models/files
+        filename = "#{Rails.root}/db/seeds/s3/" + info[0] + "/" + info[1] + "/" + info.last
+        if File.exist?(filename) == false
+          File.open("#{Rails.root}/db/seeds/s3/" + info[0] + "/" + info[1] + "/" + info.last, 'wb') do |file|
+            file.write(img.read)
+          end
+          puts "\n      + " + filename
+          
+          ###### FOR TESTING ONLY ######
+          #break
+          ##############################
+        end
+      end
+    end
+  end
+  puts "  Images downloaded from AWS S3 to #{Rails.root}/db/seeds/s3/ \n"
+end
+
+
+desc "Import master.csv from S3 and save data to database"
+task :import_csv_s3_to_db => :environment do
+  AWS.config(
+    :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
+    :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
+    :s3_endpoint => 's3-eu-west-1.amazonaws.com'
+  )
+  s3 = AWS::S3.new
+  object = s3.buckets['cambase.io'].objects['master.csv']
+
+  puts "\n  Importing master.csv from AWS S3 bucket 'cambase.io'... \n"
+  File.open("#{Rails.root}/db/seeds/master.csv", "wb") do |f|
+    f.write(object.read)
+  end
+  puts "  'master.csv' imported from AWS S3 \n"
+  
+  puts "\n  Importing data from 'master.csv' to database... \n"
+  Dir.glob("#{Rails.root}/db/seeds/master.csv") do |file|
+    SmarterCSV.process(file).each do |model|
+      original_model = model.clone
+      model[:vendor_id] = Vendor.where(:name => model[:vendor]).first_or_create.id
+      model.delete :vendor
+      model.delete :optical_zoom
+      model.delete :mpeg4_url
+      model.delete :audio_url
+      model.delete_if { |k, v| v.to_s.empty? }
+      model[:manual_url] = model.delete :user_manual
+      
+      if model[:resolution]
+        if model[:resolution] == '?'
+          model[:resolution] = ''
+        else
+          model[:resolution] = model[:resolution].gsub(/\s+/, "").gsub(/×/, "x").downcase
+        end
+      end
+
+      model.update(model){|key,value| clean_csv_values(value)}
+      
+      c = Model.where(:model => model[:model]).first_or_initialize
+      c.update_attributes(model)
+      c.attributes.each do |k, v|
+        if v == 'f'
+          if model[k.to_sym]
+            c[k.to_sym] = model[k.to_sym]
+          else
+            c[k.to_sym] = 'Unknown'
+          end
+        end
+        c.save
+      end
+
+      puts "  #{c.model} \n #{c.errors.messages.inspect} \n\n" unless c.errors.messages.blank?
+    end
+  end
+  puts "  'master.csv' imported to database! \n\n"
+end
+
+desc "Import Data from Master"
+
+task :import_master => :environment do
+  Dir.glob('db/seeds/master.csv') do |file|
+    SmarterCSV.process(file).each do |model|
+      original_model = model.clone
+      model[:vendor_id] = Vendor.where(:name => model[:vendor]).first_or_create.id
+      model.delete :vendor
+      model.delete :optical_zoom
+      model.delete :mpeg4_url
+      model.delete :audio_url
+      model.delete_if { |k, v| v.to_s.empty? }
+      model[:manual_url] = model.delete :user_manual
+      
+      if model[:resolution]
+        if model[:resolution] == '?'
+          model[:resolution] = ''
+        else
+          model[:resolution] = model[:resolution].gsub(/\s+/, "").gsub(/×/, "x").downcase
+        end
+      end
+
+      model.update(model){|key,value| clean_csv_values(value)}
+      c = Model.where(:model => model[:model]).first_or_initialize
+      
+      c.update_attributes(model)
+      c.attributes.each do |k, v|
+        if v == 'f'
+          if model[k.to_sym]
+            c[k.to_sym] = model[k.to_sym]
+          else
+            c[k.to_sym] = 'Unknown'
+          end
+        end
+        c.save
+      end
+
+      puts "#{c.model} \n #{c.errors.messages.inspect} \n\n" unless c.errors.messages.blank?
+    end
+  end
+  puts "\nData Imported from Master CSV to Database! \n\n"
+end
 
 task :import_csv => :environment do
   Dir.glob('db/seeds/*.csv') do |file|

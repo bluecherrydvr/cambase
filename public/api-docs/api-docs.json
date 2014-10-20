@@ -9,7 +9,7 @@
     },
     {
       "path": "api-docs/api/v1/recorders.{format}",
-      "description": "Recorders Management"
+      "description": "Recorders"
     },
     {
       "path": "api-docs/api/v1/vendors.{format}",
