@@ -1,7 +1,7 @@
 class Api::V1::ModelsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
-  swagger_controller :models, "Models Management"
+  swagger_controller :models, "Models"
 
   swagger_api :index do
     summary "Fetches all Models"

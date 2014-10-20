@@ -27,8 +27,13 @@ Rails.application.routes.draw do
           get 'search' => 'models#search', as: :search
         end
       end
+      resources :recorders do
+        collection do
+          get 'search' => 'recorders#search', as: :search
+        end
+      end
       resources :vendors
-      resources :changes
+      #resources :changes
     end
   end
 
@@ -45,8 +50,8 @@ Rails.application.routes.draw do
   end
 
   resources :vendors, :only => [:index, :update, :create]
-  resources :recorders, :path => ':vendor_slug/recorders/'
   resources :models, :path => ':vendor_slug/models/'
+  resources :recorders, :path => ':vendor_slug/recorders/'
  
   #resources :vendors, :except => [:new], :path => '' do
   #  resources :models, :path => ':vendor_id/models/', :except => [:index, :new]

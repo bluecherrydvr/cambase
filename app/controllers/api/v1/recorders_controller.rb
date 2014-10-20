@@ -1,7 +1,7 @@
 class Api::V1::RecordersController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
-  swagger_controller :recorders, "Recorders Management"
+  swagger_controller :recorders, "Recorders"
 
   swagger_api :index do
     summary "Fetches all Recorders"
