@@ -5,6 +5,205 @@
   "resourcePath": "recorders",
   "apis": [
     {
+      "path": "api/v1/recorders/search.json",
+      "operations": [
+        {
+          "summary": "Searches all Recorders",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Page number",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "q[recorder_cont]",
+              "type": "string",
+              "description": "Recorder",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "q[vendor_name_cont]",
+              "type": "string",
+              "description": "Vendor",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "q[shape_eq]",
+              "type": "string",
+              "description": "Shape",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[resolution_eq]",
+              "type": "string",
+              "description": "Resolution",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[onvif_true]",
+              "type": "string",
+              "description": "ONVIF",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[psia_true]",
+              "type": "string",
+              "description": "PSIA",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[ptz_true]",
+              "type": "string",
+              "description": "PTZ",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[infrared_true]",
+              "type": "string",
+              "description": "Infrared",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[varifocal_true]",
+              "type": "string",
+              "description": "Varifocal",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[sd_card_true]",
+              "type": "string",
+              "description": "SD Card",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[upnp_true]",
+              "type": "string",
+              "description": "UPnP",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[audio_in_true]",
+              "type": "string",
+              "description": "Audio In",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[audio_out_true]",
+              "type": "string",
+              "description": "Audio Out",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 406,
+              "message": "The request you made is not acceptable"
+            },
+            {
+              "code": 416,
+              "message": "Requested Range Not Satisfiable"
+            }
+          ],
+          "method": "get",
+          "nickname": "Api::V1::Recorders#search"
+        }
+      ]
+    },
+    {
       "path": "api/v1/recorders.json",
       "operations": [
         {
@@ -82,9 +281,7 @@
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "1080x1360",
-                  "640x480",
-                  "780x460"
+
                 ]
               }
             },
@@ -97,9 +294,7 @@
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "1080x1360",
-                  "640x480",
-                  "780x460"
+
                 ]
               }
             },
@@ -349,9 +544,7 @@
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "1080x1360",
-                  "640x480",
-                  "780x460"
+
                 ]
               }
             },
@@ -364,9 +557,7 @@
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "1080x1360",
-                  "640x480",
-                  "780x460"
+
                 ]
               }
             },
@@ -587,9 +778,7 @@
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "1080x1360",
-                  "640x480",
-                  "780x460"
+
                 ]
               }
             },
@@ -602,9 +791,7 @@
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "1080x1360",
-                  "640x480",
-                  "780x460"
+
                 ]
               }
             },
