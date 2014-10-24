@@ -37,7 +37,7 @@
           <% else %>
             <div class="tile tile-big col-sm-4">
               <div class="tile-content">
-                <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.name}"), "/#{owner.vendor_slug}") %>
+                <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.name}"), "/#{owner.vendor_slug}/models") %>
               </div>
             </div>
           <% end %>

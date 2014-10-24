@@ -3,42 +3,42 @@ require Rails.root.join('lib', 'import_data.rb')
 desc "Add Missing Data"
 
 task :add_urls_to_hikvision => :environment do
-  cameras = Manufacturer.find_by_name("Hikvision").cameras.where("model like?", "DS-%")
-  cameras.each do |camera|
-    camera.jpeg_url = 'Streaming/Channels/1/picture'
-    camera.h264_url = 'h264/ch1/main/av_stream'
-    camera.mjpeg_url = 'None'
-    camera.default_username = 'admin'
-    camera.default_password = '12345'
-    camera.save
+  models = Vendor.find_by_name("Hikvision").models.where("model like?", "DS-%")
+  models.each do |model|
+    model.jpeg_url = 'Streaming/Channels/1/picture'
+    model.h264_url = 'h264/ch1/main/av_stream'
+    model.mjpeg_url = 'None'
+    model.default_username = 'admin'
+    model.default_password = '12345'
+    model.save
   end
 end
 
 task :add_credentials_to_samsung => :environment do
-  cameras = Manufacturer.find_by_name("Samsung").cameras
-  cameras.each do |camera|
-    camera.default_username = 'admin'
-    camera.default_password = '4321'
-    camera.save
+  models = Vendor.find_by_name("Samsung").models
+  models.each do |model|
+    model.default_username = 'admin'
+    model.default_password = '4321'
+    model.save
   end
 end
 
-task :change_acm_cameras_url => :environment do
-  acti = Manufacturer.where(name: "ACTi").first
-  cameras = acti.cameras.where("model like?", "ACM%")
-  cameras.each do |camera|
-    camera.h264_url = '/'
-    camera.save
+task :change_acm_models_url => :environment do
+  acti = Vendor.where(name: "ACTi").first
+  models = acti.models.where("model like?", "ACM%")
+  models.each do |model|
+    model.h264_url = '/'
+    model.save
   end
 end
 
 desc "Fix duplicate resolutions"
 
 task :fix_resolutions => :environment do
-  Camera.all.each do |camera|
-    if camera.resolution
-      camera.resolution = camera.resolution.gsub(/\s+/, "").gsub(/×/, "x").downcase
-      camera.save
+  Model.all.each do |model|
+    if model.resolution
+      model.resolution = model.resolution.gsub(/\s+/, "").gsub(/×/, "x").downcase
+      model.save
     end
   end
 end
@@ -63,12 +63,12 @@ task :delete_duplicate_images => :environment do
     if folder
       folder_name = print_file(folder).title
       puts folder_name
-      camera = Camera.find_by_model(folder_name)
-      if camera and item.downloadUrl
-        camera.images.each do |image|
+      model = Model.find_by_model(folder_name)
+      if model and item.downloadUrl
+        model.images.each do |image|
           image.destroy
         end
-        camera.save
+        model.save
       end
     end
     puts item.originalFilename
