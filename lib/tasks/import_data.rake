@@ -126,6 +126,21 @@ task :import_csv_s3_to_db => :environment do
     SmarterCSV.process(file).each do |model|
       original_model = model.clone
       model[:vendor_id] = Vendor.where(:name => model[:vendor]).first_or_create.id
+      ###############
+      ## ENABLE next ONLY to import specific vendors' models
+      ###############
+      next if !(model[:vendor].downcase == 'beward' || 
+              model[:vendor].downcase == 'basler' || 
+              model[:vendor].downcase == 'canon' ||
+              model[:vendor].downcase == 'compro' ||
+              model[:vendor].downcase == 'convision' ||
+              model[:vendor].downcase == 'dericam' ||
+              model[:vendor].downcase == 'flir' ||
+              model[:vendor].downcase == 'qvis' ||
+              model[:vendor].downcase == 'cnb' ||
+              model[:vendor].downcase == 'cp plus')
+
+      puts "\n     + " + model[:vendor].downcase + "." + model[:model]
       model.delete :vendor
       model.delete :optical_zoom
       model.delete :mpeg4_url
@@ -155,7 +170,6 @@ task :import_csv_s3_to_db => :environment do
         end
         c.save
       end
-
       puts "  #{c.model} \n #{c.errors.messages.inspect} \n\n" unless c.errors.messages.blank?
     end
   end
