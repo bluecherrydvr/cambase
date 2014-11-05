@@ -2,6 +2,7 @@ require 'aws-sdk'
 require 'open-uri'
 require Rails.root.join('lib', 'import_data.rb')
 
+
 desc "Download images from S3 and save to database"
 task :import_files_s3_to_db => :environment do
   AWS.config(
@@ -21,6 +22,10 @@ task :import_files_s3_to_db => :environment do
 
       vendor = Vendor.where(vendor_slug: vendor_name.to_url).first
       if vendor
+        ###### TEMPORARY CODE ######
+        next if !(vendor.vendor_slug.downcase == 'axis' || vendor.vendor_slug.downcase == 'sony' || vendor.vendor_slug.downcase == 'samsung' || vendor.vendor_slug.downcase == 'mobotix')
+        ############################
+        
         model = Model.where(model_slug: model_name.to_url, vendor_id: vendor.id).first
         if model 
           begin
@@ -177,7 +182,6 @@ task :import_csv_s3_to_db => :environment do
 end
 
 desc "Import Data from Master"
-
 task :import_master => :environment do
   Dir.glob('db/seeds/master.csv') do |file|
     SmarterCSV.process(file).each do |model|
@@ -219,6 +223,7 @@ task :import_master => :environment do
   puts "\nData Imported from Master CSV to Database! \n\n"
 end
 
+desc "Import Data from *.csv"
 task :import_csv => :environment do
   Dir.glob('db/seeds/*.csv') do |file|
     SmarterCSV.process(file).each do |model|
@@ -272,8 +277,8 @@ task :import_csv => :environment do
   puts "\nCSV Import complete! \n\n"
 end
 
-desc "Import images"
 
+desc "Import images"
 task :import_images => :environment do
   Dir.foreach('db/seeds/images/') do |folder|
     next if folder == '.' or folder == '..'
@@ -286,7 +291,7 @@ task :import_images => :environment do
       vendor = Vendor.where(:vendor_slug => folder.to_url).first_or_create.id
       model = Model.where(model_slug: model_slug, vendor_id: vendor).first
       if model
-        puts model
+        puts "  + " + model
         File.open("db/seeds/images/#{folder}/#{item}") do |f|
           image = Image.create(:file => f)
           model.images.append(image)
@@ -298,8 +303,8 @@ task :import_images => :environment do
   puts "\nImage Import complete! \n\n"
 end
 
-desc "Import documents from google drive"
 
+desc "Import documents from google drive"
 task :import_documents_from_google_drive => :environment do
   import_documents_from_google_drive
 end
@@ -310,8 +315,8 @@ task :import_images_from_google_drive => :environment do
   import_images_from_google_drive
 end
 
-desc "Downloads csv from google drive"
 
+desc "Downloads csv from google drive"
 task :download_csv_from_google_drive => :environment do
   download_csv_from_google_drive
 end
@@ -322,8 +327,8 @@ task :import_csv_from_google_drive => :environment do
   import_csv_from_google_drive
 end
 
-desc "Import MAC addresses from Evercam"
 
+desc "Import MAC addresses from Evercam"
 task :import_mac_addresses => :environment do
   connection = Faraday.new(url: "https://api.evercam.io:443") do |faraday|
     faraday.request :url_encoded
