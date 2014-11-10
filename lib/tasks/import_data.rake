@@ -2,33 +2,8 @@ require 'aws-sdk'
 require 'open-uri'
 require Rails.root.join('lib', 'import_data.rb')
 
-desc "Upload images from local directory to S3 bucket"
-task :upload_images_to_s3 => :environment do
-  Dir.foreach('db/seeds/images/') do |folder|
-    next if folder == '.' or folder == '..'
-    Dir.foreach("db/seeds/images/#{folder}") do |item|
-      next if item == '.' or item == '..'
-      last_underscore = item.rindex('_')
-      model_slug = item[0...last_underscore].to_url
-      vendor = Vendor.where(:vendor_slug => folder.to_url).first_or_create.id
-      if vendor
-        puts " -" + vendor.name
-        model = Model.where(model_slug: model_slug, vendor_id: vendor).first
-        if model
-          puts "    + " + model.model_slug
-          File.open("db/seeds/images/#{folder}/#{item}") do |f|
-            image = Image.create(:file => f)
-            model.images.append(image)
-          end
-        end
-      end
-    end
-  end
-  puts "\nUpload complete! \n\n"
-end
-
-desc "Download images from S3 and save to database"
-task :import_files_tp_link => :environment do
+desc "Download images from cambase.io and store in cambase bucket on S3"
+task :import_files_basler => :environment do
   AWS.config(
     :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
     :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
@@ -36,17 +11,17 @@ task :import_files_tp_link => :environment do
     :s3_endpoint => 's3-eu-west-1.amazonaws.com'
   )
   s3 = AWS::S3.new
-  s3.buckets['cambase.io'].objects.each do |obj|
+  s3.buckets['cambase.io'].objects.with_prefix('Google drive/').each do |obj|
     info = obj.key.split('/')
-    if info.size == 3
+    if info.size == 4
       ### looping through /vendors/models/files
-      vendor_name = info[0]
-      model_name = info[1]
+      vendor_name = info[1]
+      model_name = info[2]
       file_name = File.basename(obj.key)
       vendor = Vendor.where(vendor_slug: vendor_name.to_url).first
       if vendor
         ###### TEMPORARY CODE ######
-        next if !(vendor.vendor_slug.downcase == 'tp-link') # || vendor.vendor_slug.downcase == 'acti' || vendor.vendor_slug.downcase == 'afreey' || vendor.vendor_slug.downcase == 'airlive' || vendor.vendor_slug.downcase == 'basler' || vendor.vendor_slug.downcase == 'beward' || vendor.vendor_slug.downcase == 'canon' || vendor.vendor_slug.downcase == 'compro' || vendor.vendor_slug.downcase == 'dahua' || vendor.vendor_slug.downcase == 'dallmeier' || vendor.vendor_slug.downcase == 'flir' || vendor.vendor_slug.downcase == 'samsung' || vendor.vendor_slug.downcase == 'teltonika' || vendor.vendor_slug.downcase == 'ubiquiti')
+        next if !(vendor.vendor_slug.downcase == 'basler') # || vendor.vendor_slug.downcase == 'acti' || vendor.vendor_slug.downcase == 'afreey' || vendor.vendor_slug.downcase == 'airlive' || vendor.vendor_slug.downcase == 'basler' || vendor.vendor_slug.downcase == 'beward' || vendor.vendor_slug.downcase == 'canon' || vendor.vendor_slug.downcase == 'compro' || vendor.vendor_slug.downcase == 'dahua' || vendor.vendor_slug.downcase == 'dallmeier' || vendor.vendor_slug.downcase == 'flir' || vendor.vendor_slug.downcase == 'samsung' || vendor.vendor_slug.downcase == 'teltonika' || vendor.vendor_slug.downcase == 'ubiquiti')
         ############################
         model = Model.where(model_slug: model_name.to_url, vendor_id: vendor.id).first
         if model
