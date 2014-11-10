@@ -2,40 +2,66 @@ require 'aws-sdk'
 require 'open-uri'
 require Rails.root.join('lib', 'import_data.rb')
 
+desc "Upload images from local directory to S3 bucket"
+task :upload_images_to_s3 => :environment do
+  Dir.foreach('db/seeds/images/') do |folder|
+    next if folder == '.' or folder == '..'
+    Dir.foreach("db/seeds/images/#{folder}") do |item|
+      next if item == '.' or item == '..'
+      last_underscore = item.rindex('_')
+      model_slug = item[0...last_underscore].to_url
+      vendor = Vendor.where(:vendor_slug => folder.to_url).first_or_create.id
+      if vendor
+        puts " -" + vendor.name
+        model = Model.where(model_slug: model_slug, vendor_id: vendor).first
+        if model
+          puts "    + " + model.model_slug
+          File.open("db/seeds/images/#{folder}/#{item}") do |f|
+            image = Image.create(:file => f)
+            model.images.append(image)
+          end
+        end
+      end
+    end
+  end
+  puts "\nUpload complete! \n\n"
+end
 
 desc "Download images from S3 and save to database"
-task :import_files_s3_to_db => :environment do
+task :import_files_tp_link => :environment do
   AWS.config(
     :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
     :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
-    :s3_endpoint => 's3-eu-west-1.amazonaws.com'
+    ### disable this key if bucket is in US
+    #:s3_endpoint => 's3-eu-west-1.amazonaws.com'
   )
   s3 = AWS::S3.new
-  s3.buckets['cambase.io'].objects.with_prefix('Google drive/').each do |obj|
-
+  s3.buckets['cambase.io'].objects.each do |obj|
     info = obj.key.split('/')
-    if info.size == 4
+    if info.size == 3
       ### looping through Google drive/vendors/models/files
       vendor_name = info[1]
       model_name = info[2]
       file_name = File.basename(obj.key)
-
       vendor = Vendor.where(vendor_slug: vendor_name.to_url).first
       if vendor
         ###### TEMPORARY CODE ######
-        next if !(vendor.vendor_slug.downcase == 'axis' || vendor.vendor_slug.downcase == 'sony' || vendor.vendor_slug.downcase == 'samsung' || vendor.vendor_slug.downcase == 'mobotix')
+        #next if !(vendor.vendor_slug.downcase == 'tp-link') # || vendor.vendor_slug.downcase == 'acti' || vendor.vendor_slug.downcase == 'afreey' || vendor.vendor_slug.downcase == 'airlive' || vendor.vendor_slug.downcase == 'basler' || vendor.vendor_slug.downcase == 'beward' || vendor.vendor_slug.downcase == 'canon' || vendor.vendor_slug.downcase == 'compro' || vendor.vendor_slug.downcase == 'dahua' || vendor.vendor_slug.downcase == 'dallmeier' || vendor.vendor_slug.downcase == 'flir' || vendor.vendor_slug.downcase == 'samsung' || vendor.vendor_slug.downcase == 'teltonika' || vendor.vendor_slug.downcase == 'ubiquiti')
         ############################
-        
         model = Model.where(model_slug: model_name.to_url, vendor_id: vendor.id).first
-        if model 
+        if model
           begin
-            temp_file = Tempfile.new(file_name.split(/(.\w+)$/))
+            temp_file = Tempfile.new(file_name.split(/(.\w+)$/), :encoding => 'ascii-8bit')
             temp_file.binmode
             temp_file.write(obj.read)
-            if File.extname(info.last) == ".jpg" || File.extname(info.last) == ".png" || File.extname(info.last) == ".gif"
+
+            if File.extname(info.last) == ".jpg"
               image = Image.create(:file => temp_file)
-              model.images.append(image)
-              puts "\n  + " + "/" + vendor_name + "/" + model_name + "/" + info.last
+              if (model.images.append(image))
+                puts "\n  + " + "/" + vendor_name + "/" + model_name + "/" + info.last
+              else
+                puts "\n  - " + "/" + vendor_name + "/" + model_name + "/" + info.last
+              end
             elsif File.extname(info.last) == ".pdf" || File.extname(info.last) == ".doc" || File.extname(info.last) == ".txt"
               document = Document.create(:file => temp_file)
               model.documents.append(document)

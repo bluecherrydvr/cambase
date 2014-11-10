@@ -1,7 +1,0 @@
-Shape,Model,Resolution,MegaPixel,FrameRate,PTZ,Infrared,Varifocal,SD Card Storage,Wifi,Onvif,Audio IN,Audio OUT,PoE,Upnp,JPEG URL,H264 URL,MJPEG URL,Default username,Default password,Detailed Shape / Type as in vendor catalog,Manufacturer
-Box,S15,2048X1536,3,30,NO,NO,NO,YES,NO,?,NO,NO,YES,?,record/current.jpg,?,cgi-bin/faststream.jpg,admin,meinsm,?,Mobotix
-Dome,Q24,2048X1536,3,25,NO,NO,NO,YES,NO,?,NO,NO,YES,?,record/current.jpg,?,cgi-bin/faststream.jpg,admin,meinsm,?,Mobotix
-Box,M12,2045X1536,3,16,NO,NO,NO,YES,NO,?,YES,YES,YES,?,record/current.jpg,?,cgi-bin/faststream.jpg,admin,meinsm,?,Mobotix
-Box,M24,2048X1536,3,30,NO,NO,NO,YES,NO,?,YES,YES,YES,?,record/current.jpg,?,cgi-bin/faststream.jpg,admin,meinsm,?,Mobotix
-Box,D15,2048X1536,3,30,NO,NO,NO,YES,NO,?,YES,YES,YES,?,record/current.jpg,?,cgi-bin/faststream.jpg,admin,meinsm,?,Mobotix
-Box,D24,2048X1536,3,30,NO,NO,NO,YES,NO,?,YES,YES,YES,?,record/current.jpg,?,cgi-bin/faststream.jpg,admin,meinsm,?,Mobotix
