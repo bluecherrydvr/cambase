@@ -32,21 +32,21 @@ task :import_files_tp_link => :environment do
   AWS.config(
     :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
     :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
-    ### disable this key if bucket is in US
-    #:s3_endpoint => 's3-eu-west-1.amazonaws.com'
+    # disable this key if bucket is in US
+    :s3_endpoint => 's3-eu-west-1.amazonaws.com'
   )
   s3 = AWS::S3.new
   s3.buckets['cambase.io'].objects.each do |obj|
     info = obj.key.split('/')
     if info.size == 3
-      ### looping through Google drive/vendors/models/files
-      vendor_name = info[1]
-      model_name = info[2]
+      ### looping through /vendors/models/files
+      vendor_name = info[0]
+      model_name = info[1]
       file_name = File.basename(obj.key)
       vendor = Vendor.where(vendor_slug: vendor_name.to_url).first
       if vendor
         ###### TEMPORARY CODE ######
-        #next if !(vendor.vendor_slug.downcase == 'tp-link') # || vendor.vendor_slug.downcase == 'acti' || vendor.vendor_slug.downcase == 'afreey' || vendor.vendor_slug.downcase == 'airlive' || vendor.vendor_slug.downcase == 'basler' || vendor.vendor_slug.downcase == 'beward' || vendor.vendor_slug.downcase == 'canon' || vendor.vendor_slug.downcase == 'compro' || vendor.vendor_slug.downcase == 'dahua' || vendor.vendor_slug.downcase == 'dallmeier' || vendor.vendor_slug.downcase == 'flir' || vendor.vendor_slug.downcase == 'samsung' || vendor.vendor_slug.downcase == 'teltonika' || vendor.vendor_slug.downcase == 'ubiquiti')
+        next if !(vendor.vendor_slug.downcase == 'tp-link') # || vendor.vendor_slug.downcase == 'acti' || vendor.vendor_slug.downcase == 'afreey' || vendor.vendor_slug.downcase == 'airlive' || vendor.vendor_slug.downcase == 'basler' || vendor.vendor_slug.downcase == 'beward' || vendor.vendor_slug.downcase == 'canon' || vendor.vendor_slug.downcase == 'compro' || vendor.vendor_slug.downcase == 'dahua' || vendor.vendor_slug.downcase == 'dallmeier' || vendor.vendor_slug.downcase == 'flir' || vendor.vendor_slug.downcase == 'samsung' || vendor.vendor_slug.downcase == 'teltonika' || vendor.vendor_slug.downcase == 'ubiquiti')
         ############################
         model = Model.where(model_slug: model_name.to_url, vendor_id: vendor.id).first
         if model
