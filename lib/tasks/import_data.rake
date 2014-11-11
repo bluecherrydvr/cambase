@@ -24,68 +24,7 @@ task :import_files_missing => :environment do
         #puts "\n> " + vendor.vendor_slug
         model = Model.where(model_slug: model_name.to_url, vendor_id: vendor.id).first
         if model
-          next if !(
-            model.model_slug.downcase == 'ANC-5320GSF'.downcase || 
-            model.model_slug.downcase == 'ANC-5320VSF'.downcase ||
-            model.model_slug.downcase == 'ANC-2860S'.downcase ||
-            model.model_slug.downcase == 'ANC-2860M'.downcase ||
-            model.model_slug.downcase == 'ANC-2260MB'.downcase ||
-            model.model_slug.downcase == 'ANC-2360MB'.downcase ||
-            model.model_slug.downcase == 'ANC-2460MB'.downcase ||
-            model.model_slug.downcase == 'ANC-3211S'.downcase ||
-            model.model_slug.downcase == 'ANC-3211M'.downcase ||
-            model.model_slug.downcase == 'ANC-3211HA'.downcase ||
-            model.model_slug.downcase == 'ANC-3210S'.downcase ||
-            model.model_slug.downcase == 'ANC-3210M'.downcase ||
-            model.model_slug.downcase == 'ANC-3210HA'.downcase ||
-            model.model_slug.downcase == 'ANC-3311MB'.downcase ||
-            model.model_slug.downcase == 'ANC-3321MB'.downcase ||
-            model.model_slug.downcase == 'ANC-3221MB'.downcase ||
-            model.model_slug.downcase == 'ANC-3220MB'.downcase ||
-            model.model_slug.downcase == 'ANC-818GHA'.downcase ||
-            model.model_slug.downcase == 'ANC-818VHA'.downcase ||
-            model.model_slug.downcase == 'DH-SD42C212S-HN'.downcase ||
-            model.model_slug.downcase == 'DH-SD42212S-HN'.downcase ||
-            model.model_slug.downcase == 'DH-SD40212S-HN'.downcase ||
-            model.model_slug.downcase == 'DH-SD59120S-HN'.downcase ||
-            model.model_slug.downcase == 'DH-SD59230S-HN'.downcase ||
-            model.model_slug.downcase == 'DH-SD59220S-HN'.downcase ||
-            model.model_slug.downcase == 'DH-SD59212S-HN'.downcase ||
-            model.model_slug.downcase == 'ipc-hdbw4300e-s'.downcase ||
-            model.model_slug.downcase == 'DH-IPC-HF8301EN'.downcase ||
-            model.model_slug.downcase == 'DH-IPC-HF8301EP'.downcase ||
-            model.model_slug.downcase == 'DH-IPC-HFW8301EN'.downcase ||
-            model.model_slug.downcase == 'DH-IPC-HFW8301EP'.downcase ||
-            model.model_slug.downcase == 'ddz3018-yy-slash-rp-slash-ip-domera'.downcase ||
-            model.model_slug.downcase == 'ddz3036-wm-slash-hs-slash-ip-domera'.downcase ||
-            model.model_slug.downcase == 'ddz3026-yy-slash-hs-slash-ip-domera'.downcase ||
-            model.model_slug.downcase == 'ddz3018-yy-slash-hs-slash-ip-domera'.downcase ||
-            model.model_slug.downcase == 'ddz4010-yy-slash-hs-slash-hd-domera'.downcase ||
-            model.model_slug.downcase == 'ddz4020-yy-slash-hs-slash-hd-domera'.downcase ||
-            model.model_slug.downcase == 'df4920hd-dn-slash-ir'.downcase ||
-            model.model_slug.downcase == 'SNP-3122'.downcase ||
-            model.model_slug.downcase == 'SNP-3121'.downcase ||
-            model.model_slug.downcase == 'SND-7084R'.downcase ||
-            model.model_slug.downcase == 'SNF-7010-VM'.downcase ||
-            model.model_slug.downcase == 'SNCWR630'.downcase ||
-            model.model_slug.downcase == 'SNCWR600'.downcase ||
-            model.model_slug.downcase == 'SNCVM631'.downcase ||
-            model.model_slug.downcase == 'SNCDH260'.downcase ||
-            model.model_slug.downcase == 'sncdh210t-slash-w'.downcase ||
-            model.model_slug.downcase == 'sncdh210t-slash-b'.downcase ||
-            model.model_slug.downcase == 'sncdh210-slash-b'.downcase ||
-            model.model_slug.downcase == 'sncdh210-slash-w'.downcase ||
-            model.model_slug.downcase == 'sncdh210t-slash-b'.downcase ||
-            model.model_slug.downcase == 'sncdh210t-slash-w'.downcase ||
-            model.model_slug.downcase == 'sncdh110-slash-b'.downcase ||
-            model.model_slug.downcase == 'sncdh110-slash-w'.downcase ||
-            model.model_slug.downcase == 'sncdh110t-slash-b'.downcase ||
-            model.model_slug.downcase == 'sncdh110t-slash-w'.downcase ||
-            model.model_slug.downcase == 'SNCCX600W'.downcase ||
-            model.model_slug.downcase == 'sncch210-slash-s'.downcase ||
-            model.model_slug.downcase == 'sncch210-slash-b'.downcase ||
-            model.model_slug.downcase == 'uvc-dome'.downcase ||
-            model.model_slug.downcase == 'tvip10055b'.downcase)
+          ## put model slug filter here
           begin
             temp_file = Tempfile.new(file_name.split(/(.\w+)$/), :encoding => 'ascii-8bit')
             temp_file.binmode
