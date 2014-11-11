@@ -3,7 +3,7 @@ require 'open-uri'
 require Rails.root.join('lib', 'import_data.rb')
 
 desc "Download images from cambase.io and store in cambase bucket on S3"
-task :import_files_abs => :environment do
+task :import_files_missing => :environment do
   AWS.config(
     :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
     :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
@@ -20,12 +20,11 @@ task :import_files_abs => :environment do
       file_name = File.basename(obj.key)
       vendor = Vendor.where(vendor_slug: vendor_name.to_url).first
       if vendor
-        #### TEMPORARY CODE ####
-        next if !(vendor.vendor_slug.downcase == 'abs')
+        next if !(vendor.vendor_slug.downcase == 'Basler'.downcase || vendor.vendor_slug.downcase == 'Beward'.downcase || vendor.vendor_slug.downcase == 'Canon'.downcase || vendor.vendor_slug.downcase == 'Compro'.downcase || vendor.vendor_slug.downcase == 'Dericam'.downcase || vendor.vendor_slug.downcase == 'Flir'.downcase)
         #puts "\n> " + vendor.vendor_slug
         model = Model.where(model_slug: model_name.to_url, vendor_id: vendor.id).first
         if model
-          #next if !(model.model_slug.downcase == 'DNE12TL2'.downcase || model.model_slug.downcase == 'DNB14TL2'.downcase)
+          #next if !(model.model_slug.downcase == 'megacam-312m'.downcase || model.model_slug.downcase == 'megacam-311m'.downcase)
           begin
             temp_file = Tempfile.new(file_name.split(/(.\w+)$/), :encoding => 'ascii-8bit')
             temp_file.binmode
@@ -51,9 +50,9 @@ task :import_files_abs => :environment do
                   end
                 end
               else
-                puts "  ? " + "/" + vendor_name + "/" + model_name + " ? " + image.file_content_type
+                puts "  ?- " + "/" + vendor_name + "/" + model_name + " ? " + image.file_content_type
               end
-            elsif File.extname(info.last) == ".pdf" || File.extname(info.last) == ".doc" || File.extname(info.last) == ".txt"
+            elsif File.extname(info.last) == ".pdf"
               document = Document.create(:file => temp_file)
               model.documents.append(document)
               puts "\n  + " + "/" + vendor_name + "/" + model_name + "/" + info.last
