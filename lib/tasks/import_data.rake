@@ -35,16 +35,20 @@ task :import_files_abs => :environment do
               puts "\n >> " + model.model_slug
               image = Image.create(:file => temp_file)
               if image.file_content_type == "image/jpeg"
-                img = Image.find_by_file_fingerprint(image.file_fingerprint)
-                if img && img.owner_id
-                  #puts "  x " + img.owner_id + " - " + img.file_fingerprint
-                  Image.where(:file_fingerprint => image.file_fingerprint).destroy_all
-                end
-
                 if (model.images.append(image))
                   puts "  + " + "/" + vendor_name + "/" + model_name + "/" + info.last
                 else
-                  puts "  - " + "/" + vendor_name + "/" + model_name + "/" + info.last
+                  img = Image.find_by_file_fingerprint(image.file_fingerprint)
+                  if img && img.owner_id
+                    Image.where(:file_fingerprint => image.file_fingerprint).destroy_all
+                    if (model.images.append(image))
+                      puts "  ++ " + "/" + vendor_name + "/" + model_name + "/" + info.last
+                    else
+                      puts "  -- " + "/" + vendor_name + "/" + model_name + "/" + info.last
+                    end
+                  else
+                    puts "  - " + "/" + vendor_name + "/" + model_name + "/" + info.last
+                  end
                 end
               else
                 puts "  ? " + "/" + vendor_name + "/" + model_name + " ? " + image.file_content_type
