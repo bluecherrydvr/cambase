@@ -3,7 +3,7 @@ require 'open-uri'
 require Rails.root.join('lib', 'import_data.rb')
 
 desc "Download images from cambase.io and store in cambase bucket on S3"
-task :import_files_basler => :environment do
+task :import_files_abs => :environment do
   AWS.config(
     :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
     :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
@@ -20,33 +20,40 @@ task :import_files_basler => :environment do
       file_name = File.basename(obj.key)
       vendor = Vendor.where(vendor_slug: vendor_name.to_url).first
       if vendor
-        ###### TEMPORARY CODE ######
-        next if !(vendor.vendor_slug.downcase == 'basler') # || vendor.vendor_slug.downcase == 'acti' || vendor.vendor_slug.downcase == 'afreey' || vendor.vendor_slug.downcase == 'airlive' || vendor.vendor_slug.downcase == 'basler' || vendor.vendor_slug.downcase == 'beward' || vendor.vendor_slug.downcase == 'canon' || vendor.vendor_slug.downcase == 'compro' || vendor.vendor_slug.downcase == 'dahua' || vendor.vendor_slug.downcase == 'dallmeier' || vendor.vendor_slug.downcase == 'flir' || vendor.vendor_slug.downcase == 'samsung' || vendor.vendor_slug.downcase == 'teltonika' || vendor.vendor_slug.downcase == 'ubiquiti')
-        ############################
+        #### TEMPORARY CODE ####
+        next if !(vendor.vendor_slug.downcase == 'abs')
+        #puts "\n> " + vendor.vendor_slug
         model = Model.where(model_slug: model_name.to_url, vendor_id: vendor.id).first
         if model
+          #next if !(model.model_slug.downcase == 'DNE12TL2'.downcase || model.model_slug.downcase == 'DNB14TL2'.downcase)
           begin
             temp_file = Tempfile.new(file_name.split(/(.\w+)$/), :encoding => 'ascii-8bit')
             temp_file.binmode
             temp_file.write(obj.read)
 
             if File.extname(info.last) == ".jpg"
+              puts "\n >> " + model.model_slug
               image = Image.create(:file => temp_file)
-              if (model.images.append(image))
-                puts "\n  + " + "/" + vendor_name + "/" + model_name + "/" + info.last
+              if image.file_content_type == "image/jpeg"
+                img = Image.find_by_file_fingerprint(image.file_fingerprint)
+                if img && img.owner_id
+                  #puts "  x " + img.owner_id + " - " + img.file_fingerprint
+                  Image.where(:file_fingerprint => image.file_fingerprint).destroy_all
+                end
+
+                if (model.images.append(image))
+                  puts "  + " + "/" + vendor_name + "/" + model_name + "/" + info.last
+                else
+                  puts "  - " + "/" + vendor_name + "/" + model_name + "/" + info.last
+                end
               else
-                puts "\n  - " + "/" + vendor_name + "/" + model_name + "/" + info.last
+                puts "  ? " + "/" + vendor_name + "/" + model_name + " ? " + image.file_content_type
               end
             elsif File.extname(info.last) == ".pdf" || File.extname(info.last) == ".doc" || File.extname(info.last) == ".txt"
               document = Document.create(:file => temp_file)
               model.documents.append(document)
               puts "\n  + " + "/" + vendor_name + "/" + model_name + "/" + info.last
-            else
-              puts "\n  - " + file_name
             end
-            ###### FOR TESTING ONLY ######
-            #break
-            ##############################
           rescue => e
             puts "ERR: " + e.message
           ensure # ensure we don't keep dead links
