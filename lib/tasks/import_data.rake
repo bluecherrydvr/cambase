@@ -32,6 +32,7 @@ task :delete_vendor_files, [:vendorname] => :environment do |t, args|
       end
     end
   end
+  puts " Vendor files deleted \n"
 end
 
 
@@ -62,35 +63,18 @@ task :import_vendor_files, [:vendorname] => :environment do |t, args|
           ## put model slug filter here
           #next if !(model.model_slug.downcase == 'n3011-c'.downcase)
           begin
-            temp_file = Tempfile.new(file_name.split(/(.\w+)$/), :encoding => 'ascii-8bit')
+            temp_file = Tempfile.new(file_name.split(/(.\w+)$/))
             temp_file.binmode
             temp_file.write(obj.read)
-
             puts "\n >> " + model.model_slug
-            if File.extname(info.last) == ".jpg" || File.extname(info.last) == ".png" || File.extname(info.last) == ".gif"
+            
+            if File.extname(info.last) == ".jpg" || File.extname(info.last) == ".png" || File.extname(info.last) == ".gif" || File.extname(info.last) == ".tif"
               image = Image.create(:file => temp_file)
-              img = Image.find_by_file_fingerprint(image.file_fingerprint)
-
-              if image.file_content_type.include? "image"
-                if (model.images.append(image))
-                  puts "  + " + "/" + vendor_name + "/" + model_name + "/" + info.last
-                else
-                  #img = Image.find_by_file_fingerprint(image.file_fingerprint)
-                  #if img && img.owner_id
-                  #  Image.where(:file_fingerprint => image.file_fingerprint).destroy_all
-                  #  if (model.images.append(image))
-                  #    puts "  ++ " + "/" + vendor_name + "/" + model_name + "/" + info.last
-                  #  else
-                  #    puts "  -- " + "/" + vendor_name + "/" + model_name + "/" + info.last
-                  #  end
-                  #else
-                    puts "  - " + "/" + vendor_name + "/" + model_name + "/" + info.last
-                  #end
-                end
+              if (model.images.append(image))
+                puts "  + " + "/" + vendor_name + "/" + model_name + "/" + info.last
               else
-                puts "  ?- " + "/" + vendor_name + "/" + model_name + " ? " + image.file_content_type
+                puts "  - " + "/" + vendor_name + "/" + model_name + "/" + info.last + " ? " + image.file_content_type
               end
-              #binding.pry
             elsif File.extname(info.last) == ".pdf"
               document = Document.create(:file => temp_file)
               model.documents.append(document)
