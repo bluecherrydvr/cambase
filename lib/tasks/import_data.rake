@@ -4,7 +4,7 @@ require Rails.root.join('lib', 'import_data.rb')
 
 
 desc "Download images from cambase.io and store in cambase bucket on S3"
-task :import_files_missing => :environment do
+task :import_files_nojpg => :environment do
   AWS.config(
     :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
     :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
@@ -21,7 +21,8 @@ task :import_files_missing => :environment do
       file_name = File.basename(obj.key)
       vendor = Vendor.where(vendor_slug: vendor_name.to_url).first
       if vendor
-        next if (vendor.vendor_slug.downcase == 'TP-Link'.downcase || vendor.vendor_slug.downcase == 'Flir'.downcase || vendor.vendor_slug.downcase == 'Dericam'.downcase || vendor.vendor_slug.downcase == 'Compro'.downcase || vendor.vendor_slug.downcase == 'Canon'.downcase || vendor.vendor_slug.downcase == 'Beward'.downcase || vendor.vendor_slug.downcase == 'Basler'.downcase || vendor.vendor_slug.downcase == 'ABS'.downcase || vendor.vendor_slug.downcase == 'ABUS'.downcase || vendor.vendor_slug.downcase == 'Ubiquiti'.downcase || vendor.vendor_slug.downcase == 'Sony'.downcase || vendor.vendor_slug.downcase == 'Samsung'.downcase || vendor.vendor_slug.downcase == 'Dallmeier'.downcase || vendor.vendor_slug.downcase == 'Dahua'.downcase || vendor.vendor_slug.downcase == 'Afreey'.downcase)
+        #next if (vendor.vendor_slug.downcase == 'TP-Link'.downcase || vendor.vendor_slug.downcase == 'Flir'.downcase || vendor.vendor_slug.downcase == 'Dericam'.downcase || vendor.vendor_slug.downcase == 'Compro'.downcase || vendor.vendor_slug.downcase == 'Canon'.downcase || vendor.vendor_slug.downcase == 'Beward'.downcase || vendor.vendor_slug.downcase == 'Basler'.downcase || vendor.vendor_slug.downcase == 'ABS'.downcase || vendor.vendor_slug.downcase == 'ABUS'.downcase || vendor.vendor_slug.downcase == 'Ubiquiti'.downcase || vendor.vendor_slug.downcase == 'Sony'.downcase || vendor.vendor_slug.downcase == 'Samsung'.downcase || vendor.vendor_slug.downcase == 'Dallmeier'.downcase || vendor.vendor_slug.downcase == 'Dahua'.downcase || vendor.vendor_slug.downcase == 'Afreey'.downcase)
+        #next if !(vendor.vendor_slug.downcase == 'agasio'.downcase)
         #puts "\n> " + vendor.vendor_slug
         model = Model.where(model_slug: model_name.to_url, vendor_id: vendor.id).first
         if model
@@ -31,10 +32,10 @@ task :import_files_missing => :environment do
             temp_file.binmode
             temp_file.write(obj.read)
 
-            if File.extname(info.last) == ".jpg"
+            if File.extname(info.last) == ".png" || File.extname(info.last) == ".gif"
               puts "\n >> " + model.model_slug
               image = Image.create(:file => temp_file)
-              if image.file_content_type == "image/jpeg"
+              if image.file_content_type.include? "image"
                 if (model.images.append(image))
                   puts "  + " + "/" + vendor_name + "/" + model_name + "/" + info.last
                 else
@@ -53,10 +54,10 @@ task :import_files_missing => :environment do
               else
                 puts "  ?- " + "/" + vendor_name + "/" + model_name + " ? " + image.file_content_type
               end
-            elsif File.extname(info.last) == ".pdf"
-              document = Document.create(:file => temp_file)
-              model.documents.append(document)
-              puts "\n  + " + "/" + vendor_name + "/" + model_name + "/" + info.last
+            #elsif File.extname(info.last) == ".pdf"
+            #  document = Document.create(:file => temp_file)
+            #  model.documents.append(document)
+            #  puts "\n  + " + "/" + vendor_name + "/" + model_name + "/" + info.last
             end
           rescue => e
             puts "ERR: " + e.message
