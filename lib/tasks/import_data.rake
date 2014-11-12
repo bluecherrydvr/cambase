@@ -3,12 +3,44 @@ require 'open-uri'
 require Rails.root.join('lib', 'import_data.rb')
 
 
-desc "Download images from cambase.io and store in cambase bucket on S3"
-task :import_files_zavio => :environment do
+desc "Delete images/document of given vendor"
+task :delete_vendor_files, [:vendorname] => :environment do |t, args|
   AWS.config(
     :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
     :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
-    # disable this key if bucket is in US
+    # disable this key if source bucket is in US
+    :s3_endpoint => 's3-eu-west-1.amazonaws.com'
+  )
+  s3 = AWS::S3.new
+  s3.buckets['cambase.io'].objects.with_prefix('Google drive/').each do |obj|
+    info = obj.key.split('/')
+    if info.size == 4
+      vendor_name = info[1]
+      model_name = info[2]
+      file_name = File.basename(obj.key)
+
+      vendor = Vendor.where(vendor_slug: vendor_name.to_url).first
+      if vendor
+        next if !(vendor.vendor_slug.downcase == args[:vendorname].downcase)
+
+        model = Model.where(model_slug: model_name.to_url, vendor_id: vendor.id).first
+        if model
+          puts "  x " + model_name + "/" + info.last
+          Image.where(:owner_id => model.id).destroy_all
+          Document.where(:owner_id => model.id).destroy_all
+        end
+      end
+    end
+  end
+end
+
+
+desc "Download images of given vendor from cambase.io and store in cambase bucket"
+task :import_vendor_files, [:vendorname] => :environment do |t, args|
+  AWS.config(
+    :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
+    :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
+    # disable this key if source bucket is in US
     :s3_endpoint => 's3-eu-west-1.amazonaws.com'
   )
   s3 = AWS::S3.new
@@ -22,9 +54,9 @@ task :import_files_zavio => :environment do
       vendor = Vendor.where(vendor_slug: vendor_name.to_url).first
       if vendor
         ## put vendor slug filter here
+        next if !(vendor.vendor_slug.downcase == args[:vendorname].downcase)
         #next if (vendor.vendor_slug.downcase == 'TP-Link'.downcase || vendor.vendor_slug.downcase == 'Flir'.downcase || vendor.vendor_slug.downcase == 'Dericam'.downcase || vendor.vendor_slug.downcase == 'Compro'.downcase || vendor.vendor_slug.downcase == 'Canon'.downcase || vendor.vendor_slug.downcase == 'Beward'.downcase || vendor.vendor_slug.downcase == 'Basler'.downcase || vendor.vendor_slug.downcase == 'ABS'.downcase || vendor.vendor_slug.downcase == 'ABUS'.downcase || vendor.vendor_slug.downcase == 'Ubiquiti'.downcase || vendor.vendor_slug.downcase == 'Sony'.downcase || vendor.vendor_slug.downcase == 'Samsung'.downcase || vendor.vendor_slug.downcase == 'Dallmeier'.downcase || vendor.vendor_slug.downcase == 'Dahua'.downcase || vendor.vendor_slug.downcase == 'Afreey'.downcase)
-        next if !(vendor.vendor_slug.downcase == 'zavio'.downcase)
-        #puts "\n> " + vendor.vendor_slug
+        
         model = Model.where(model_slug: model_name.to_url, vendor_id: vendor.id).first
         if model
           ## put model slug filter here
@@ -34,29 +66,31 @@ task :import_files_zavio => :environment do
             temp_file.binmode
             temp_file.write(obj.read)
 
+            puts "\n >> " + model.model_slug
             if File.extname(info.last) == ".jpg" || File.extname(info.last) == ".png" || File.extname(info.last) == ".gif"
-              puts "\n >> " + model.model_slug
               image = Image.create(:file => temp_file)
+              img = Image.find_by_file_fingerprint(image.file_fingerprint)
+
               if image.file_content_type.include? "image"
                 if (model.images.append(image))
                   puts "  + " + "/" + vendor_name + "/" + model_name + "/" + info.last
                 else
-                  img = Image.find_by_file_fingerprint(image.file_fingerprint)
-                  if img && img.owner_id
-                    Image.where(:file_fingerprint => image.file_fingerprint).destroy_all
-                    if (model.images.append(image))
-                      puts "  ++ " + "/" + vendor_name + "/" + model_name + "/" + info.last
-                    else
-                      puts "  -- " + "/" + vendor_name + "/" + model_name + "/" + info.last
-                    end
-                  else
+                  #img = Image.find_by_file_fingerprint(image.file_fingerprint)
+                  #if img && img.owner_id
+                  #  Image.where(:file_fingerprint => image.file_fingerprint).destroy_all
+                  #  if (model.images.append(image))
+                  #    puts "  ++ " + "/" + vendor_name + "/" + model_name + "/" + info.last
+                  #  else
+                  #    puts "  -- " + "/" + vendor_name + "/" + model_name + "/" + info.last
+                  #  end
+                  #else
                     puts "  - " + "/" + vendor_name + "/" + model_name + "/" + info.last
-                  end
+                  #end
                 end
               else
                 puts "  ?- " + "/" + vendor_name + "/" + model_name + " ? " + image.file_content_type
               end
-              binding.pry
+              #binding.pry
             elsif File.extname(info.last) == ".pdf"
               document = Document.create(:file => temp_file)
               model.documents.append(document)
