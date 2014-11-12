@@ -2,6 +2,7 @@ require 'aws-sdk'
 require 'open-uri'
 require Rails.root.join('lib', 'import_data.rb')
 
+
 desc "Download images from cambase.io and store in cambase bucket on S3"
 task :import_files_missing => :environment do
   AWS.config(
@@ -191,6 +192,44 @@ task :import_csv_s3_to_db => :environment do
   end
   puts "  'master.csv' imported to database! \n\n"
 end
+
+
+desc "Download vendor images from cambase.io and store in cambase bucket on S3"
+task :import_vendors_images => :environment do
+  AWS.config(
+    :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
+    :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
+    # disable this key if bucket is in US
+    :s3_endpoint => 's3-eu-west-1.amazonaws.com'
+  )
+  s3 = AWS::S3.new
+  s3.buckets['cambase.io'].objects.with_prefix('Vendors/').each do |obj|
+    info = obj.key.split('/')
+    if info.size == 2
+      file_name = info[1].split('.').first
+      puts "\n> " + file_name
+      vendor = Vendor.where(vendor_slug: file_name).first
+      if vendor
+        puts ">> " + vendor.vendor_slug
+        begin
+          temp_file = Tempfile.new(file_name.split(/(.\w+)$/), :encoding => 'ascii-8bit')
+          temp_file.binmode
+          temp_file.write(obj.read)
+          vendor.image = Image.create(:file => temp_file)
+          puts ">>> Saved" + info[1]
+          break
+        rescue => e
+          puts "ERR: " + e.message
+        ensure # ensure we don't keep dead links
+          temp_file.close
+          temp_file.unlink
+        end
+      end
+    end
+  end
+  puts " Vendor images downloaded \n"
+end
+
 
 desc "Import Data from Master"
 task :import_master => :environment do
