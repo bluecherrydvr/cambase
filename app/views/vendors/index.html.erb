@@ -18,9 +18,9 @@
         <% @vendors.each do |vendor| %>
         <tr>
           <td><%= link_to vendor.name, "#{vendor.vendor_slug.downcase}/models" %></td>
-          <td><%= image_tag(vendor.image.file.url(:small)) if vendor.image %></td>
+          <td><%= link_to image_tag(vendor.image.file.url(:small)), "#{vendor.vendor_slug.downcase}/models" if vendor.image %></td>
           <td><%= link_to vendor.models.size, "#{vendor.vendor_slug.downcase}/models" %></td>
-          <td><%= link_to vendor.recorders.size, "#{vendor.vendor_slug.downcase}/recorders" %></td>
+          <!--td><%= link_to vendor.recorders.size, "#{vendor.vendor_slug.downcase}/recorders" %></td-->
         </tr>
         <% end %>
       </tbody>
