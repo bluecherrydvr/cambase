@@ -104,7 +104,20 @@ class Api::V1::ModelsController < ApplicationController
   def search
     @search = Model.search(params[:q])
     @models = @search.result.page params[:page]
-    render :index
+    
+    uri = CGI::unescape(request.url)
+    if uri.include? "manufacturer_name_cont"
+      vendorname =  uri.partition('=').last
+      @vendor = Vendor.find_by_vendor_slug(vendorname)
+      if @vendor
+        @models = @models.where(:vendor_id => @vendor.id)
+        render :index
+      else
+        render :index
+      end
+    else
+      render :index
+    end
   end
 
   def create
