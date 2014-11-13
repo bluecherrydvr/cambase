@@ -25,4 +25,3 @@
 *.csv
 /db/seeds/images
 /db/seeds
-/public/api-docs
