@@ -22,9 +22,9 @@ class Api::V1::ModelsController < ApplicationController
 
   swagger_api :create do
     summary "Creates a new Model"
-    param :form, :manufacturer_id, :string, :required, "Manufacturer ID"
+    param :form, :vendor_id, :string, :required, "Manufacturer ID"
     param :form, 'model[model]', :string, :required, "Model"
-    param_list :form, 'model[shape]', :string, :optional, "Shape", Model.uniq.pluck(:resolution).compact.sort
+    param_list :form, 'model[shape]', :string, :optional, "Shape", Model.uniq.pluck(:shape).compact.sort
     param_list :form, 'model[resolution]', :string, :optional, "Resolution", Model.uniq.pluck(:resolution).compact.sort
     param_list :form, 'model[onvif]', :string, :optional, "ONVIF", [true, false]
     param_list :form, 'model[psia]', :string, :optional, "PSIA", [true, false]
@@ -47,9 +47,9 @@ class Api::V1::ModelsController < ApplicationController
   swagger_api :update do
     summary "Updates an existing Model"
     param :path, :id, :string, :required, "Model ID"
-    param :form, :manufacturer_id, :string, :required, "Manufacturer ID"
-    param :form, 'model[name]', :string, :optional, "Model"
-    param_list :form, 'model[shape]', :string, :optional, "Shape", Model.uniq.pluck(:resolution).compact.sort
+    param :form, :vendor_id, :string, :required, "Manufacturer ID"
+    param :form, 'model[model]', :string, :optional, "Model"
+    param_list :form, 'model[shape]', :string, :optional, "Shape", Model.uniq.pluck(:shape).compact.sort
     param_list :form, 'model[resolution]', :string, :optional, "Resolution", Model.uniq.pluck(:resolution).compact.sort
     param_list :form, 'model[onvif]', :string, :optional, "ONVIF", [true, false]
     param_list :form, 'model[psia]', :string, :optional, "PSIA", [true, false]
@@ -75,7 +75,7 @@ class Api::V1::ModelsController < ApplicationController
     param :query, :page, :integer, :optional, "Page number"
     param :query, 'q[model_cont]', :string, :optional, "Model"
     param :query, 'q[manufacturer_name_cont]', :string, :optional, "Manufacturer"
-    param_list :query, 'q[shape_eq]', :string, :optional, "Shape", Model.uniq.pluck(:resolution).compact.sort
+    param_list :query, 'q[shape_eq]', :string, :optional, "Shape", Model.uniq.pluck(:shape).compact.sort
     param_list :query, 'q[resolution_eq]', :string, :optional, "Resolution", Model.uniq.pluck(:resolution).compact.sort
     param_list :query, 'q[onvif_true]', :string, :optional, "ONVIF", [true, false]
     param_list :query, 'q[psia_true]', :string, :optional, "PSIA", [true, false]
@@ -98,30 +98,45 @@ class Api::V1::ModelsController < ApplicationController
   end
 
   def show
-    @model = Model.find_by_model_slug(params[:id])
+    @model = Model.find_by_model_slug(params[:id].downcase)
   end
 
   def search
     @search = Model.search(params[:q])
     @models = @search.result.page params[:page]
     
-    uri = CGI::unescape(request.url)
-    if uri.include? "manufacturer_name_cont"
-      vendorname =  uri.partition('=').last
+    query = ""
+    modelname = ""
+    if params[:q] && params[:q]["model_cont"]
+      modelname = params[:q]["model_cont"]
+    end
+    vendorname = ""
+    if params[:q] && params[:q]["manufacturer_name_cont"]
+      vendorname = params[:q]["manufacturer_name_cont"]
+    end
+    
+    if modelname
+      @model = Model.find_by_model_slug(modelname)
+      query = "model_slug LIKE ? ", "%#{modelname}%"
+    end
+    if vendorname
       @vendor = Vendor.find_by_vendor_slug(vendorname)
       if @vendor
-        @models = @models.where(:vendor_id => @vendor.id)
-        render :index
-      else
-        render :index
+        if modelname
+          query = "model_slug LIKE ? AND vendor_id = ?", "%#{modelname}%", @vendor.id
+        else
+          query = "vendor_id = ?", @vendor.id
+        end
+        @models = @models.where(query)
       end
+      render :index
     else
       render :index
     end
   end
 
   def create
-    params[:model][:manufacturer_id] = Manufacturer.find_by_manufacturer_slug(params[:manufacturer_id].to_url).id
+    params[:model][:vendor_id] = Vendor.find_by_vendor_slug(params[:vendor_id].to_url).id
     @model = Model.new(model_params)
     if @model.save
       render :show, status: :created
@@ -131,8 +146,8 @@ class Api::V1::ModelsController < ApplicationController
   end
 
   def update
-    params[:manufacturer_id] = Manufacturer.find_by_manufacturer_slug(params[:manufacturer_id].to_url).id
-    @model = Model.find_by_model_slug(params[:id])
+    params[:vendor_id] = Vendor.find_by_vendor_slug(params[:vendor_id].to_url).id
+    @model = Model.find_by_model_slug(params[:id].downcase)
     if @model.update(model_params)
       render :show, status: :created
     else
