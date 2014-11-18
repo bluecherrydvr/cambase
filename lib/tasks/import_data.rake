@@ -42,7 +42,7 @@ task :import_model_files, [:modelname] => :environment do |t, args|
           temp_file.write(obj.read)
           puts "\n >> " + model.model_slug
           
-          if File.extname(info.last) == ".jpg" || File.extname(info.last) == ".png" || File.extname(info.last) == ".gif" || File.extname(info.last) == ".tif"
+          if File.extname(info.last) == ".jpg" || File.extname(info.last) == ".jpeg" || File.extname(info.last) == ".png" || File.extname(info.last) == ".gif" || File.extname(info.last) == ".tif" || File.extname(info.last) == ".tiff"
             image = Image.create(:file => temp_file)
             if (model.images.append(image))
               puts "  + " + "/" + vendor.vendor_slug + "/" + model_name + "/" + info.last
@@ -133,7 +133,7 @@ task :import_vendor_files, [:vendorname] => :environment do |t, args|
             temp_file.write(obj.read)
             puts "\n >> " + model.model_slug
             
-            if File.extname(info.last) == ".jpg" || File.extname(info.last) == ".png" || File.extname(info.last) == ".gif" || File.extname(info.last) == ".tif"
+            if File.extname(info.last) == ".jpg" || File.extname(info.last) == ".jpeg" || File.extname(info.last) == ".png" || File.extname(info.last) == ".gif" || File.extname(info.last) == ".tif" || File.extname(info.last) == ".tiff"
               image = Image.create(:file => temp_file)
               if (model.images.append(image))
                 puts "  + " + "/" + vendor_name + "/" + model_name + "/" + info.last
