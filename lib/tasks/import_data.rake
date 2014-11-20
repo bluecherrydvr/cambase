@@ -173,13 +173,13 @@ task :import_recorders => :environment do
   object = s3.buckets['cambase.io'].objects['recorders.csv']
 
   puts "\n  Importing recorders.csv from AWS S3 bucket 'cambase.io'... \n"
-  File.open("#{Rails.root}/db/seeds/recorders.csv", "wb") do |f|
+  File.open("#{Rails.root}/tmp/recorders.csv", "wb") do |f|
     f.write(object.read)
   end
   puts "  'recorders.csv' imported from AWS S3 \n"
 
   puts "\n  Importing data from 'recorders.csv' to database... \n"
-  Dir.glob("#{Rails.root}/db/seeds/recorders.csv") do |file|
+  Dir.glob("#{Rails.root}/tmp/recorders.csv") do |file|
     SmarterCSV.process(file).each do |recorder|
       original_recorder = recorder.clone
       recorder[:vendor_id] = Vendor.where(:name => recorder[:vendor]).first_or_create.id
