@@ -15,4 +15,7 @@
   <p class="sidebar-stats icon-images">
     <%= pluralize(Image.where(owner_type: "Model").length, 'Image') %>
   </p>
+  <p class="sidebar-stats icon-documents">
+    <%= pluralize(Document.where(owner_type: "Model").length, 'Document') %>
+  </p>
 </div>
