@@ -87,17 +87,11 @@ Recorder Listing
             <% end %>
           </td>
           <td>
-            <%= link_to recorder.model, "/#{recorder.vendor.vendor_slug}/recorders/#{recorder.model.downcase}" %>
+            <%= link_to recorder.model, "/#{recorder.vendor.vendor_slug}/recorders/#{recorder.recorder_slug}" %>
           </td>
           <td class="manufacturer-name"><%= link_to recorder.vendor.name, "/#{recorder.vendor.vendor_slug}/recorders" %></td>
           <td><%= recorder.resolution %></td>
-          <td>
-            <% if Recorder::TYPES.include? recorder.recorder_type %>
-            <span class='icon-camera_shape_<%= recorder.recorder_type %>' title='<%= recorder.recorder_type %>'></span>
-            <% else %>
-            <%= recorder.recorder_type %>
-            <% end %>
-          </td>
+          <td><%= recorder.recorder_type %></td>
           <% Recorder::FEATURES.each do |feature| %>
           <td class="feature">
             <% if recorder[feature.parameterize.underscore] %>

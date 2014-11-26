@@ -19,7 +19,8 @@ class Recorder < ActiveRecord::Base
   validates :recorder_type, presence: true
 
   def make_slug
-    self.recorder_slug = self.model.downcase
+    self.recorder_slug = self.model
+    self.recorder_slug.gsub!(/[^0-9A-Za-z-_]/, '')
   end
 
   def next

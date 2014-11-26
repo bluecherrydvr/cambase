@@ -3,6 +3,73 @@ require 'open-uri'
 require Rails.root.join('lib', 'import_data.rb')
 
 
+desc "Delete images/document of given model"
+task :delete_model_files, [:modelname] => :environment do |t, args|
+  model = Model.find_by_model_slug(args[:modelname])
+  if model
+    Image.where(owner_id: model.id).destroy_all
+    Document.where(owner_id: model.id).destroy_all
+    puts " - Model files deleted " + model.model_slug
+  else
+    puts " - Model not found"
+  end
+end
+
+
+desc "Import files of given vendor from cambase.io and store in cambase bucket"
+task :import_model_files, [:modelname] => :environment do |t, args|
+  model = Model.where(model_slug: args[:modelname].to_url).first
+  if model
+    vendor = Vendor.where(id: model.vendor_id).first
+    if vendor
+      AWS.config(
+        :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
+        :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
+        # disable this key if source bucket is in US
+        :s3_endpoint => 's3-eu-west-1.amazonaws.com'
+      )
+      s3 = AWS::S3.new
+      puts "\n //" + vendor.vendor_slug + "//" + model.model_slug
+      s3.buckets['cambase.io'].objects.with_prefix('Google drive/').each do |obj|
+        info = obj.key.split('/')
+        #puts "\n   //" + obj.key + " - " + info.size.to_s
+        next if info.size < 4
+        model_name = info[2]
+        file_name = File.basename(obj.key)
+        next if !(model.model_slug.downcase == model_name.downcase)
+        
+        begin
+          temp_file = Tempfile.new(file_name.split(/(.\w+)$/))
+          temp_file.binmode
+          temp_file.write(obj.read)
+          puts "\n >> " + model.model_slug
+          
+          if File.extname(info.last) == ".jpg" || File.extname(info.last) == ".jpeg" || File.extname(info.last) == ".png" || File.extname(info.last) == ".gif" || File.extname(info.last) == ".tif" || File.extname(info.last) == ".tiff"
+            image = Image.create(:file => temp_file)
+            if (model.images.append(image))
+              puts "  + " + "/" + vendor.vendor_slug + "/" + model_name + "/" + info.last
+            else
+              puts "  - " + "/" + vendor.vendor_slug + "/" + model_name + "/" + info.last + " ? " + image.file_content_type
+            end
+          elsif File.extname(info.last) == ".pdf"
+            document = Document.create(:file => temp_file)
+            model.documents.append(document)
+            puts "  + " + "/" + vendor.vendor_slug + "/" + model_name + "/" + info.last
+          end
+        rescue => e
+          puts "ERR: " + e.message
+        ensure # ensure we don't keep dead links
+          temp_file.close
+          temp_file.unlink
+        end
+      end
+    end
+  end
+
+  puts " - Model files imported from AWS S3 to database \n"
+end
+
+
 desc "Delete images/document of given vendor"
 task :delete_vendor_files, [:vendorname] => :environment do |t, args|
   AWS.config(
@@ -68,7 +135,7 @@ task :import_vendor_files, [:vendorname] => :environment do |t, args|
             temp_file.write(obj.read)
             puts "\n >> " + model.model_slug
             
-            if File.extname(info.last) == ".jpg" || File.extname(info.last) == ".png" || File.extname(info.last) == ".gif" || File.extname(info.last) == ".tif"
+            if File.extname(info.last) == ".jpg" || File.extname(info.last) == ".jpeg" || File.extname(info.last) == ".png" || File.extname(info.last) == ".gif" || File.extname(info.last) == ".tif" || File.extname(info.last) == ".tiff"
               image = Image.create(:file => temp_file)
               if (model.images.append(image))
                 puts "  + " + "/" + vendor_name + "/" + model_name + "/" + info.last
@@ -91,6 +158,72 @@ task :import_vendor_files, [:vendorname] => :environment do |t, args|
     end
   end
   puts " Models files downloaded from AWS S3 to database \n"
+end
+
+
+desc "Import recorders.csv from S3 and save data to database"
+task :import_recorders => :environment do
+  AWS.config(
+    :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
+    :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
+    # disable this key if source bucket is in US
+    :s3_endpoint => 's3-eu-west-1.amazonaws.com'
+  )
+  s3 = AWS::S3.new
+  object = s3.buckets['cambase.io'].objects['recorders.csv']
+
+  puts "\n  Importing recorders.csv from AWS S3 bucket 'cambase.io'... \n"
+  File.open("#{Rails.root}/tmp/recorders.csv", "wb") do |f|
+    f.write(object.read)
+  end
+  puts "  'recorders.csv' imported from AWS S3 \n"
+
+  puts "\n  Importing data from 'recorders.csv' to database... \n"
+  Dir.glob("#{Rails.root}/tmp/recorders.csv") do |file|
+    SmarterCSV.process(file).each do |recorder|
+      original_recorder = recorder.clone
+      recorder[:vendor_id] = Vendor.where(:name => recorder[:vendor]).first_or_create.id
+      recorder[:name] = recorder[:model]
+      puts "  + " + recorder[:vendor].downcase + "/" + recorder[:name]
+      recorder.delete :vendor
+      recorder.delete :os
+      recorder.delete :max_capacity
+      recorder.delete :optical_zoom
+      recorder.delete :raid_support
+      recorder.delete :hot_swap
+      recorder.delete :optical_zoom
+      recorder.delete :"mpeg-4_url"
+      recorder.delete :audio_url
+      recorder.delete_if { |k, v| v.to_s.empty? }
+      recorder[:resolution] = recorder.delete :max_resolution
+      recorder[:official_url] = recorder.delete :user_manual
+      
+      if recorder[:resolution]
+        if recorder[:resolution] == '?'
+          recorder[:resolution] = ''
+        else
+          recorder[:resolution] = recorder[:resolution].gsub(/\s+/, "").gsub(/×/, "x").downcase
+        end
+      end
+
+      recorder.update(recorder){|key,value| clean_csv_values(value)}
+      
+      r = Recorder.where(:model => recorder[:model]).first_or_initialize
+      r.update_attributes(recorder)
+      r.attributes.each do |k, v|
+        if v == 'f'
+          if recorder[k.to_sym]
+            r[k.to_sym] = recorder[k.to_sym]
+          else
+            r[k.to_sym] = 'Unknown'
+          end
+        end
+        r.save
+      end
+      puts "  #{r.recorder} \n #{r.errors.messages.inspect} \n\n" unless r.errors.messages.blank?
+    end
+  end
+  puts "  'recorders.csv' imported to database! \n\n"
 end
 
 
