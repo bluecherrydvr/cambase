@@ -161,6 +161,74 @@ task :import_vendor_files, [:vendorname] => :environment do |t, args|
 end
 
 
+desc "Import more.csv from S3 and save data to database"
+task :import_recorders_more => :environment do
+  # AWS.config(
+  #   :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
+  #   :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
+  #   # disable this key if source bucket is in US
+  #   :s3_endpoint => 's3-eu-west-1.amazonaws.com'
+  # )
+  # s3 = AWS::S3.new
+  # object = s3.buckets['cambase.io'].objects['more.csv']
+
+  # puts "\n  Importing recorders.csv from AWS S3 bucket 'cambase.io'... \n"
+  # File.open("#{Rails.root}/tmp/more.csv", "wb") do |f|
+  #   f.write(object.read)
+  # end
+  # puts "  'more.csv' imported from AWS S3 \n"
+
+  puts "\n  Importing data from 'more.csv' to database... \n"
+  file=File.open("#{Rails.root}/tmp/more.csv", "r:ISO-8859-1")
+  SmarterCSV.process(file).each do |recorder|
+    original_recorder = recorder.clone
+
+    # find_by_name works for all vendors which are already in DB
+    #vendor = Vendor.find_or_create_by(name: recorder[:vendor])
+    vendor = Vendor.find_by_name(recorder[:vendor])
+    recorder[:vendor_id] = vendor.id  
+    if !recorder[:name]
+      # stores Model as Name if name is not set in metadata
+      recorder[:name] = recorder[:model]
+    end
+
+    puts "  + " + recorder[:vendor].downcase + "/" + recorder[:name]
+    recorder.delete :vendor
+    recorder.delete_if { |k, v| v.to_s.empty? }
+    recorder[:playback_channels] = recorder.delete :simultanious_playback
+    recorder[:resolution] = recorder.delete :max_recording_resolution
+    recorder[:official_url] = recorder.delete :user_manual
+    recorder[:audio_in] = recorder.delete :audio_input
+    recorder[:audio_out] = recorder.delete :audio_output
+    
+    if recorder[:resolution]
+      if recorder[:resolution] == '?'
+        recorder[:resolution] = ''
+      else
+        recorder[:resolution] = recorder[:resolution].gsub(/\s+/, "").gsub(/×/, "x").downcase
+      end
+    end
+
+    recorder.update(recorder){|key,value| clean_csv_values(value)}
+    
+    r = Recorder.where(:model => recorder[:model]).first_or_initialize
+    r.update_attributes(recorder)
+    r.attributes.each do |k, v|
+      if v == 'f'
+        if recorder[k.to_sym]
+          r[k.to_sym] = recorder[k.to_sym]
+        else
+          r[k.to_sym] = 'Unknown'
+        end
+      end
+      r.save
+    end
+    puts "  #{r.recorder} \n #{r.errors.messages.inspect} \n\n" unless r.errors.messages.blank?
+  end
+  puts "  'more.csv' imported to database! \n\n"
+end
+
+
 desc "Import recorders.csv from S3 and save data to database"
 task :import_recorders => :environment do
   AWS.config(

@@ -10,7 +10,8 @@ class Recorder < ActiveRecord::Base
   TYPES = [
     'DVR',
     'NVR',
-    'Hybrid DVR'
+    'HVR',
+    'Encoder'
   ]
   FEATURES = ['Onvif', 'PSIA', 'PTZ', 'Support 3rdparty', 'UPnP', 'Discontinued', 'Audio In', 'Audio Out'].freeze
 
