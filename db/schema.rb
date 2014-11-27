@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140929150902) do
+ActiveRecord::Schema.define(version: 20141127100107) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,6 +102,16 @@ ActiveRecord::Schema.define(version: 20140929150902) do
     t.boolean  "support_3rdparty"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "usb"
+    t.integer  "sdhc"
+    t.boolean  "hot_swap"
+    t.boolean  "hdmi"
+    t.boolean  "digital_io"
+    t.string   "mobile_access"
+    t.string   "alarms"
+    t.string   "raid_support"
+    t.string   "storage"
+    t.string   "additional_information"
   end
 
   add_index "recorders", ["vendor_id"], name: "index_recorders_on_vendor_id", using: :btree
