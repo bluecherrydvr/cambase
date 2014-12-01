@@ -20,6 +20,7 @@
 #= require packery/packer
 #= require packery/item
 #= require packery
+#= require select2
 
 # called from a bootstrap dropdown, this closes the dropdown
 $('a[data-toggle=modal]').on 'click', ->

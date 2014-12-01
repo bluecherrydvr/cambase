@@ -13,6 +13,7 @@
 //= require swagger-ui
 //= require_self
 //= require editable/bootstrap-editable
+//= require select2
 
 $border-radius-base: 0;
 $lightgreen: #b8c7c2;
@@ -41,3 +42,4 @@ $input-border-focus: $darkgreen;
 @import "search";
 @import "modals";
 @import "settings";
+@import "select2";

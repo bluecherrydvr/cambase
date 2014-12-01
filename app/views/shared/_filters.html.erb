@@ -11,14 +11,17 @@
               </div>
               <div class="col-sm-4">
                 <%= f.label 'Vendor' %>
+                <br />
                 <%= f.collection_select(:vendor_id_eq, Vendor.order(:name), :id, :name, :include_blank => 'Any') %>
               </div>
               <div class="col-sm-4">
                 <%= f.label 'Resolution' %>
+                <br />
                 <%= f.select(:resolution_eq, Model.uniq.pluck(:resolution).compact.sort, :include_blank => 'Any') %>
               </div>
               <div class="col-sm-4">
                 <%= f.label 'Shape' %>
+                <br />
                 <%= f.select(:shape_eq, Model.uniq.pluck(:shape).compact.sort, :include_blank => 'Any') %>
               </div>
               <div class="col-sm-12 feature-filters">
@@ -52,3 +55,35 @@
     </div>
   </div>
 </nav>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    // vendorslist = Hash.new
+    // vendorslist.add("1" => "First")
+    // alert(vendorslist[0])
+
+    function formatVendors(item) {
+      //if (!item.id) return item.text;
+      //vendor = Vendor.find_by_id(item.id)
+      return item.text;
+      //return "<img height='20px' src='" + image_tag(vendor.image.file.url) + "' /> " + item.text;
+    }
+    $("select#q_vendor_id_eq").select2({
+      formatResult: formatVendors,
+      formatSelection: formatVendors,
+      escapeMarkup: function(m) { return m; }
+    });
+    
+    $("select#q_resolution_eq").select2();
+
+    function formatShapes(item) {
+      if (!item.id) return item.text;
+      return "<img height='20px' src='/assets/icons/camera_shape_" + item.id.toLowerCase() + ".png'/> " + item.text;
+    }
+    $("select#q_shape_eq").select2({
+      formatResult: formatShapes,
+      formatSelection: formatShapes,
+      escapeMarkup: function(m) { return m; }
+    });
+  });
+</script>

@@ -23,6 +23,7 @@ Recorder Listing
               </div>
               <div class="col-sm-4">
                 <%= f.label 'Type' %>
+                <br />
                 <%= f.select(:recorder_type_eq, Recorder.uniq.pluck(:recorder_type).compact.sort, :include_blank => 'Any') %>
               </div>
               <div class="col-sm-12 feature-filters">
@@ -107,3 +108,21 @@ Recorder Listing
   </div>
 </div>
 <div class="fullsize-image hidden"></div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    function formatVendors(item) {
+      return item.text;
+      //return "<img height='20px' src='" + image_tag(vendor.image.file.url) + "' /> " + item.text;
+    }
+    $("select#q_vendor_id_eq").select2({
+      formatResult: formatVendors,
+      formatSelection: formatVendors,
+      escapeMarkup: function(m) { return m; }
+    });
+    
+    $("select#q_resolution_eq").select2();
+
+    $("select#q_recorder_type_eq").select2();
+  });
+</script>
