@@ -71,8 +71,8 @@
 
     function formatShapes(item) {
       if (!item.id) return item.text;
-      return item.text;
-      //return "<img height='20px' src='/assets/icons/camera_shape_" + item.id.toLowerCase() + ".png'/> " + item.text;
+      //return item.text;
+      return "<img height='20px' src='/assets/camera_shape_" + item.id.toLowerCase() + ".png'/> " + item.text;
     }
     $("select#q_shape_eq").select2({
       formatResult: formatShapes,
