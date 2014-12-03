@@ -4,7 +4,7 @@
 
 <div class="col-md-12">
   <div class="table-responsive">
-    <table class="table table-list table-manufacturers">
+    <table class="table table-vendors">
       <thead>
         <tr>
           <th>Logo</th>
@@ -28,3 +28,13 @@
     <%= paginate @vendors %>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.table-vendors').DataTable({
+      "iDisplayLength": 50,
+      "bSort": true,
+    });
+    $('.dataTables_filter input').attr("placeholder", "Vendor Name");
+  });
+</script>

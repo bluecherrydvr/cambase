@@ -2,10 +2,64 @@
 Model Listing
 <% end %>
 
-<%= render 'shared/filters' %>
+<nav class="navbar navbar-default container" role="navigation">
+  <div class="row" id="bs-example-navbar-collapse-1">
+    <div class="col-sm-12">
+      <div class="navbar-form col-sm-12" role="search">
+        <div class="form-group">
+          <%= search_form_for @search, :prefix => 'filter', url: search_models_path, html: { method: :get } do |f| %>
+          <div class="search-filters row">
+            <div class="col-sm-6">
+              <div class="col-sm-4">
+                <%= f.label 'Vendor' %>
+                <br />
+                <%= f.collection_select(:vendor_id_eq, Vendor.order(:name), :id, :name, :include_blank => 'Any') %>
+              </div>
+              <div class="col-sm-4">
+                <%= f.label 'Resolution' %>
+                <br />
+                <%= f.select(:resolution_eq, Model.uniq.pluck(:resolution).compact.sort, :include_blank => 'Any') %>
+              </div>
+              <div class="col-sm-4">
+                <%= f.label 'Shape' %>
+                <br />
+                <%= f.select(:shape_eq, Model.uniq.pluck(:shape).compact.sort, :include_blank => 'Any') %>
+              </div>
+              <div class="col-sm-12 feature-filters">
+                <%= f.label 'Features' %>
+                <div>
+                  <span>
+                    <label>
+                      <%= f.check_box combine_features, :id => 'any', checked: true %>
+                      Any
+                    </label>
+                  </span>
+                  <% Model::FEATURES.each do |feature| %>
+                  <span>
+                    <label>
+                      <%= f.check_box "#{feature.parameterize.underscore}_true", :id => "filter_#{feature.parameterize.underscore}_true" %>
+                      <%= feature %>
+                    </label>
+                  </span>
+                  <% end %>
+                </div>
+              </div>
+              <div class="col-sm-12 actions">
+                <%= f.submit "Filter", :class => 'button' %>
+              </div>
+            </div>
+          </div>
+          <% end %>
+        </div>
+        <div class="clear-f"></div>
+      </div>
+    </div>
+  </div>
+</nav>
+
 <div class="col-md-12">
   <div class="table-responsive">
-    <table class="table table-list table-cameras">
+    <table class="table table-models">
       <thead>
         <tr>
           <th><%= sort_link @search, :model, 'Images' %></th>
@@ -15,8 +69,8 @@ Model Listing
           <th class='shape'><%= sort_link @search, :shape, 'Shape' %></th>
           <% Model::FEATURES.each do |feature| %>
           <th class="rotate">
-            <div>
-              <span>
+            <div style="writing-mode: tb-rl;">
+              <span >
                 <%= sort_link @search, :"#{feature.parameterize.underscore}", feature %>
               </span>
             </div>
@@ -30,7 +84,7 @@ Model Listing
         <tr>
           <td>
             <% if model.images.empty? ==false %>
-              <%= image_tag(model.images.sorted.first.file.url(:medium), class: 'align-center', data: { fullsize: model.images.sorted.first.file.url(:medium) }) %>
+              <%= image_tag(model.images.sorted.first.file.url(:small), class: 'align-center', data: { fullsize: model.images.sorted.first.file.url(:small) }) %>
             <% end %>
           </td>
           <td>
@@ -48,7 +102,7 @@ Model Listing
           <% Model::FEATURES.each do |feature| %>
           <td class="feature">
             <% if model[feature.parameterize.underscore] %>
-            <span class="dot" title="<%= feature %>"></span>
+              <span class="dot" title="<%= feature %>"></span>
             <% end %>
           </td>
           <% end %>
@@ -56,7 +110,37 @@ Model Listing
         <% end %>
       </tbody>
     </table>
-    <%= paginate @models %>
   </div>
 </div>
 <div class="fullsize-image hidden"></div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    function formatVendors(item) {
+      return item.text;
+    }
+    $("select#q_vendor_id_eq").select2({
+      formatResult: formatVendors,
+      formatSelection: formatVendors,
+      escapeMarkup: function(m) { return m; }
+    });
+    
+    $("select#q_resolution_eq").select2();
+
+    function formatShapes(item) {
+      if (!item.id) return item.text;
+      //return item.text;
+      return "<img height='20px' src='/assets/camera_shape_" + item.id.toLowerCase() + ".png'/> " + item.text;
+    }
+    $("select#q_shape_eq").select2({
+      formatResult: formatShapes,
+      formatSelection: formatShapes,
+      escapeMarkup: function(m) { return m; }
+    });
+
+    $('.table-models').DataTable({
+      "iDisplayLength": 50,
+    });
+    $('.dataTables_filter input').attr("placeholder", "Make / Model Name");
+  });
+</script>

@@ -1,5 +1,5 @@
-.table-list{
-  border: 4px solid $grayborder;
+.table{
+  border: 2px solid $grayborder;
   margin-bottom: 0;
   border-collapse: inherit;
   thead, tbody{
@@ -7,15 +7,15 @@
       min-width: 100%;
       max-width: 100%;
       th, td{
-        border-right: 4px solid $grayborder;
+        border-right: 2px solid $grayborder;
         background-color: #fff;
         &:last-child{
           border-right: none;
         }
       }
       th{
-        border-top: 4px solid $grayborder;
-        border-bottom: 4px solid $grayborder;
+        border-top: 2px solid $grayborder;
+        border-bottom: 2px solid $grayborder;
         a{
           font-size: 14px;
           color: $darkgreen;
@@ -24,9 +24,12 @@
       th.shape{
         text-align: center;
       }
+      th.sorting, th.sorting_asc, th.sorting_desc{
+        background-position: -2px 85px;
+      }
       th.rotate {
         height: 95px;
-        width: 31px;
+        width: 25px;
         white-space: nowrap;
         font-style: normal;
         border-left: none;
@@ -68,13 +71,13 @@
       }
     }
   }
-  &.table-cameras{
+  &.table-models{
     tr td:nth-child(4){
       text-align: center;
       width: 80px;
     }
   }
-  &.table-manufacturers{
+  &.table-vendors{
     td{
       height: 50px;
     }
@@ -88,22 +91,22 @@
 
 .pagination{
   margin-top: 0;
-  padding: 8px;
+  padding: 0;
   width: 100%;
-  border: 4px solid $grayborder;
+  border: 0;
   border-top: none;
-  background: #fff;
+  background: none;
   span{
     &.current{
       font-weight: bold;
     }
     padding: 4px;
-    background: $offwhite;
+    background: none;
     &:first-child{
-      padding-left: 8px;
+      padding-left: 2px;
     }
     &:last-child{
-      padding-right: 8px;
+      padding-right: 2px;
     }
     a{
       color: $darkgreen;

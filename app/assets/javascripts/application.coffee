@@ -21,6 +21,8 @@
 #= require packery/item
 #= require packery
 #= require select2
+#= require dataTables/jquery.dataTables
+#= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 
 # called from a bootstrap dropdown, this closes the dropdown
 $('a[data-toggle=modal]').on 'click', ->

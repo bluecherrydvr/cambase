@@ -10,9 +10,6 @@ Recorder Listing
           <%= search_form_for @search, :prefix => 'filter', url: search_recorders_path, html: { method: :get } do |f| %>
           <div class="search-filters row">
             <div class="col-sm-6">
-              <div class="col-sm-12">
-                <%= f.text_field :model_or_vendor_name_cont, :placeholder => "Search Make / Model Name", :class => "search_model" %>
-              </div>
               <div class="col-sm-4">
                 <%= f.label 'Vendor' %>
                 <%= f.collection_select(:vendor_id_eq, Vendor.joins(:recorders).uniq, :id, :name, :include_blank => 'Any') %>
@@ -46,7 +43,7 @@ Recorder Listing
                 </div>
               </div>
               <div class="col-sm-12 actions">
-                <%= f.submit "Search", :class => 'button' %>
+                <%= f.submit "Filter", :class => 'button' %>
               </div>
             </div>
           </div>
@@ -59,7 +56,7 @@ Recorder Listing
 
 <div class="col-md-12">
   <div class="table-responsive">
-    <table class="table table-list table-cameras">
+    <table class="table table-recorders">
       <thead>
         <tr>
           <th><%= sort_link @search, :model, 'Images' %></th>
@@ -104,7 +101,6 @@ Recorder Listing
         <% end %>
       </tbody>
     </table>
-    <%= paginate @recorders %>
   </div>
 </div>
 <div class="fullsize-image hidden"></div>
@@ -124,5 +120,10 @@ Recorder Listing
     $("select#q_resolution_eq").select2();
 
     $("select#q_recorder_type_eq").select2();
+
+    $('.table-recorders').DataTable({
+      "iDisplayLength": 50,
+    });
+    $('.dataTables_filter input').attr("placeholder", "Make / Recorder Name");
   });
 </script>
