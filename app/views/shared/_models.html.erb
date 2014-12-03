@@ -82,7 +82,7 @@ Model Listing
       <tbody>
         <% @models.each do |model| %>
         <tr>
-          <td>
+          <td style="width:100px">
             <% if model.images.empty? ==false %>
               <%= image_tag(model.images.sorted.first.file.url(:small), class: 'align-center', data: { fullsize: model.images.sorted.first.file.url(:small) }) %>
             <% end %>

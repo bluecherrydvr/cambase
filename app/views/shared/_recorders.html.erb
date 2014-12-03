@@ -81,7 +81,7 @@ Recorder Listing
         <tr>
           <td>
             <% if recorder.images.empty? ==false %>
-              <%= image_tag(recorder.images.sorted.first.file.url(:medium), class: 'align-center', data: { fullsize: recorder.images.sorted.first.file.url(:medium) }) %>
+              <%= image_tag(recorder.images.sorted.first.file.url(:small), class: 'align-center', data: { fullsize: recorder.images.sorted.first.file.url(:small) }) %>
             <% end %>
           </td>
           <td>
