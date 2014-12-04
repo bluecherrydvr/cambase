@@ -10,10 +10,11 @@ class Recorder < ActiveRecord::Base
   TYPES = [
     'DVR',
     'NVR',
-    'HVR',
-    'Encoder'
+    'Hybrid',
+    'Encoder',
+    'Decoder'
   ]
-  FEATURES = ['Onvif', 'PSIA', 'PTZ', 'Support 3rdparty', 'UPnP', 'Discontinued', 'Audio In', 'Audio Out'].freeze
+  FEATURES = ['Onvif', 'PSIA', 'PTZ', 'Support 3rdparty', 'UPnP', 'HDMI', 'Hot Swap', 'Digital I/O', 'Discontinued', 'Audio In', 'Audio Out'].freeze
 
   validates :model, presence: true, :case_sensitive => false, :uniqueness => {:scope => :vendor_id}
   validates :vendor, presence: true
@@ -21,7 +22,7 @@ class Recorder < ActiveRecord::Base
 
   def make_slug
     self.recorder_slug = self.model
-    self.recorder_slug.gsub!(/[^0-9A-Za-z-_]/, '')
+    self.recorder_slug.gsub!(/[^-0-9A-Za-z_]/, '')
   end
 
   def next

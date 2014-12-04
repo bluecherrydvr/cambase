@@ -136,12 +136,6 @@ class Api::V1::RecordersController < ApplicationController
     @recorder = Recorder.find_by_recorder_slug(params[:id])
   end
 
-  # def search
-  #   @search = Recorder.search(params[:q])
-  #   @recorders = @search.result.page params[:page]
-  #   render :index
-  # end
-
   def search
     @search = Recorder.search(params[:q])
     @recorders = @search.result.page params[:page]

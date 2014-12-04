@@ -1,4 +1,4 @@
-class Swagger::Docs::Confi`g
+class Swagger::Docs::Config
   def self.transform_path(path)
     "api-docs/#{path}"
   end
