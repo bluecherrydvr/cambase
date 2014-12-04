@@ -28,7 +28,7 @@
               "paramType": "query",
               "name": "q[manufacturer_name_cont]",
               "type": "string",
-              "description": "Manufacturer",
+              "description": "Vendor",
               "required": false
             },
             {
@@ -330,7 +330,7 @@
               "paramType": "form",
               "name": "vendor_id",
               "type": "string",
-              "description": "Manufacturer ID",
+              "description": "Vendor ID",
               "required": true
             },
             {
@@ -661,7 +661,7 @@
               "paramType": "form",
               "name": "vendor_id",
               "type": "string",
-              "description": "Manufacturer ID",
+              "description": "Vendor ID",
               "required": true
             },
             {
@@ -963,7 +963,7 @@
               "paramType": "form",
               "name": "vendor_id",
               "type": "string",
-              "description": "Manufacturer ID",
+              "description": "Vendor ID",
               "required": true
             },
             {

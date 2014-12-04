@@ -19,9 +19,9 @@
             },
             {
               "paramType": "query",
-              "name": "q[recorder_cont]",
+              "name": "q[model_cont]",
               "type": "string",
-              "description": "Recorder",
+              "description": "Model",
               "required": false
             },
             {
@@ -33,24 +33,25 @@
             },
             {
               "paramType": "query",
-              "name": "q[shape_eq]",
+              "name": "q[sdhc_eq]",
               "type": "string",
-              "description": "Shape",
+              "description": "SD Card (GB)",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "q[type_eq]",
+              "type": "string",
+              "description": "Type",
               "required": false,
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "1920x1080p",
-                  "2cif",
-                  "2mp",
-                  "5mp",
-                  "704×480",
-                  "cif",
-                  "cif/480fps",
-                  "d1/120fps",
-                  "d1/120fps,hd1/240fps",
-                  "d1/cif",
-                  "wd1"
+                  "DVR",
+                  "Decoder",
+                  "Encoder",
+                  "Hybrid DVR",
+                  "NVR"
                 ]
               }
             },
@@ -74,6 +75,48 @@
                   "d1/120fps,hd1/240fps",
                   "d1/cif",
                   "wd1"
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[input_channels_eq]",
+              "type": "string",
+              "description": "Input Channels",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  1,
+                  2,
+                  4,
+                  8,
+                  16,
+                  32,
+                  64,
+                  128,
+                  256
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[playback_channels_eq]",
+              "type": "string",
+              "description": "Playback Channels",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  1,
+                  2,
+                  4,
+                  8,
+                  16,
+                  32,
+                  64,
+                  128,
+                  256
                 ]
               }
             },
@@ -121,9 +164,9 @@
             },
             {
               "paramType": "query",
-              "name": "q[infrared_true]",
+              "name": "q[usb_true]",
               "type": "string",
-              "description": "Infrared",
+              "description": "USB",
               "required": false,
               "allowableValues": {
                 "valueType": "LIST",
@@ -135,9 +178,9 @@
             },
             {
               "paramType": "query",
-              "name": "q[varifocal_true]",
+              "name": "q[sdhc_true]",
               "type": "string",
-              "description": "Varifocal",
+              "description": "SDHC",
               "required": false,
               "allowableValues": {
                 "valueType": "LIST",
@@ -194,6 +237,62 @@
               "name": "q[audio_out_true]",
               "type": "string",
               "description": "Audio Out",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[hdmi_true]",
+              "type": "string",
+              "description": "HDMI Support",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[hot_swap_true]",
+              "type": "string",
+              "description": "Hot Swap",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[support_3rdparty_true]",
+              "type": "string",
+              "description": "3rd pparty Camera Support",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "q[digital_io_true]",
+              "type": "string",
+              "description": "Digital I/O",
               "required": false,
               "allowableValues": {
                 "valueType": "LIST",
@@ -289,29 +388,30 @@
               "paramType": "form",
               "name": "recorder[model]",
               "type": "string",
-              "description": "Recorder",
+              "description": "Model",
               "required": true
             },
             {
               "paramType": "form",
-              "name": "recorder[shape]",
+              "name": "recorder[name]",
               "type": "string",
-              "description": "Shape",
-              "required": false,
+              "description": "Name",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[recorder_type]",
+              "type": "string",
+              "description": "Type",
+              "required": true,
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "1920x1080p",
-                  "2cif",
-                  "2mp",
-                  "5mp",
-                  "704×480",
-                  "cif",
-                  "cif/480fps",
-                  "d1/120fps",
-                  "d1/120fps,hd1/240fps",
-                  "d1/cif",
-                  "wd1"
+                  "DVR",
+                  "Decoder",
+                  "Encoder",
+                  "Hybrid DVR",
+                  "NVR"
                 ]
               }
             },
@@ -382,9 +482,9 @@
             },
             {
               "paramType": "form",
-              "name": "recorder[infrared]",
+              "name": "recorder[discontinued]",
               "type": "string",
-              "description": "Infrared",
+              "description": "Discontinued",
               "required": false,
               "allowableValues": {
                 "valueType": "LIST",
@@ -396,9 +496,9 @@
             },
             {
               "paramType": "form",
-              "name": "recorder[varifocal]",
+              "name": "recorder[support_3rdparty]",
               "type": "string",
-              "description": "Varifocal",
+              "description": "3rd pparty Camera Support",
               "required": false,
               "allowableValues": {
                 "valueType": "LIST",
@@ -438,9 +538,51 @@
             },
             {
               "paramType": "form",
+              "name": "recorder[hot_swap]",
+              "type": "string",
+              "description": "Hot Swap",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[hdmi]",
+              "type": "string",
+              "description": "HDMI Support",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[digital_io]",
+              "type": "string",
+              "description": "Digital I/O",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
               "name": "recorder[audio_in]",
               "type": "string",
-              "description": "UPnP",
+              "description": "Audio In",
               "required": false,
               "allowableValues": {
                 "valueType": "LIST",
@@ -454,7 +596,7 @@
               "paramType": "form",
               "name": "recorder[audio_out]",
               "type": "string",
-              "description": "UPnP",
+              "description": "Audio Out",
               "required": false,
               "allowableValues": {
                 "valueType": "LIST",
@@ -463,6 +605,109 @@
                   false
                 ]
               }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[input_channels]",
+              "type": "string",
+              "description": "Input Channels",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  1,
+                  2,
+                  4,
+                  8,
+                  16,
+                  32,
+                  64,
+                  128,
+                  2556
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[playback_channels]",
+              "type": "string",
+              "description": "Playback Channels",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  1,
+                  2,
+                  4,
+                  8,
+                  16,
+                  32,
+                  64,
+                  128,
+                  2556
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[usb]",
+              "type": "string",
+              "description": "USB Ports",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[sdhc]",
+              "type": "string",
+              "description": "SD Card (GB)",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[mobile_access]",
+              "type": "string",
+              "description": "Mobile Access",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[alarms]",
+              "type": "string",
+              "description": "Alarms",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[raid_support]",
+              "type": "string",
+              "description": "Raid Support",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[storage]",
+              "type": "string",
+              "description": "Internal Storage",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[additional_information]",
+              "type": "string",
+              "description": "Additional Information",
+              "required": false
             },
             {
               "paramType": "form",
@@ -497,6 +742,13 @@
               "name": "recorder[mjpeg_url]",
               "type": "string",
               "description": "MJPEG URL",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[official_url]",
+              "type": "string",
+              "description": "Official URL",
               "required": false
             }
           ],
@@ -570,31 +822,32 @@
             },
             {
               "paramType": "form",
-              "name": "recorder[name]",
+              "name": "recorder[model]",
               "type": "string",
-              "description": "Recorder",
-              "required": false
+              "description": "Model",
+              "required": true
             },
             {
               "paramType": "form",
-              "name": "recorder[shape]",
+              "name": "recorder[name]",
               "type": "string",
-              "description": "Shape",
-              "required": false,
+              "description": "Name",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[recorder_type]",
+              "type": "string",
+              "description": "Type",
+              "required": true,
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "1920x1080p",
-                  "2cif",
-                  "2mp",
-                  "5mp",
-                  "704×480",
-                  "cif",
-                  "cif/480fps",
-                  "d1/120fps",
-                  "d1/120fps,hd1/240fps",
-                  "d1/cif",
-                  "wd1"
+                  "DVR",
+                  "Decoder",
+                  "Encoder",
+                  "Hybrid DVR",
+                  "NVR"
                 ]
               }
             },
@@ -665,9 +918,9 @@
             },
             {
               "paramType": "form",
-              "name": "recorder[infrared]",
+              "name": "recorder[discontinued]",
               "type": "string",
-              "description": "Infrared",
+              "description": "Discontinued",
               "required": false,
               "allowableValues": {
                 "valueType": "LIST",
@@ -679,9 +932,9 @@
             },
             {
               "paramType": "form",
-              "name": "recorder[varifocal]",
+              "name": "recorder[support_3rdparty]",
               "type": "string",
-              "description": "Varifocal",
+              "description": "3rd pparty Camera Support",
               "required": false,
               "allowableValues": {
                 "valueType": "LIST",
@@ -721,6 +974,48 @@
             },
             {
               "paramType": "form",
+              "name": "recorder[hot_swap]",
+              "type": "string",
+              "description": "Hot Swap",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[hdmi]",
+              "type": "string",
+              "description": "HDMI Support",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[digital_io]",
+              "type": "string",
+              "description": "Digital I/O",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
               "name": "recorder[audio_in]",
               "type": "string",
               "description": "Audio In",
@@ -746,6 +1041,109 @@
                   false
                 ]
               }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[input_channels]",
+              "type": "string",
+              "description": "Input Channels",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  1,
+                  2,
+                  4,
+                  8,
+                  16,
+                  32,
+                  64,
+                  128,
+                  256
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[playback_channels]",
+              "type": "string",
+              "description": "Playback Channels",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  1,
+                  2,
+                  4,
+                  8,
+                  16,
+                  32,
+                  64,
+                  128,
+                  256
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[usb]",
+              "type": "string",
+              "description": "USB Ports",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[sdhc]",
+              "type": "string",
+              "description": "SD Card (GB)",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[mobile_access]",
+              "type": "string",
+              "description": "Mobile Access",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[alarms]",
+              "type": "string",
+              "description": "Alarms",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[raid_support]",
+              "type": "string",
+              "description": "Raid Support",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[storage]",
+              "type": "string",
+              "description": "Internal Storage",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[additional_information]",
+              "type": "string",
+              "description": "Additional Information",
+              "required": false
             },
             {
               "paramType": "form",
@@ -780,6 +1178,13 @@
               "name": "recorder[mjpeg_url]",
               "type": "string",
               "description": "MJPEG URL",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[official_url]",
+              "type": "string",
+              "description": "Official URL",
               "required": false
             }
           ],
@@ -824,31 +1229,32 @@
             },
             {
               "paramType": "form",
-              "name": "recorder[name]",
+              "name": "recorder[model]",
               "type": "string",
-              "description": "Recorder",
-              "required": false
+              "description": "Model",
+              "required": true
             },
             {
               "paramType": "form",
-              "name": "recorder[shape]",
+              "name": "recorder[name]",
               "type": "string",
-              "description": "Shape",
-              "required": false,
+              "description": "Name",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[recorder_type]",
+              "type": "string",
+              "description": "Type",
+              "required": true,
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "1920x1080p",
-                  "2cif",
-                  "2mp",
-                  "5mp",
-                  "704×480",
-                  "cif",
-                  "cif/480fps",
-                  "d1/120fps",
-                  "d1/120fps,hd1/240fps",
-                  "d1/cif",
-                  "wd1"
+                  "DVR",
+                  "Decoder",
+                  "Encoder",
+                  "Hybrid DVR",
+                  "NVR"
                 ]
               }
             },
@@ -919,9 +1325,9 @@
             },
             {
               "paramType": "form",
-              "name": "recorder[infrared]",
+              "name": "recorder[discontinued]",
               "type": "string",
-              "description": "Infrared",
+              "description": "Discontinued",
               "required": false,
               "allowableValues": {
                 "valueType": "LIST",
@@ -933,9 +1339,9 @@
             },
             {
               "paramType": "form",
-              "name": "recorder[varifocal]",
+              "name": "recorder[support_3rdparty]",
               "type": "string",
-              "description": "Varifocal",
+              "description": "3rd pparty Camera Support",
               "required": false,
               "allowableValues": {
                 "valueType": "LIST",
@@ -975,6 +1381,48 @@
             },
             {
               "paramType": "form",
+              "name": "recorder[hot_swap]",
+              "type": "string",
+              "description": "Hot Swap",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[hdmi]",
+              "type": "string",
+              "description": "HDMI Support",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[digital_io]",
+              "type": "string",
+              "description": "Digital I/O",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  true,
+                  false
+                ]
+              }
+            },
+            {
+              "paramType": "form",
               "name": "recorder[audio_in]",
               "type": "string",
               "description": "Audio In",
@@ -1000,6 +1448,109 @@
                   false
                 ]
               }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[input_channels]",
+              "type": "string",
+              "description": "Input Channels",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  1,
+                  2,
+                  4,
+                  8,
+                  16,
+                  32,
+                  64,
+                  128,
+                  256
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[playback_channels]",
+              "type": "string",
+              "description": "Playback Channels",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  1,
+                  2,
+                  4,
+                  8,
+                  16,
+                  32,
+                  64,
+                  128,
+                  256
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[usb]",
+              "type": "string",
+              "description": "USB Ports",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[sdhc]",
+              "type": "string",
+              "description": "SD Card (GB)",
+              "required": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+
+                ]
+              }
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[mobile_access]",
+              "type": "string",
+              "description": "Mobile Access",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[alarms]",
+              "type": "string",
+              "description": "Alarms",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[raid_support]",
+              "type": "string",
+              "description": "Raid Support",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[storage]",
+              "type": "string",
+              "description": "Internal Storage",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[additional_information]",
+              "type": "string",
+              "description": "Additional Information",
+              "required": false
             },
             {
               "paramType": "form",
@@ -1034,6 +1585,13 @@
               "name": "recorder[mjpeg_url]",
               "type": "string",
               "description": "MJPEG URL",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "recorder[official_url]",
+              "type": "string",
+              "description": "Official URL",
               "required": false
             }
           ],
