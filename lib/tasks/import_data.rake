@@ -3,6 +3,21 @@ require 'open-uri'
 require Rails.root.join('lib', 'import_data.rb')
 
 
+desc "Fix model Resolutions, URLs"
+task :fix_all_data => :environment do
+  #Document.where(owner_id: model.id)
+  Model.all.each do |model|
+    puts " ->" + model.model
+    if model.h264_url.downcase == "unknown"
+      model.h264_url = ""
+      model.save
+      puts " ->>" + model.model
+      binding.pry
+    end
+  end
+end
+
+
 desc "Delete images/document of given model"
 task :delete_model_files, [:modelname] => :environment do |t, args|
   model = Model.find_by_model_slug(args[:modelname])
