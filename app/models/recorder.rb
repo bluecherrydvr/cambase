@@ -14,7 +14,7 @@ class Recorder < ActiveRecord::Base
     'Encoder',
     'Decoder'
   ]
-  FEATURES = ['Onvif', 'PSIA', 'PTZ', 'Support 3rdparty', 'UPnP', 'HDMI', 'Hot Swap', 'Digital I/O', 'Discontinued', 'Audio In', 'Audio Out'].freeze
+  FEATURES = ['Onvif', 'PSIA', 'PTZ', 'Support 3rdparty', 'UPnP', 'HDMI', 'Hot Swap', 'Digital IO', 'Discontinued', 'Audio In', 'Audio Out'].freeze
 
   validates :model, presence: true, :case_sensitive => false, :uniqueness => {:scope => :vendor_id}
   validates :vendor, presence: true
