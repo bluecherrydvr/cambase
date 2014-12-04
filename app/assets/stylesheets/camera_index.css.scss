@@ -1,7 +1,7 @@
 .table{
   border: 2px solid $grayborder;
   margin-bottom: 0;
-  border-collapse: inherit;
+  border-collapse: inherit;  
   thead, tbody{
     tr{
       min-width: 100%;
@@ -78,13 +78,9 @@
     }
   }
   &.table-vendors{
-    td{
-      height: 50px;
-    }
     tr td:nth-child(3),
     tr th:nth-child(3){
       text-align: center;
-      width: 42px;
     }
   }
 }
@@ -125,7 +121,22 @@
   }
 }
 
+#vendorstable .paginate_button {
+  padding: 0;
+  border: none;
+}
+
 #modelstable .paginate_button {
   padding: 0;
   border: none;
+}
+
+#recorderstable .paginate_button {
+  padding: 0;
+  border: none;
+}
+
+#show-hide
+{
+  margin-right:10px;
 }

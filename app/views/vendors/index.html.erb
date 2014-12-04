@@ -3,8 +3,8 @@
 <% end %>
 
 <div class="col-md-12">
-  <div class="table-responsive">
-    <table class="table table-vendors">
+  <div id="vendorstable" class="table-responsive">
+    <table class="table table-vendors" style="width:100%">
       <thead>
         <tr>
           <th>Logo</th>
@@ -13,28 +13,42 @@
           <th>Recorders</th>
         </tr>
       </thead>
-
       <tbody>
         <% @vendors.each do |vendor| %>
         <tr>
-          <td style="width:200px"><%= link_to image_tag(vendor.image.file.url(:small)), "#{vendor.vendor_slug.downcase}/models" if vendor.image %></td>
+          <td style="width:20%"><%= link_to image_tag(vendor.image.file.url(:small)), "#{vendor.vendor_slug.downcase}/models" if vendor.image %></td>
           <td><%= link_to vendor.name, "#{vendor.vendor_slug.downcase}/models" %></td>
-          <td style="width:100px"><%= link_to vendor.models.size, "#{vendor.vendor_slug.downcase}/models" %></td>
-          <td style="width:100px"><%= link_to vendor.recorders.size, "#{vendor.vendor_slug.downcase}/recorders" %></td>
+          <td style="width:10%"><%= link_to vendor.models.size, "#{vendor.vendor_slug.downcase}/models" %></td>
+          <td style="width:10%"><%= link_to vendor.recorders.size, "#{vendor.vendor_slug.downcase}/recorders" %></td>
         </tr>
         <% end %>
       </tbody>
     </table>
-    <%= paginate @vendors %>
   </div>
 </div>
 
 <script type="text/javascript">
   $(document).ready(function() {
-    $('.table-vendors').DataTable({
-      "iDisplayLength": 50,
-      "bSort": true,
+    var table = $('.table-vendors').DataTable({
+      "iDisplayLength": 50
     });
     $('.dataTables_filter input').attr("placeholder", "Vendor Name");
+
+    $("<button id='show-hide' title='Hide logos'>«</button>").prependTo('.dataTables_length > label');
+
+    $('#show-hide').on('click', function (e) {
+      e.preventDefault();
+      var column = table.column(0);
+      column.visible( ! column.visible() );
+      if(column.visible()) {
+        $(this).text("«");
+        $(this).attr("title","Hide logos");
+      }
+      else
+      {
+        $(this).text("»");
+        $(this).attr("title","Show logos");
+      }
+    });
   });
 </script>

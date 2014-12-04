@@ -55,7 +55,7 @@ Recorder Listing
 </nav>
 
 <div class="col-md-12">
-  <div class="table-responsive">
+  <div id="recorderstable" class="table-responsive">
     <table class="table table-recorders">
       <thead>
         <tr>
@@ -121,9 +121,26 @@ Recorder Listing
 
     $("select#q_recorder_type_eq").select2();
 
-    $('.table-recorders').DataTable({
+    table = $('.table-recorders').DataTable({
       "iDisplayLength": 50,
     });
     $('.dataTables_filter input').attr("placeholder", "Make / Recorder Name");
+
+    $("<button id='show-hide' title='Hide images'>«</button>").prependTo('.dataTables_length > label');
+
+    $('#show-hide').on('click', function (e) {
+      e.preventDefault();
+      var column = table.column(0);
+      column.visible( ! column.visible() );
+      if(column.visible()) {
+        $(this).text("«");
+        $(this).attr("title","Hide images");
+      }
+      else
+      {
+        $(this).text("»");
+        $(this).attr("title","Show images");
+      }
+    });
   });
 </script>

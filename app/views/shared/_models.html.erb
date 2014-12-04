@@ -139,9 +139,26 @@ Model Listing
       escapeMarkup: function(m) { return m; }
     });
 
-    $('.table-models').DataTable({
+    table = $('.table-models').DataTable({
       "iDisplayLength": 50,
     });
     $('.dataTables_filter input').attr("placeholder", "Make / Model Name");
+
+    $("<button id='show-hide' title='Hide images'>«</button>").prependTo('.dataTables_length > label');
+
+    $('#show-hide').on('click', function (e) {
+      e.preventDefault();
+      var column = table.column(0);
+      column.visible( ! column.visible() );
+      if(column.visible()) {
+        $(this).text("«");
+        $(this).attr("title","Hide images");
+      }
+      else
+      {
+        $(this).text("»");
+        $(this).attr("title","Show images");
+      }
+    });
   });
 </script>
