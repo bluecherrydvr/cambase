@@ -22,7 +22,7 @@ class Api::V1::ModelsController < ApplicationController
 
   swagger_api :create do
     summary "Creates a new Model"
-    param :form, :vendor_id, :string, :required, "Manufacturer ID"
+    param :form, :vendor_id, :string, :required, "Vendor ID"
     param :form, 'model[model]', :string, :required, "Model"
     param_list :form, 'model[shape]', :string, :optional, "Shape", Model.uniq.pluck(:shape).compact.sort
     param_list :form, 'model[resolution]', :string, :optional, "Resolution", Model.uniq.pluck(:resolution).compact.sort
@@ -47,7 +47,7 @@ class Api::V1::ModelsController < ApplicationController
   swagger_api :update do
     summary "Updates an existing Model"
     param :path, :id, :string, :required, "Model ID"
-    param :form, :vendor_id, :string, :required, "Manufacturer ID"
+    param :form, :vendor_id, :string, :required, "Vendor ID"
     param :form, 'model[model]', :string, :optional, "Model"
     param_list :form, 'model[shape]', :string, :optional, "Shape", Model.uniq.pluck(:shape).compact.sort
     param_list :form, 'model[resolution]', :string, :optional, "Resolution", Model.uniq.pluck(:resolution).compact.sort
@@ -74,7 +74,7 @@ class Api::V1::ModelsController < ApplicationController
     summary "Searches all Models"
     param :query, :page, :integer, :optional, "Page number"
     param :query, 'q[model_cont]', :string, :optional, "Model"
-    param :query, 'q[manufacturer_name_cont]', :string, :optional, "Manufacturer"
+    param :query, 'q[manufacturer_name_cont]', :string, :optional, "Vendor"
     param_list :query, 'q[shape_eq]', :string, :optional, "Shape", Model.uniq.pluck(:shape).compact.sort
     param_list :query, 'q[resolution_eq]', :string, :optional, "Resolution", Model.uniq.pluck(:resolution).compact.sort
     param_list :query, 'q[onvif_true]', :string, :optional, "ONVIF", [true, false]

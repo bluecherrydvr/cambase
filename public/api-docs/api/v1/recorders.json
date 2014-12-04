@@ -2,13 +2,13 @@
   "apiVersion": "1.0",
   "swaggerVersion": "1.2",
   "basePath": "http://api.cambase.io/",
-  "resourcePath": "models",
+  "resourcePath": "recorders",
   "apis": [
     {
-      "path": "api/v1/models/search.json",
+      "path": "api/v1/recorders/search.json",
       "operations": [
         {
-          "summary": "Searches all Models",
+          "summary": "Searches all Recorders",
           "parameters": [
             {
               "paramType": "query",
@@ -19,16 +19,16 @@
             },
             {
               "paramType": "query",
-              "name": "q[model_cont]",
+              "name": "q[recorder_cont]",
               "type": "string",
-              "description": "Model",
+              "description": "Recorder",
               "required": false
             },
             {
               "paramType": "query",
-              "name": "q[manufacturer_name_cont]",
+              "name": "q[vendor_name_cont]",
               "type": "string",
-              "description": "Manufacturer",
+              "description": "Vendor",
               "required": false
             },
             {
@@ -40,11 +40,17 @@
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "Box",
-                  "Bullet",
-                  "Cube",
-                  "Dome",
-                  "Other"
+                  "1920x1080p",
+                  "2cif",
+                  "2mp",
+                  "5mp",
+                  "704×480",
+                  "cif",
+                  "cif/480fps",
+                  "d1/120fps",
+                  "d1/120fps,hd1/240fps",
+                  "d1/cif",
+                  "wd1"
                 ]
               }
             },
@@ -57,71 +63,17 @@
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "-",
-                  "10240x1920",
-                  "1024x768",
-                  "1280x1024",
-                  "1280x720",
-                  "1280x721",
-                  "1280x722",
-                  "1280x723",
-                  "1280x800",
-                  "1280x900",
-                  "1280x960",
-                  "1376x1032",
-                  "14592x2752",
-                  "1536x1536",
-                  "1600x1200",
-                  "1600x900",
-                  "160x128",
-                  "1920x1080",
-                  "1920x1440",
-                  "1920x1920",
-                  "1921x1080",
-                  "1922x1080",
-                  "1944x1092",
-                  "2032x1920",
-                  "2045x1536",
-                  "2048x1536",
-                  "2052x1536",
-                  "2560x1440",
-                  "2560x1920",
-                  "2592x1920",
-                  "2592x1944",
-                  "2688x1520",
-                  "3072x2048",
-                  "3648x2736",
-                  "3648x2752",
-                  "3648x2753",
-                  "384x288",
-                  "4000x3000",
-                  "40mp",
-                  "6400x1200",
-                  "640x460",
-                  "640x480",
-                  "680x512",
-                  "704x480",
-                  "704x576",
-                  "704Ãƒâ€”480",
-                  "720x480",
-                  "720x576",
-                  "729x576",
-                  "736x576",
-                  "768x576",
-                  "800x600",
-                  "8192x1536",
-                  "976x494",
-                  "f",
-                  "ntsc720x480",
-                  "ntsc720x480/pal720x576",
-                  "ntsc:704x480/pal:704x576",
-                  "ntsc:720x480",
-                  "ntsc:720x480/pal:720x576",
-                  "ntsc:976x494/pal:976x582",
-                  "pal720x576",
-                  "pal:704x576",
-                  "pal:704x576;ntsc:704x480",
-                  "pal:720x576"
+                  "1920x1080p",
+                  "2cif",
+                  "2mp",
+                  "5mp",
+                  "704×480",
+                  "cif",
+                  "cif/480fps",
+                  "d1/120fps",
+                  "d1/120fps,hd1/240fps",
+                  "d1/cif",
+                  "wd1"
                 ]
               }
             },
@@ -267,15 +219,15 @@
             }
           ],
           "method": "get",
-          "nickname": "Api::V1::Models#search"
+          "nickname": "Api::V1::Recorders#search"
         }
       ]
     },
     {
-      "path": "api/v1/models.json",
+      "path": "api/v1/recorders.json",
       "operations": [
         {
-          "summary": "Fetches all Models",
+          "summary": "Fetches all Recorders",
           "parameters": [
             {
               "paramType": "query",
@@ -316,127 +268,79 @@
             }
           ],
           "method": "get",
-          "nickname": "Api::V1::Models#index"
+          "nickname": "Api::V1::Recorders#index"
         }
       ]
     },
     {
-      "path": "api/v1/models.json",
+      "path": "api/v1/recorders.json",
       "operations": [
         {
-          "summary": "Creates a new Model",
+          "summary": "Creates a new Recorder",
           "parameters": [
             {
               "paramType": "form",
               "name": "vendor_id",
               "type": "string",
-              "description": "Manufacturer ID",
+              "description": "Vendor ID",
               "required": true
             },
             {
               "paramType": "form",
-              "name": "model[model]",
+              "name": "recorder[model]",
               "type": "string",
-              "description": "Model",
+              "description": "Recorder",
               "required": true
             },
             {
               "paramType": "form",
-              "name": "model[shape]",
+              "name": "recorder[shape]",
               "type": "string",
               "description": "Shape",
               "required": false,
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "Box",
-                  "Bullet",
-                  "Cube",
-                  "Dome",
-                  "Other"
+                  "1920x1080p",
+                  "2cif",
+                  "2mp",
+                  "5mp",
+                  "704×480",
+                  "cif",
+                  "cif/480fps",
+                  "d1/120fps",
+                  "d1/120fps,hd1/240fps",
+                  "d1/cif",
+                  "wd1"
                 ]
               }
             },
             {
               "paramType": "form",
-              "name": "model[resolution]",
+              "name": "recorder[resolution]",
               "type": "string",
               "description": "Resolution",
               "required": false,
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "-",
-                  "10240x1920",
-                  "1024x768",
-                  "1280x1024",
-                  "1280x720",
-                  "1280x721",
-                  "1280x722",
-                  "1280x723",
-                  "1280x800",
-                  "1280x900",
-                  "1280x960",
-                  "1376x1032",
-                  "14592x2752",
-                  "1536x1536",
-                  "1600x1200",
-                  "1600x900",
-                  "160x128",
-                  "1920x1080",
-                  "1920x1440",
-                  "1920x1920",
-                  "1921x1080",
-                  "1922x1080",
-                  "1944x1092",
-                  "2032x1920",
-                  "2045x1536",
-                  "2048x1536",
-                  "2052x1536",
-                  "2560x1440",
-                  "2560x1920",
-                  "2592x1920",
-                  "2592x1944",
-                  "2688x1520",
-                  "3072x2048",
-                  "3648x2736",
-                  "3648x2752",
-                  "3648x2753",
-                  "384x288",
-                  "4000x3000",
-                  "40mp",
-                  "6400x1200",
-                  "640x460",
-                  "640x480",
-                  "680x512",
-                  "704x480",
-                  "704x576",
-                  "704Ãƒâ€”480",
-                  "720x480",
-                  "720x576",
-                  "729x576",
-                  "736x576",
-                  "768x576",
-                  "800x600",
-                  "8192x1536",
-                  "976x494",
-                  "f",
-                  "ntsc720x480",
-                  "ntsc720x480/pal720x576",
-                  "ntsc:704x480/pal:704x576",
-                  "ntsc:720x480",
-                  "ntsc:720x480/pal:720x576",
-                  "ntsc:976x494/pal:976x582",
-                  "pal720x576",
-                  "pal:704x576",
-                  "pal:704x576;ntsc:704x480",
-                  "pal:720x576"
+                  "1920x1080p",
+                  "2cif",
+                  "2mp",
+                  "5mp",
+                  "704×480",
+                  "cif",
+                  "cif/480fps",
+                  "d1/120fps",
+                  "d1/120fps,hd1/240fps",
+                  "d1/cif",
+                  "wd1"
                 ]
               }
             },
             {
               "paramType": "form",
-              "name": "model[onvif]",
+              "name": "recorder[onvif]",
               "type": "string",
               "description": "ONVIF",
               "required": false,
@@ -450,7 +354,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[psia]",
+              "name": "recorder[psia]",
               "type": "string",
               "description": "PSIA",
               "required": false,
@@ -464,7 +368,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[ptz]",
+              "name": "recorder[ptz]",
               "type": "string",
               "description": "PTZ",
               "required": false,
@@ -478,7 +382,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[infrared]",
+              "name": "recorder[infrared]",
               "type": "string",
               "description": "Infrared",
               "required": false,
@@ -492,7 +396,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[varifocal]",
+              "name": "recorder[varifocal]",
               "type": "string",
               "description": "Varifocal",
               "required": false,
@@ -506,7 +410,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[sd_card]",
+              "name": "recorder[sd_card]",
               "type": "string",
               "description": "SD Card",
               "required": false,
@@ -520,7 +424,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[upnp]",
+              "name": "recorder[upnp]",
               "type": "string",
               "description": "UPnP",
               "required": false,
@@ -534,7 +438,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[audio_in]",
+              "name": "recorder[audio_in]",
               "type": "string",
               "description": "UPnP",
               "required": false,
@@ -548,7 +452,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[audio_out]",
+              "name": "recorder[audio_out]",
               "type": "string",
               "description": "UPnP",
               "required": false,
@@ -562,35 +466,35 @@
             },
             {
               "paramType": "form",
-              "name": "model[default_username]",
+              "name": "recorder[default_username]",
               "type": "string",
               "description": "Default Username",
               "required": false
             },
             {
               "paramType": "form",
-              "name": "model[default_password]",
+              "name": "recorder[default_password]",
               "type": "string",
               "description": "Default Password",
               "required": false
             },
             {
               "paramType": "form",
-              "name": "model[jpeg_url]",
+              "name": "recorder[jpeg_url]",
               "type": "string",
               "description": "JPEG URL",
               "required": false
             },
             {
               "paramType": "form",
-              "name": "model[h264_url]",
+              "name": "recorder[h264_url]",
               "type": "string",
               "description": "H264 URL",
               "required": false
             },
             {
               "paramType": "form",
-              "name": "model[mjpeg_url]",
+              "name": "recorder[mjpeg_url]",
               "type": "string",
               "description": "MJPEG URL",
               "required": false
@@ -607,21 +511,21 @@
             }
           ],
           "method": "post",
-          "nickname": "Api::V1::Models#create"
+          "nickname": "Api::V1::Recorders#create"
         }
       ]
     },
     {
-      "path": "api/v1/models/{id}.json",
+      "path": "api/v1/recorders/{id}.json",
       "operations": [
         {
-          "summary": "Fetches a single Model",
+          "summary": "Fetches a single Recorder",
           "parameters": [
             {
               "paramType": "path",
               "name": "id",
               "type": "integer",
-              "description": "Model ID",
+              "description": "Recorder ID",
               "required": true
             }
           ],
@@ -640,134 +544,86 @@
             }
           ],
           "method": "get",
-          "nickname": "Api::V1::Models#show"
+          "nickname": "Api::V1::Recorders#show"
         }
       ]
     },
     {
-      "path": "api/v1/models/{id}.json",
+      "path": "api/v1/recorders/{id}.json",
       "operations": [
         {
-          "summary": "Updates an existing Model",
+          "summary": "Updates an existing Recorder",
           "parameters": [
             {
               "paramType": "path",
               "name": "id",
               "type": "string",
-              "description": "Model ID",
+              "description": "Recorder ID",
               "required": true
             },
             {
               "paramType": "form",
               "name": "vendor_id",
               "type": "string",
-              "description": "Manufacturer ID",
+              "description": "Vendor ID",
               "required": true
             },
             {
               "paramType": "form",
-              "name": "model[model]",
+              "name": "recorder[name]",
               "type": "string",
-              "description": "Model",
+              "description": "Recorder",
               "required": false
             },
             {
               "paramType": "form",
-              "name": "model[shape]",
+              "name": "recorder[shape]",
               "type": "string",
               "description": "Shape",
               "required": false,
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "Box",
-                  "Bullet",
-                  "Cube",
-                  "Dome",
-                  "Other"
+                  "1920x1080p",
+                  "2cif",
+                  "2mp",
+                  "5mp",
+                  "704×480",
+                  "cif",
+                  "cif/480fps",
+                  "d1/120fps",
+                  "d1/120fps,hd1/240fps",
+                  "d1/cif",
+                  "wd1"
                 ]
               }
             },
             {
               "paramType": "form",
-              "name": "model[resolution]",
+              "name": "recorder[resolution]",
               "type": "string",
               "description": "Resolution",
               "required": false,
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "-",
-                  "10240x1920",
-                  "1024x768",
-                  "1280x1024",
-                  "1280x720",
-                  "1280x721",
-                  "1280x722",
-                  "1280x723",
-                  "1280x800",
-                  "1280x900",
-                  "1280x960",
-                  "1376x1032",
-                  "14592x2752",
-                  "1536x1536",
-                  "1600x1200",
-                  "1600x900",
-                  "160x128",
-                  "1920x1080",
-                  "1920x1440",
-                  "1920x1920",
-                  "1921x1080",
-                  "1922x1080",
-                  "1944x1092",
-                  "2032x1920",
-                  "2045x1536",
-                  "2048x1536",
-                  "2052x1536",
-                  "2560x1440",
-                  "2560x1920",
-                  "2592x1920",
-                  "2592x1944",
-                  "2688x1520",
-                  "3072x2048",
-                  "3648x2736",
-                  "3648x2752",
-                  "3648x2753",
-                  "384x288",
-                  "4000x3000",
-                  "40mp",
-                  "6400x1200",
-                  "640x460",
-                  "640x480",
-                  "680x512",
-                  "704x480",
-                  "704x576",
-                  "704Ãƒâ€”480",
-                  "720x480",
-                  "720x576",
-                  "729x576",
-                  "736x576",
-                  "768x576",
-                  "800x600",
-                  "8192x1536",
-                  "976x494",
-                  "f",
-                  "ntsc720x480",
-                  "ntsc720x480/pal720x576",
-                  "ntsc:704x480/pal:704x576",
-                  "ntsc:720x480",
-                  "ntsc:720x480/pal:720x576",
-                  "ntsc:976x494/pal:976x582",
-                  "pal720x576",
-                  "pal:704x576",
-                  "pal:704x576;ntsc:704x480",
-                  "pal:720x576"
+                  "1920x1080p",
+                  "2cif",
+                  "2mp",
+                  "5mp",
+                  "704×480",
+                  "cif",
+                  "cif/480fps",
+                  "d1/120fps",
+                  "d1/120fps,hd1/240fps",
+                  "d1/cif",
+                  "wd1"
                 ]
               }
             },
             {
               "paramType": "form",
-              "name": "model[onvif]",
+              "name": "recorder[onvif]",
               "type": "string",
               "description": "ONVIF",
               "required": false,
@@ -781,7 +637,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[psia]",
+              "name": "recorder[psia]",
               "type": "string",
               "description": "PSIA",
               "required": false,
@@ -795,7 +651,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[ptz]",
+              "name": "recorder[ptz]",
               "type": "string",
               "description": "PTZ",
               "required": false,
@@ -809,7 +665,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[infrared]",
+              "name": "recorder[infrared]",
               "type": "string",
               "description": "Infrared",
               "required": false,
@@ -823,7 +679,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[varifocal]",
+              "name": "recorder[varifocal]",
               "type": "string",
               "description": "Varifocal",
               "required": false,
@@ -837,7 +693,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[sd_card]",
+              "name": "recorder[sd_card]",
               "type": "string",
               "description": "SD Card",
               "required": false,
@@ -851,7 +707,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[upnp]",
+              "name": "recorder[upnp]",
               "type": "string",
               "description": "UPnP",
               "required": false,
@@ -865,7 +721,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[audio_in]",
+              "name": "recorder[audio_in]",
               "type": "string",
               "description": "Audio In",
               "required": false,
@@ -879,7 +735,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[audio_out]",
+              "name": "recorder[audio_out]",
               "type": "string",
               "description": "Audio Out",
               "required": false,
@@ -893,35 +749,35 @@
             },
             {
               "paramType": "form",
-              "name": "model[default_username]",
+              "name": "recorder[default_username]",
               "type": "string",
               "description": "Default Username",
               "required": false
             },
             {
               "paramType": "form",
-              "name": "model[default_password]",
+              "name": "recorder[default_password]",
               "type": "string",
               "description": "Default Password",
               "required": false
             },
             {
               "paramType": "form",
-              "name": "model[jpeg_url]",
+              "name": "recorder[jpeg_url]",
               "type": "string",
               "description": "JPEG URL",
               "required": false
             },
             {
               "paramType": "form",
-              "name": "model[h264_url]",
+              "name": "recorder[h264_url]",
               "type": "string",
               "description": "H264 URL",
               "required": false
             },
             {
               "paramType": "form",
-              "name": "model[mjpeg_url]",
+              "name": "recorder[mjpeg_url]",
               "type": "string",
               "description": "MJPEG URL",
               "required": false
@@ -942,134 +798,86 @@
             }
           ],
           "method": "patch",
-          "nickname": "Api::V1::Models#update"
+          "nickname": "Api::V1::Recorders#update"
         }
       ]
     },
     {
-      "path": "api/v1/models/{id}.json",
+      "path": "api/v1/recorders/{id}.json",
       "operations": [
         {
-          "summary": "Updates an existing Model",
+          "summary": "Updates an existing Recorder",
           "parameters": [
             {
               "paramType": "path",
               "name": "id",
               "type": "string",
-              "description": "Model ID",
+              "description": "Recorder ID",
               "required": true
             },
             {
               "paramType": "form",
               "name": "vendor_id",
               "type": "string",
-              "description": "Manufacturer ID",
+              "description": "Vendor ID",
               "required": true
             },
             {
               "paramType": "form",
-              "name": "model[model]",
+              "name": "recorder[name]",
               "type": "string",
-              "description": "Model",
+              "description": "Recorder",
               "required": false
             },
             {
               "paramType": "form",
-              "name": "model[shape]",
+              "name": "recorder[shape]",
               "type": "string",
               "description": "Shape",
               "required": false,
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "Box",
-                  "Bullet",
-                  "Cube",
-                  "Dome",
-                  "Other"
+                  "1920x1080p",
+                  "2cif",
+                  "2mp",
+                  "5mp",
+                  "704×480",
+                  "cif",
+                  "cif/480fps",
+                  "d1/120fps",
+                  "d1/120fps,hd1/240fps",
+                  "d1/cif",
+                  "wd1"
                 ]
               }
             },
             {
               "paramType": "form",
-              "name": "model[resolution]",
+              "name": "recorder[resolution]",
               "type": "string",
               "description": "Resolution",
               "required": false,
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "-",
-                  "10240x1920",
-                  "1024x768",
-                  "1280x1024",
-                  "1280x720",
-                  "1280x721",
-                  "1280x722",
-                  "1280x723",
-                  "1280x800",
-                  "1280x900",
-                  "1280x960",
-                  "1376x1032",
-                  "14592x2752",
-                  "1536x1536",
-                  "1600x1200",
-                  "1600x900",
-                  "160x128",
-                  "1920x1080",
-                  "1920x1440",
-                  "1920x1920",
-                  "1921x1080",
-                  "1922x1080",
-                  "1944x1092",
-                  "2032x1920",
-                  "2045x1536",
-                  "2048x1536",
-                  "2052x1536",
-                  "2560x1440",
-                  "2560x1920",
-                  "2592x1920",
-                  "2592x1944",
-                  "2688x1520",
-                  "3072x2048",
-                  "3648x2736",
-                  "3648x2752",
-                  "3648x2753",
-                  "384x288",
-                  "4000x3000",
-                  "40mp",
-                  "6400x1200",
-                  "640x460",
-                  "640x480",
-                  "680x512",
-                  "704x480",
-                  "704x576",
-                  "704Ãƒâ€”480",
-                  "720x480",
-                  "720x576",
-                  "729x576",
-                  "736x576",
-                  "768x576",
-                  "800x600",
-                  "8192x1536",
-                  "976x494",
-                  "f",
-                  "ntsc720x480",
-                  "ntsc720x480/pal720x576",
-                  "ntsc:704x480/pal:704x576",
-                  "ntsc:720x480",
-                  "ntsc:720x480/pal:720x576",
-                  "ntsc:976x494/pal:976x582",
-                  "pal720x576",
-                  "pal:704x576",
-                  "pal:704x576;ntsc:704x480",
-                  "pal:720x576"
+                  "1920x1080p",
+                  "2cif",
+                  "2mp",
+                  "5mp",
+                  "704×480",
+                  "cif",
+                  "cif/480fps",
+                  "d1/120fps",
+                  "d1/120fps,hd1/240fps",
+                  "d1/cif",
+                  "wd1"
                 ]
               }
             },
             {
               "paramType": "form",
-              "name": "model[onvif]",
+              "name": "recorder[onvif]",
               "type": "string",
               "description": "ONVIF",
               "required": false,
@@ -1083,7 +891,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[psia]",
+              "name": "recorder[psia]",
               "type": "string",
               "description": "PSIA",
               "required": false,
@@ -1097,7 +905,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[ptz]",
+              "name": "recorder[ptz]",
               "type": "string",
               "description": "PTZ",
               "required": false,
@@ -1111,7 +919,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[infrared]",
+              "name": "recorder[infrared]",
               "type": "string",
               "description": "Infrared",
               "required": false,
@@ -1125,7 +933,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[varifocal]",
+              "name": "recorder[varifocal]",
               "type": "string",
               "description": "Varifocal",
               "required": false,
@@ -1139,7 +947,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[sd_card]",
+              "name": "recorder[sd_card]",
               "type": "string",
               "description": "SD Card",
               "required": false,
@@ -1153,7 +961,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[upnp]",
+              "name": "recorder[upnp]",
               "type": "string",
               "description": "UPnP",
               "required": false,
@@ -1167,7 +975,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[audio_in]",
+              "name": "recorder[audio_in]",
               "type": "string",
               "description": "Audio In",
               "required": false,
@@ -1181,7 +989,7 @@
             },
             {
               "paramType": "form",
-              "name": "model[audio_out]",
+              "name": "recorder[audio_out]",
               "type": "string",
               "description": "Audio Out",
               "required": false,
@@ -1195,35 +1003,35 @@
             },
             {
               "paramType": "form",
-              "name": "model[default_username]",
+              "name": "recorder[default_username]",
               "type": "string",
               "description": "Default Username",
               "required": false
             },
             {
               "paramType": "form",
-              "name": "model[default_password]",
+              "name": "recorder[default_password]",
               "type": "string",
               "description": "Default Password",
               "required": false
             },
             {
               "paramType": "form",
-              "name": "model[jpeg_url]",
+              "name": "recorder[jpeg_url]",
               "type": "string",
               "description": "JPEG URL",
               "required": false
             },
             {
               "paramType": "form",
-              "name": "model[h264_url]",
+              "name": "recorder[h264_url]",
               "type": "string",
               "description": "H264 URL",
               "required": false
             },
             {
               "paramType": "form",
-              "name": "model[mjpeg_url]",
+              "name": "recorder[mjpeg_url]",
               "type": "string",
               "description": "MJPEG URL",
               "required": false
@@ -1244,7 +1052,7 @@
             }
           ],
           "method": "put",
-          "nickname": "Api::V1::Models#update"
+          "nickname": "Api::V1::Recorders#update"
         }
       ]
     }
