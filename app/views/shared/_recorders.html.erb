@@ -126,7 +126,7 @@ Recorder Listing
     });
     $('.dataTables_filter input').attr("placeholder", "Make / Recorder Name");
 
-    $("<button id='show-hide' title='Hide images'>«</button>").prependTo('.dataTables_length > label');
+    $('.dataTables_length').prepend("<button id='show-hide' style='float:left' title='Hide images'>«</button>");
 
     $('#show-hide').on('click', function (e) {
       e.preventDefault();

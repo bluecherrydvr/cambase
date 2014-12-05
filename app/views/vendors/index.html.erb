@@ -34,7 +34,7 @@
     });
     $('.dataTables_filter input').attr("placeholder", "Vendor Name");
 
-    $("<button id='show-hide' title='Hide logos'>«</button>").prependTo('.dataTables_length > label');
+    $('.dataTables_length').prepend("<button id='show-hide' style='float:left' title='Hide images'>«</button>");
 
     $('#show-hide').on('click', function (e) {
       e.preventDefault();
