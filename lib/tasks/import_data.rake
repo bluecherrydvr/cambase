@@ -176,6 +176,66 @@ task :import_vendor_files, [:vendorname] => :environment do |t, args|
 end
 
 
+desc "Download images of given vendor from cambase.io and store in cambase bucket"
+task :import_recorder_files, [:vendorname] => :environment do |t, args|
+  AWS.config(
+    :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
+    :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
+    # disable this key if source bucket is in US
+    :s3_endpoint => 's3-eu-west-1.amazonaws.com'
+  )
+  s3 = AWS::S3.new
+  s3.buckets['cambase.io'].objects.with_prefix('Recorders/').each do |obj|
+    info = obj.key.split('/')
+    if info.size == 4
+      puts "\n > " + obj.key
+      ### looping through /vendors/models/files
+      vendor_name = info[1]
+      recorder_model = info[2]
+      file_name = File.basename(obj.key)
+      vendor = Vendor.where(vendor_slug: vendor_name.to_url).first
+      if vendor
+        puts "  > " + vendor.name
+        ## put vendor slug filter here
+        next if !(vendor.vendor_slug.downcase == args[:vendorname].downcase)
+        #next if (vendor.vendor_slug.downcase == 'TP-Link'.downcase || vendor.vendor_slug.downcase == 'Flir'.downcase || vendor.vendor_slug.downcase == 'Dericam'.downcase || vendor.vendor_slug.downcase == 'Compro'.downcase || vendor.vendor_slug.downcase == 'Canon'.downcase || vendor.vendor_slug.downcase == 'Beward'.downcase || vendor.vendor_slug.downcase == 'Basler'.downcase || vendor.vendor_slug.downcase == 'ABS'.downcase || vendor.vendor_slug.downcase == 'ABUS'.downcase || vendor.vendor_slug.downcase == 'Ubiquiti'.downcase || vendor.vendor_slug.downcase == 'Sony'.downcase || vendor.vendor_slug.downcase == 'Samsung'.downcase || vendor.vendor_slug.downcase == 'Dallmeier'.downcase || vendor.vendor_slug.downcase == 'Dahua'.downcase || vendor.vendor_slug.downcase == 'Afreey'.downcase)
+        binding.pry
+        recorder = Recorder.where(recorder_slug: recorder_model.to_url, vendor_id: vendor.id).first
+        if recorder
+          puts "  > " + args[:vendorname].downcase
+          ## put recorder slug filter here
+          #next if !(recorder.recorder_slug.downcase == 'n3011-c'.downcase)
+          begin
+            temp_file = Tempfile.new(file_name.split(/(.\w+)$/))
+            temp_file.binmode
+            temp_file.write(obj.read)
+            #puts "\n >> " + recorder.recorder_slug
+            
+            if File.extname(info.last) == ".jpg" || File.extname(info.last) == ".jpeg" || File.extname(info.last) == ".png" || File.extname(info.last) == ".gif" || File.extname(info.last) == ".tif" || File.extname(info.last) == ".tiff"
+              image = Image.create(:file => temp_file)
+              if (recorder.images.append(image))
+                puts "  + " + "/" + vendor_name + "/" + recorder_name + "/" + info.last
+              else
+                puts "  - " + "/" + vendor_name + "/" + recorder_name + "/" + info.last + " ? " + image.file_content_type
+              end
+            elsif File.extname(info.last) == ".pdf"
+              document = Document.create(:file => temp_file)
+              recorder.documents.append(document)
+              puts "\n  + " + "/" + vendor_name + "/" + recorder_name + "/" + info.last
+            end
+          rescue => e
+            puts "ERR: " + e.message
+          ensure # ensure we don't keep dead links
+            temp_file.close
+            temp_file.unlink
+          end
+        end
+      end
+    end
+  end
+  puts " Recorder files downloaded to S3 \n"
+end
+
 desc "Import recorders.csv from S3 and save data to database"
 task :import_recorders => :environment do
   AWS.config(
@@ -194,23 +254,15 @@ task :import_recorders => :environment do
   puts "  'recorders.csv' imported from AWS S3 \n"
 
   puts "\n  Importing data from 'recorders.csv' to database... \n"
-  Dir.glob("#{Rails.root}/tmp/recorders.csv") do |file|
+  File.open("#{Rails.root}/tmp/recorders.csv", "r:ISO-8859-15:UTF-8") do |file|
     SmarterCSV.process(file).each do |recorder|
       original_recorder = recorder.clone
-      recorder[:vendor_id] = Vendor.where(:name => recorder[:vendor]).first_or_create.id
+      recorder[:vendor_id] = Vendor.where(:vendor_slug => recorder[:vendor].to_url).first_or_create.id
       recorder[:name] = recorder[:model]
       puts "  + " + recorder[:vendor].downcase + "/" + recorder[:name]
       recorder.delete :vendor
-      recorder.delete :os
-      recorder.delete :max_capacity
-      recorder.delete :optical_zoom
-      recorder.delete :raid_support
-      recorder.delete :hot_swap
-      recorder.delete :optical_zoom
-      recorder.delete :"mpeg-4_url"
-      recorder.delete :audio_url
       recorder.delete_if { |k, v| v.to_s.empty? }
-      recorder[:resolution] = recorder.delete :max_resolution
+      recorder[:resolution] = recorder.delete :max_recording_resolution
       recorder[:official_url] = recorder.delete :user_manual
       
       if recorder[:resolution]
@@ -235,7 +287,7 @@ task :import_recorders => :environment do
         end
         r.save
       end
-      puts "  #{r.recorder} \n #{r.errors.messages.inspect} \n\n" unless r.errors.messages.blank?
+      puts "  #{r.model} \n #{r.errors.messages.inspect} \n\n" unless r.errors.messages.blank?
     end
   end
   puts "  'recorders.csv' imported to database! \n\n"

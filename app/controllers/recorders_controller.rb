@@ -28,8 +28,6 @@ class RecordersController < ApplicationController
     # render :index
   end
 
-  # GET /recorders/1
-  # GET /recorders/1.json
   def show
     unless params[:vendor_slug].blank?
       @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug])

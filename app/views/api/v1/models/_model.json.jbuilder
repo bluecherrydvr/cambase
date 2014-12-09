@@ -5,7 +5,10 @@ json.model model['model']
 json.jpeg_url model['jpeg_url']
 json.h264_url model['h264_url']
 json.mjpeg_url model['mjpeg_url']
+json.manual_url model['manual_url']
 json.resolution model['resolution']
+json.firmware model['firmware']
+json.fov model['fov']
 json.shape model['shape']
 json.onvif model['onvif']
 json.psia model['psia']
@@ -22,6 +25,7 @@ json.audio_out model['audio_out']
 json.default_username model['default_username']
 json.default_password model['default_password']
 json.official_url model['official_url']
+json.additional_information model['additional_information']
 json.images do
   json.array! model.images.sorted, partial: 'api/v1/image', as: :image
 end
