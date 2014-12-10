@@ -10,7 +10,7 @@ class Recorder < ActiveRecord::Base
   TYPES = [
     'DVR',
     'NVR',
-    'Hybrid',
+    'HVR',
     'Encoder',
     'Decoder'
   ]
@@ -23,6 +23,9 @@ class Recorder < ActiveRecord::Base
   def make_slug
     self.recorder_slug = self.model
     self.recorder_slug.gsub!(/[^-0-9A-Za-z_]/, '')
+    self.recorder_slug = self.recorder_slug.to_url
+  rescue
+    puts " -> " + self.model
   end
 
   def next

@@ -177,7 +177,8 @@ end
 
 
 desc "Download images of given vendor from cambase.io and store in cambase bucket"
-task :import_recorder_files, [:vendorname] => :environment do |t, args|
+#task :import_recorder_files, [:vendorname] => :environment do |t, args|
+task :import_recorders_images => :environment do
   AWS.config(
     :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
     :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
@@ -188,7 +189,7 @@ task :import_recorder_files, [:vendorname] => :environment do |t, args|
   s3.buckets['cambase.io'].objects.with_prefix('Recorders/').each do |obj|
     info = obj.key.split('/')
     if info.size == 4
-      puts "\n > " + obj.key
+      puts "\n- " + obj.key
       ### looping through /vendors/models/files
       vendor_name = info[1]
       recorder_model = info[2]
@@ -197,31 +198,30 @@ task :import_recorder_files, [:vendorname] => :environment do |t, args|
       if vendor
         puts "  > " + vendor.name
         ## put vendor slug filter here
-        next if !(vendor.vendor_slug.downcase == args[:vendorname].downcase)
+        #next if !(vendor.vendor_slug.downcase == args[:vendorname].downcase)
         #next if (vendor.vendor_slug.downcase == 'TP-Link'.downcase || vendor.vendor_slug.downcase == 'Flir'.downcase || vendor.vendor_slug.downcase == 'Dericam'.downcase || vendor.vendor_slug.downcase == 'Compro'.downcase || vendor.vendor_slug.downcase == 'Canon'.downcase || vendor.vendor_slug.downcase == 'Beward'.downcase || vendor.vendor_slug.downcase == 'Basler'.downcase || vendor.vendor_slug.downcase == 'ABS'.downcase || vendor.vendor_slug.downcase == 'ABUS'.downcase || vendor.vendor_slug.downcase == 'Ubiquiti'.downcase || vendor.vendor_slug.downcase == 'Sony'.downcase || vendor.vendor_slug.downcase == 'Samsung'.downcase || vendor.vendor_slug.downcase == 'Dallmeier'.downcase || vendor.vendor_slug.downcase == 'Dahua'.downcase || vendor.vendor_slug.downcase == 'Afreey'.downcase)
-        binding.pry
-        recorder = Recorder.where(recorder_slug: recorder_model.to_url, vendor_id: vendor.id).first
+        puts "  >> " + recorder_model.to_url
+        recorder = Recorder.where("lower(recorder_slug)=? and vendor_id=?", recorder_model.to_url, vendor.id).first
         if recorder
-          puts "  > " + args[:vendorname].downcase
+          puts "  >>> " + file_name
           ## put recorder slug filter here
           #next if !(recorder.recorder_slug.downcase == 'n3011-c'.downcase)
           begin
             temp_file = Tempfile.new(file_name.split(/(.\w+)$/))
             temp_file.binmode
             temp_file.write(obj.read)
-            #puts "\n >> " + recorder.recorder_slug
-            
+
             if File.extname(info.last) == ".jpg" || File.extname(info.last) == ".jpeg" || File.extname(info.last) == ".png" || File.extname(info.last) == ".gif" || File.extname(info.last) == ".tif" || File.extname(info.last) == ".tiff"
               image = Image.create(:file => temp_file)
               if (recorder.images.append(image))
-                puts "  + " + "/" + vendor_name + "/" + recorder_name + "/" + info.last
+                puts "    + " + "/" + vendor_name + "/" + recorder_model + "/" + info.last
               else
-                puts "  - " + "/" + vendor_name + "/" + recorder_name + "/" + info.last + " ? " + image.file_content_type
+                puts "    - " + "/" + vendor_name + "/" + recorder_model + "/" + info.last + " ? " + image.file_content_type
               end
             elsif File.extname(info.last) == ".pdf"
               document = Document.create(:file => temp_file)
               recorder.documents.append(document)
-              puts "\n  + " + "/" + vendor_name + "/" + recorder_name + "/" + info.last
+              puts "\n  + " + "/" + vendor_name + "/" + recorder_model + "/" + info.last
             end
           rescue => e
             puts "ERR: " + e.message
