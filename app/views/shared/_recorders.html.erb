@@ -12,7 +12,7 @@ Recorder Listing
             <div class="col-sm-6">
               <div class="col-sm-4">
                 <%= f.label 'Vendor' %>
-                <%= f.collection_select(:vendor_id_eq, Vendor.joins(:recorders).uniq, :id, :name, :include_blank => 'Any') %>
+                <%= f.collection_select(:vendor_id_eq, Vendor.joins(:recorders).order(:name).uniq, :id, :name, :include_blank => 'Any') %>
               </div>
               <div class="col-sm-4">
                 <%= f.label 'Max. Resolution' %>
