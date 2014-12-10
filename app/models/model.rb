@@ -31,7 +31,11 @@ class Model < ActiveRecord::Base
   end
 
   def make_slug
-    self.model_slug = self.model.to_url
+    self.model_slug = self.model
+    self.model_slug.gsub!(/[^-0-9A-Za-z_]/, '')
+    self.model_slug = self.model_slug.to_url
+  rescue
+    puts " -> " + self.model
   end
 
   def titleize_shape
