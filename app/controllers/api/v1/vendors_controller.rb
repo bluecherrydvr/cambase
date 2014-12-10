@@ -24,7 +24,9 @@ class Api::V1::VendorsController < ApplicationController
   swagger_api :create do
     summary "Creates a new Vendor"
     param :form, 'vendor[name]', :string, :required, "Name"
+    param :form, 'vendor[info]', :string, :optional, "Info."
     param :form, 'vendor[url]', :string, :required, "Website"
+    param :form, 'vendor[mac]', :string, :required, "MAC"
     response :unauthorized
     response :not_acceptable
   end
@@ -33,7 +35,9 @@ class Api::V1::VendorsController < ApplicationController
     summary "Updates an existing Vendor"
     param :path, :id, :string, :required, "Vendor ID"
     param :form, 'vendor[name]', :string, :optional, "Name"
+    param :form, 'vendor[info]', :string, :optional, "Info."
     param :form, 'vendor[url]', :string, :optional, "Website"
+    param :form, 'vendor[mac]', :string, :required, "MAC"
     response :unauthorized
     response :not_found
     response :not_acceptable

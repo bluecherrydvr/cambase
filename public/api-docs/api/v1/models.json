@@ -57,6 +57,7 @@
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
+                  "",
                   "-",
                   "10240x1920",
                   "1024x768",
@@ -366,6 +367,7 @@
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
+                  "",
                   "-",
                   "10240x1920",
                   "1024x768",
@@ -697,6 +699,7 @@
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
+                  "",
                   "-",
                   "10240x1920",
                   "1024x768",
@@ -999,6 +1002,7 @@
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
+                  "",
                   "-",
                   "10240x1920",
                   "1024x768",

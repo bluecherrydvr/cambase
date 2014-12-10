@@ -41,8 +41,8 @@ class Api::V1::RecordersController < ApplicationController
     param_list :form, 'recorder[audio_out]', :string, :optional, "Audio Out", [true, false]
     param_list :form, 'recorder[input_channels]', :string, :optional, "Input Channels", [1, 2, 4, 8, 16, 32, 64, 128, 2556]
     param_list :form, 'recorder[playback_channels]', :string, :optional, "Playback Channels", [1, 2, 4, 8, 16, 32, 64, 128, 2556]
-    param_list :form, 'recorder[usb]', :string, :optional, "USB Ports"
-    param_list :form, 'recorder[sdhc]', :string, :optional, "SD Card (GB)"
+    param_list :form, 'recorder[usb]', :string, :optional, "USB Ports", [1, 2, 4, 8]
+    param :form, 'recorder[sdhc]', :string, :optional, "SD Card (GB)"
     param :form, 'recorder[mobile_access]', :string, :optional, "Mobile Access"
     param :form, 'recorder[alarms]', :string, :optional, "Alarms"
     param :form, 'recorder[raid_support]', :string, :optional, "Raid Support"
@@ -80,8 +80,8 @@ class Api::V1::RecordersController < ApplicationController
     param_list :form, 'recorder[audio_out]', :string, :optional, "Audio Out", [true, false]
     param_list :form, 'recorder[input_channels]', :string, :optional, "Input Channels", [1, 2, 4, 8, 16, 32, 64, 128, 256]
     param_list :form, 'recorder[playback_channels]', :string, :optional, "Playback Channels", [1, 2, 4, 8, 16, 32, 64, 128, 256]
-    param_list :form, 'recorder[usb]', :string, :optional, "USB Ports"
-    param_list :form, 'recorder[sdhc]', :string, :optional, "SD Card (GB)"
+    param_list :form, 'recorder[usb]', :string, :optional, "USB Ports", [1, 2, 4, 8]
+    param :form, 'recorder[sdhc]', :string, :optional, "SD Card (GB)"
     param :form, 'recorder[mobile_access]', :string, :optional, "Mobile Access"
     param :form, 'recorder[alarms]', :string, :optional, "Alarms"
     param :form, 'recorder[raid_support]', :string, :optional, "Raid Support"
@@ -111,8 +111,6 @@ class Api::V1::RecordersController < ApplicationController
     param_list :query, 'q[onvif_true]', :string, :optional, "ONVIF", [true, false]
     param_list :query, 'q[psia_true]', :string, :optional, "PSIA", [true, false]
     param_list :query, 'q[ptz_true]', :string, :optional, "PTZ", [true, false]
-    param_list :query, 'q[usb_true]', :string, :optional, "USB", [true, false]
-    param_list :query, 'q[sdhc_true]', :string, :optional, "SDHC", [true, false]
     param_list :query, 'q[sd_card_true]', :string, :optional, "SD Card", [true, false]
     param_list :query, 'q[upnp_true]', :string, :optional, "UPnP", [true, false]
     param_list :query, 'q[audio_in_true]', :string, :optional, "Audio In", [true, false]

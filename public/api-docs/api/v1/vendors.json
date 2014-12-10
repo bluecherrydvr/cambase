@@ -68,9 +68,23 @@
             },
             {
               "paramType": "form",
+              "name": "vendor[info]",
+              "type": "string",
+              "description": "Info.",
+              "required": false
+            },
+            {
+              "paramType": "form",
               "name": "vendor[url]",
               "type": "string",
               "description": "Website",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "vendor[mac]",
+              "type": "string",
+              "description": "MAC",
               "required": true
             }
           ],
@@ -160,10 +174,24 @@
             },
             {
               "paramType": "form",
+              "name": "vendor[info]",
+              "type": "string",
+              "description": "Info.",
+              "required": false
+            },
+            {
+              "paramType": "form",
               "name": "vendor[url]",
               "type": "string",
               "description": "Website",
               "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "vendor[mac]",
+              "type": "string",
+              "description": "MAC",
+              "required": true
             }
           ],
           "responseMessages": [
@@ -207,10 +235,24 @@
             },
             {
               "paramType": "form",
+              "name": "vendor[info]",
+              "type": "string",
+              "description": "Info.",
+              "required": false
+            },
+            {
+              "paramType": "form",
               "name": "vendor[url]",
               "type": "string",
               "description": "Website",
               "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "vendor[mac]",
+              "type": "string",
+              "description": "MAC",
+              "required": true
             }
           ],
           "responseMessages": [

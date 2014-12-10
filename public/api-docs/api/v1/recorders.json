@@ -48,10 +48,7 @@
                 "valueType": "LIST",
                 "values": [
                   "DVR",
-                  "Decoder",
-                  "Encoder",
-                  "HDR",
-                  "Hybrid DVR",
+                  "HVR",
                   "NVR"
                 ]
               }
@@ -65,35 +62,30 @@
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "(1080p)",
-                  "(25fps)",
-                  "1920*1080",
-                  "1920x1080",
-                  "1920x1080,1280x1024,1280x720,1024x768",
-                  "1920x1080,1440x900,1360x768,",
+                  "1280x720",
+                  "12mp",
+                  "1600x1200",
                   "1920x1080p",
                   "2.0mpx@25fps",
-                  "2cif",
-                  "2mp",
                   "352x288@25fps",
-                  "4ch1080p ",
+                  "3840x2160",
                   "4cif(704x576pixels)",
+                  "4cif ",
                   "4mp",
-                  "5mp",
+                  "5mp(2560x1920)",
                   "704x576@6fps",
-                  "704×480",
+                  "720p / 960p hd",
+                  "928x480",
+                  "960h&(960x576pixels)",
+                  "960p",
                   "cif",
                   "cif/480fps",
-                  "d1(approximately704x480pixels)",
+                  "d1(704x576/704x480)",
+                  "d1, hd1, cif",
+                  "d1/120fps",
                   "d1/cif",
-                  "h.264/mjpeg",
-                  "pal:d1(704*576)ntsc:d1(704*480)",
-                  "wd1",
-                  " 480fps ",
-                  " 960h&(960x576pixels)",
-                  " d1/120fps",
-                  " d1/120fps,hd1/240fps",
-                  " vga/hdmiforfull-hd(1080p)"
+                  "hd1/240fps",
+                  " 4cif"
                 ]
               }
             },
@@ -172,34 +164,6 @@
               "name": "q[ptz_true]",
               "type": "string",
               "description": "PTZ",
-              "required": false,
-              "allowableValues": {
-                "valueType": "LIST",
-                "values": [
-                  true,
-                  false
-                ]
-              }
-            },
-            {
-              "paramType": "query",
-              "name": "q[usb_true]",
-              "type": "string",
-              "description": "USB",
-              "required": false,
-              "allowableValues": {
-                "valueType": "LIST",
-                "values": [
-                  true,
-                  false
-                ]
-              }
-            },
-            {
-              "paramType": "query",
-              "name": "q[sdhc_true]",
-              "type": "string",
-              "description": "SDHC",
               "required": false,
               "allowableValues": {
                 "valueType": "LIST",
@@ -427,10 +391,7 @@
                 "valueType": "LIST",
                 "values": [
                   "DVR",
-                  "Decoder",
-                  "Encoder",
-                  "HDR",
-                  "Hybrid DVR",
+                  "HVR",
                   "NVR"
                 ]
               }
@@ -444,35 +405,30 @@
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "(1080p)",
-                  "(25fps)",
-                  "1920*1080",
-                  "1920x1080",
-                  "1920x1080,1280x1024,1280x720,1024x768",
-                  "1920x1080,1440x900,1360x768,",
+                  "1280x720",
+                  "12mp",
+                  "1600x1200",
                   "1920x1080p",
                   "2.0mpx@25fps",
-                  "2cif",
-                  "2mp",
                   "352x288@25fps",
-                  "4ch1080p ",
+                  "3840x2160",
                   "4cif(704x576pixels)",
+                  "4cif ",
                   "4mp",
-                  "5mp",
+                  "5mp(2560x1920)",
                   "704x576@6fps",
-                  "704×480",
+                  "720p / 960p hd",
+                  "928x480",
+                  "960h&(960x576pixels)",
+                  "960p",
                   "cif",
                   "cif/480fps",
-                  "d1(approximately704x480pixels)",
+                  "d1(704x576/704x480)",
+                  "d1, hd1, cif",
+                  "d1/120fps",
                   "d1/cif",
-                  "h.264/mjpeg",
-                  "pal:d1(704*576)ntsc:d1(704*480)",
-                  "wd1",
-                  " 480fps ",
-                  " 960h&(960x576pixels)",
-                  " d1/120fps",
-                  " d1/120fps,hd1/240fps",
-                  " vga/hdmiforfull-hd(1080p)"
+                  "hd1/240fps",
+                  " 4cif"
                 ]
               }
             },
@@ -695,7 +651,10 @@
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-
+                  1,
+                  2,
+                  4,
+                  8
                 ]
               }
             },
@@ -704,13 +663,7 @@
               "name": "recorder[sdhc]",
               "type": "string",
               "description": "SD Card (GB)",
-              "required": false,
-              "allowableValues": {
-                "valueType": "LIST",
-                "values": [
-
-                ]
-              }
+              "required": false
             },
             {
               "paramType": "form",
@@ -882,10 +835,7 @@
                 "valueType": "LIST",
                 "values": [
                   "DVR",
-                  "Decoder",
-                  "Encoder",
-                  "HDR",
-                  "Hybrid DVR",
+                  "HVR",
                   "NVR"
                 ]
               }
@@ -899,35 +849,30 @@
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "(1080p)",
-                  "(25fps)",
-                  "1920*1080",
-                  "1920x1080",
-                  "1920x1080,1280x1024,1280x720,1024x768",
-                  "1920x1080,1440x900,1360x768,",
+                  "1280x720",
+                  "12mp",
+                  "1600x1200",
                   "1920x1080p",
                   "2.0mpx@25fps",
-                  "2cif",
-                  "2mp",
                   "352x288@25fps",
-                  "4ch1080p ",
+                  "3840x2160",
                   "4cif(704x576pixels)",
+                  "4cif ",
                   "4mp",
-                  "5mp",
+                  "5mp(2560x1920)",
                   "704x576@6fps",
-                  "704×480",
+                  "720p / 960p hd",
+                  "928x480",
+                  "960h&(960x576pixels)",
+                  "960p",
                   "cif",
                   "cif/480fps",
-                  "d1(approximately704x480pixels)",
+                  "d1(704x576/704x480)",
+                  "d1, hd1, cif",
+                  "d1/120fps",
                   "d1/cif",
-                  "h.264/mjpeg",
-                  "pal:d1(704*576)ntsc:d1(704*480)",
-                  "wd1",
-                  " 480fps ",
-                  " 960h&(960x576pixels)",
-                  " d1/120fps",
-                  " d1/120fps,hd1/240fps",
-                  " vga/hdmiforfull-hd(1080p)"
+                  "hd1/240fps",
+                  " 4cif"
                 ]
               }
             },
@@ -1150,7 +1095,10 @@
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-
+                  1,
+                  2,
+                  4,
+                  8
                 ]
               }
             },
@@ -1159,13 +1107,7 @@
               "name": "recorder[sdhc]",
               "type": "string",
               "description": "SD Card (GB)",
-              "required": false,
-              "allowableValues": {
-                "valueType": "LIST",
-                "values": [
-
-                ]
-              }
+              "required": false
             },
             {
               "paramType": "form",
@@ -1308,10 +1250,7 @@
                 "valueType": "LIST",
                 "values": [
                   "DVR",
-                  "Decoder",
-                  "Encoder",
-                  "HDR",
-                  "Hybrid DVR",
+                  "HVR",
                   "NVR"
                 ]
               }
@@ -1325,35 +1264,30 @@
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-                  "(1080p)",
-                  "(25fps)",
-                  "1920*1080",
-                  "1920x1080",
-                  "1920x1080,1280x1024,1280x720,1024x768",
-                  "1920x1080,1440x900,1360x768,",
+                  "1280x720",
+                  "12mp",
+                  "1600x1200",
                   "1920x1080p",
                   "2.0mpx@25fps",
-                  "2cif",
-                  "2mp",
                   "352x288@25fps",
-                  "4ch1080p ",
+                  "3840x2160",
                   "4cif(704x576pixels)",
+                  "4cif ",
                   "4mp",
-                  "5mp",
+                  "5mp(2560x1920)",
                   "704x576@6fps",
-                  "704×480",
+                  "720p / 960p hd",
+                  "928x480",
+                  "960h&(960x576pixels)",
+                  "960p",
                   "cif",
                   "cif/480fps",
-                  "d1(approximately704x480pixels)",
+                  "d1(704x576/704x480)",
+                  "d1, hd1, cif",
+                  "d1/120fps",
                   "d1/cif",
-                  "h.264/mjpeg",
-                  "pal:d1(704*576)ntsc:d1(704*480)",
-                  "wd1",
-                  " 480fps ",
-                  " 960h&(960x576pixels)",
-                  " d1/120fps",
-                  " d1/120fps,hd1/240fps",
-                  " vga/hdmiforfull-hd(1080p)"
+                  "hd1/240fps",
+                  " 4cif"
                 ]
               }
             },
@@ -1576,7 +1510,10 @@
               "allowableValues": {
                 "valueType": "LIST",
                 "values": [
-
+                  1,
+                  2,
+                  4,
+                  8
                 ]
               }
             },
@@ -1585,13 +1522,7 @@
               "name": "recorder[sdhc]",
               "type": "string",
               "description": "SD Card (GB)",
-              "required": false,
-              "allowableValues": {
-                "valueType": "LIST",
-                "values": [
-
-                ]
-              }
+              "required": false
             },
             {
               "paramType": "form",
