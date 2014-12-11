@@ -110,6 +110,7 @@ Model Listing
         <% end %>
       </tbody>
     </table>
+    <%= paginate @models %>
   </div>
 </div>
 <div class="fullsize-image hidden"></div>
@@ -140,7 +141,7 @@ Model Listing
     });
 
     table = $('.table-models').DataTable({
-      "iDisplayLength": 50,
+      iDisplayLength: 50
     });
     $('.dataTables_filter input').attr("placeholder", "Make / Model Name");
 

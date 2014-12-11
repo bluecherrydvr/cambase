@@ -6,16 +6,17 @@ class ModelsController < ApplicationController
   def index
     if params[:q].blank?
       @search = Model.search()
-      @models = Model.page params[:page]
+      @models = @search.result.page params[:page]
 
       unless params[:vendor_slug].blank?
-        @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug])
+        @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)
         @models = @models.where(:vendor_id => @vendor.id)
       end
     else
       @search = Model.search(params[:q])
       @models = @search.result.page params[:page]
     end
+
     respond_to do |format|
       format.html
       format.json { render :json => @models, :except => [:created_at, :updated_at] }
@@ -24,14 +25,13 @@ class ModelsController < ApplicationController
 
   def search
     index
-    # render :index
   end
 
   # GET /models/1
   # GET /models/1.json
   def show
     unless params[:vendor_slug].blank?
-      @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug])
+      @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)
       @model = Model.where(:model_slug => params[:id]).where(:vendor_id => @vendor.id).first
       # fix blank URLs to '/' for all ACTi cameras 
       if @vendor.name.downcase == "acti" #&& @model.model.downcase.start_with?('acm')

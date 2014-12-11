@@ -3,16 +3,73 @@ require 'open-uri'
 require Rails.root.join('lib', 'import_data.rb')
 
 
-desc "Fix model Resolutions, URLs"
-task :fix_all_data => :environment do
-  #Document.where(owner_id: model.id)
+desc "Fix recorders data URLs, Resoolution, etc"
+task :fix_recorders_data => :environment do
+  Recorder.all.each do |recorder|
+    puts " ->" + recorder.model
+    @fixed = false
+    if recorder.resolution && recorder.resolution == 'f'
+      recorder.resolution = ""
+      @fixed = true
+    end
+    if recorder.h264_url && recorder.h264_url.length < 8
+      recorder.h264_url = ""
+      @fixed = true
+    end
+    if recorder.jpeg_url && recorder.jpeg_url.length < 8
+      recorder.jpeg_url = ""
+      @fixed = true
+    end
+    if recorder.mjpeg_url && recorder.mjpeg_url.length < 8
+      recorder.mjpeg_url = ""
+      @fixed = true
+    end
+    if recorder.official_url && recorder.official_url.length < 8
+      recorder.official_url = ""
+      @fixed = true
+    end
+    if @fixed
+      recorder.save
+      r = Recorder.find(recorder.id)
+      puts " ->>" + r.model
+    end
+  end
+end
+
+
+desc "Fix models data URLs, Resoolution, etc"
+task :fix_models_data => :environment do
   Model.all.each do |model|
     puts " ->" + model.model
-    if model.h264_url.downcase == "unknown"
+    @fixed = false
+    if model.resolution && model.resolution == 'f'
+      model.resolution = ""
+      @fixed = true
+    end
+    if model.h264_url && model.h264_url.length < 8
       model.h264_url = ""
+      @fixed = true
+    end
+    if model.jpeg_url && model.jpeg_url.length < 8
+      model.jpeg_url = ""
+      @fixed = true
+    end
+    if model.mjpeg_url && model.mjpeg_url.length < 8
+      model.mjpeg_url = ""
+      @fixed = true
+    end
+    if model.manual_url && model.manual_url.length < 8
+      model.manual_url = ""
+      @fixed = true
+    end
+    if model.official_url && model.official_url.length < 8
+      model.official_url = ""
+      @fixed = true
+    end
+    if @fixed
       model.save
-      puts " ->>" + model.model
-      binding.pry
+      m = Model.find(model.id)
+      puts " ->>" + m.model
     end
   end
 end

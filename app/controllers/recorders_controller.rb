@@ -6,10 +6,10 @@ class RecordersController < ApplicationController
   def index
     if params[:q].blank?
       @search = Recorder.search()
-      @recorders = Recorder.page params[:page]
+      @recorders = @search.result.page params[:page]
 
       unless params[:vendor_slug].blank?
-        @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug])
+        @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)
         @recorders = @recorders.where(:vendor_id => @vendor.id)
       end
     else
@@ -25,12 +25,13 @@ class RecordersController < ApplicationController
 
   def search
     index
-    # render :index
   end
 
+  # GET /recorders/1
+  # GET /recorders/1.json
   def show
     unless params[:vendor_slug].blank?
-      @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug])
+      @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)
       @recorder = Recorder.where(:recorder_slug => params[:id]).where(:vendor_id => @vendor.id).first
     end
     respond_to do |format|

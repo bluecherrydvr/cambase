@@ -109,7 +109,6 @@ Recorder Listing
   $(document).ready(function() {
     function formatVendors(item) {
       return item.text;
-      //return "<img height='20px' src='" + image_tag(vendor.image.file.url) + "' /> " + item.text;
     }
     $("select#q_vendor_id_eq").select2({
       formatResult: formatVendors,
