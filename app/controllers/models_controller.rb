@@ -5,16 +5,19 @@ class ModelsController < ApplicationController
   # GET /models.json
   def index
     if params[:q].blank?
-      @search = Model.search()
-      @models = @search.result.page params[:page]
-
-      unless params[:vendor_slug].blank?
+      if params[:vendor_slug].blank?
+        @vendor = Vendor.first
+        @models = Model.where(:vendor_id => @vendor.id)
+        # @search = Model.search()
+        # @models = @search.result.all  #.page params[:page]
+      else
         @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)
-        @models = @models.where(:vendor_id => @vendor.id)
+        @models = Model.where(:vendor_id => @vendor.id)
       end
     else
+      @vendor = Vendor.find(params[:q][:vendor_id_eq])
       @search = Model.search(params[:q])
-      @models = @search.result.page params[:page]
+      @models = @search.result.all   #page params[:page]
     end
 
     respond_to do |format|
@@ -135,4 +138,5 @@ class ModelsController < ApplicationController
   def model_params
     params.require(:model).permit!.except(:id, :created_at, :updated_at)
   end
+
 end

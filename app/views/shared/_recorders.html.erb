@@ -20,8 +20,7 @@ Recorder Listing
               </div>
               <div class="col-sm-4">
                 <%= f.label 'Type' %>
-                <br />
-                <%= f.select(:recorder_type_eq, Recorder.uniq.pluck(:recorder_type).compact.sort, :include_blank => 'Any') %>
+                <%= f.select("recorder_type",:recorder_type_eq, Recorder.uniq.pluck(:recorder_type).compact.sort, :include_blank => 'Any') %>
               </div>
               <div class="col-sm-12 feature-filters">
                 <%= f.label 'Features' %>
@@ -55,7 +54,9 @@ Recorder Listing
 </nav>
 
 <div class="col-md-12">
-  <div id="recorderstable" class="table-responsive">
+  <div class="dataloader"><img src="/assets/throbber.gif"></div>
+
+  <div id="recorderstable" class="table-responsive" 0.>
     <table class="table table-recorders">
       <thead>
         <tr>
@@ -107,6 +108,14 @@ Recorder Listing
 
 <script type="text/javascript">
   $(document).ready(function() {
+    // $('div.dataloader').hide();
+    //   $(document).ajaxStart(function() {
+    //     $('div.dataloader').show();
+    //  });
+    //  $(document).ajaxStop(function() {
+    //     $('div.dataloader').hide();
+    // });
+
     function formatVendors(item) {
       return item.text;
     }
@@ -115,6 +124,7 @@ Recorder Listing
       formatSelection: formatVendors,
       escapeMarkup: function(m) { return m; }
     });
+    $("select#q_vendor_id_eq").select2( 'val', <%= @vendor.id %>);
     
     $("select#q_resolution_eq").select2();
 
@@ -122,6 +132,10 @@ Recorder Listing
 
     table = $('.table-recorders').DataTable({
       "iDisplayLength": 50,
+      "fnInitComplete": function(settings, json) {
+        $('div.dataloader').remove();
+        $('#recorderstable').show();
+      }
     });
     $('.dataTables_filter input').attr("placeholder", "Make / Recorder Name");
 

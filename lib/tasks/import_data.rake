@@ -3,28 +3,31 @@ require 'open-uri'
 require Rails.root.join('lib', 'import_data.rb')
 
 
-desc "Fix recorders data URLs, Resoolution, etc"
+desc "Fix recorders data URLs, Resolution, etc"
 task :fix_recorders_data => :environment do
   Recorder.all.each do |recorder|
-    puts " ->" + recorder.model
     @fixed = false
-    if recorder.resolution && recorder.resolution == 'f'
-      recorder.resolution = ""
-      @fixed = true
+    begin
+      if recorder.resolution && (recorder.resolution == 'f' || recorder.resolution.lower == 'unknown')
+        recorder.resolution = ""
+        @fixed = true
+      end
+    rescue => e
+      puts e.message
     end
-    if recorder.h264_url && recorder.h264_url.length < 8
+    if recorder.h264_url && (recorder.h264_url.length < 8 || recorder.h264_url.lower == 'unknown')
       recorder.h264_url = ""
       @fixed = true
     end
-    if recorder.jpeg_url && recorder.jpeg_url.length < 8
+    if recorder.jpeg_url && (recorder.jpeg_url.length < 8 || recorder.jpeg_url.lower == 'unknown')
       recorder.jpeg_url = ""
       @fixed = true
     end
-    if recorder.mjpeg_url && recorder.mjpeg_url.length < 8
+    if recorder.mjpeg_url && (recorder.mjpeg_url.length < 8 || recorder.mjpeg_url.lower == 'unknown')
       recorder.mjpeg_url = ""
       @fixed = true
     end
-    if recorder.official_url && recorder.official_url.length < 8
+    if recorder.official_url && (recorder.official_url.length < 8 || recorder.official_url.lower == 'unknown')
       recorder.official_url = ""
       @fixed = true
     end
@@ -40,7 +43,6 @@ end
 desc "Fix models data URLs, Resoolution, etc"
 task :fix_models_data => :environment do
   Model.all.each do |model|
-    puts " ->" + model.model
     @fixed = false
     if model.resolution && model.resolution == 'f'
       model.resolution = ""
