@@ -8,8 +8,6 @@ class ModelsController < ApplicationController
       if params[:vendor_slug].blank?
         @vendor = Vendor.first
         @models = Model.where(:vendor_id => @vendor.id)
-        # @search = Model.search()
-        # @models = @search.result.all  #.page params[:page]
       else
         @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)
         @models = Model.where(:vendor_id => @vendor.id)

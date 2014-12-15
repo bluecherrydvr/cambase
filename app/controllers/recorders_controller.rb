@@ -5,11 +5,10 @@ class RecordersController < ApplicationController
   # GET /recorders.json
   def index
     if params[:q].blank?
+      @search = Recorder.search()
       if params[:vendor_slug].blank?
         @vendor = Vendor.first
         @recorders = Recorder.where(:vendor_id => @vendor.id)
-        # @search = Model.search()
-        # @models = @search.result.all  #.page params[:page]
       else
         @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)
         @recorders = Recorder.where(:vendor_id => @vendor.id)
@@ -17,24 +16,8 @@ class RecordersController < ApplicationController
     else
       @vendor = Vendor.find(params[:q][:vendor_id_eq])
       @search = Recorder.search(params[:q])
-      @recorders = @search.result.all   #page params[:page]
+      @recorders = @search.result.page params[:page]
     end
-    # if params[:q].blank?
-    #   ## if no filter then use first vendor
-    #   @vendor = Vendor.first
-    #   @recorders = Recorder.where(:vendor_id => @vendor.id)
-      
-    #   # @search = Recorder.search()
-    #   # @recorders = @search.result.all   #page params[:page]
-
-    #   unless params[:vendor_slug].blank?
-    #     @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)
-    #     @recorders = @recorders.where(:vendor_id => @vendor.id)
-    #   end
-    # else
-    #   @search = Recorder.search(params[:q])
-    #   @recorders = @search.result.all   #page params[:page]
-    # end
     
     respond_to do |format|
       format.html
