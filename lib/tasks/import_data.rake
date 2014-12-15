@@ -8,28 +8,28 @@ task :fix_recorders_data => :environment do
   Recorder.all.each do |recorder|
     @fixed = false
     begin
-      if recorder.resolution && (recorder.resolution == 'f' || recorder.resolution.lower == 'unknown')
+      if recorder.resolution && (recorder.resolution == 'f' || recorder.resolution == 'unknown' || recorder.resolution == 'UNKNOWN' || recorder.resolution == 'Unknown')
         recorder.resolution = ""
+        @fixed = true
+      end
+      if recorder.h264_url && (recorder.h264_url.length < 8 || recorder.h264_url == 'unknown' || recorder.h264_url == 'UNKNOWN' || recorder.h264_url == 'Unknown')
+        recorder.h264_url = ""
+        @fixed = true
+      end
+      if recorder.jpeg_url && (recorder.jpeg_url.length < 8 || recorder.jpeg_url == 'unknown' || recorder.jpeg_url == 'UNKNOWN' || recorder.jpeg_url == 'Unknown')
+        recorder.jpeg_url = ""
+        @fixed = true
+      end
+      if recorder.mjpeg_url && (recorder.mjpeg_url.length < 8 || recorder.mjpeg_url == 'unknown' || recorder.mjpeg_url == 'UNKNOWN' || recorder.mjpeg_url == 'Unknown')
+        recorder.mjpeg_url = ""
+        @fixed = true
+      end
+      if recorder.official_url && (recorder.official_url.length < 8 || recorder.official_url == 'unknown' || recorder.official_url == 'UNKNOWN' || recorder.official_url == 'Unknown')
+        recorder.official_url = ""
         @fixed = true
       end
     rescue => e
       puts e.message
-    end
-    if recorder.h264_url && (recorder.h264_url.length < 8 || recorder.h264_url.lower == 'unknown')
-      recorder.h264_url = ""
-      @fixed = true
-    end
-    if recorder.jpeg_url && (recorder.jpeg_url.length < 8 || recorder.jpeg_url.lower == 'unknown')
-      recorder.jpeg_url = ""
-      @fixed = true
-    end
-    if recorder.mjpeg_url && (recorder.mjpeg_url.length < 8 || recorder.mjpeg_url.lower == 'unknown')
-      recorder.mjpeg_url = ""
-      @fixed = true
-    end
-    if recorder.official_url && (recorder.official_url.length < 8 || recorder.official_url.lower == 'unknown')
-      recorder.official_url = ""
-      @fixed = true
     end
     if @fixed
       recorder.save

@@ -108,13 +108,13 @@ Recorder Listing
 
 <script type="text/javascript">
   $(document).ready(function() {
-    // $('div.dataloader').hide();
-    //   $(document).ajaxStart(function() {
-    //     $('div.dataloader').show();
-    //  });
-    //  $(document).ajaxStop(function() {
-    //     $('div.dataloader').hide();
-    // });
+    $('div.dataloader').hide();
+      $(document).ajaxStart(function() {
+        $('div.dataloader').show();
+     });
+     $(document).ajaxStop(function() {
+        $('div.dataloader').hide();
+    });
 
     function formatVendors(item) {
       return item.text;
@@ -131,7 +131,7 @@ Recorder Listing
     $("select#q_recorder_type_eq").select2();
 
     table = $('.table-recorders').DataTable({
-      "iDisplayLength": 50,
+      iDisplayLength: 50,
       "fnInitComplete": function(settings, json) {
         $('div.dataloader').remove();
         $('#recorderstable').show();
