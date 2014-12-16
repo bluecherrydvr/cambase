@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141127100107) do
+ActiveRecord::Schema.define(version: 20141216111447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 20141127100107) do
     t.boolean  "audio_out"
     t.string   "default_username"
     t.string   "default_password"
-    t.hstore   "additional_information"
+    t.string   "additional_information"
     t.boolean  "discontinued"
     t.boolean  "wifi"
     t.boolean  "poe"
