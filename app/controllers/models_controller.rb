@@ -5,6 +5,7 @@ class ModelsController < ApplicationController
   # GET /models.json
   def index
     if params[:q].blank?
+
       if params[:vendor_slug].blank?
         @vendor = Vendor.first
         @models = Model.where(:vendor_id => @vendor.id)
@@ -17,7 +18,7 @@ class ModelsController < ApplicationController
         @vendor = Vendor.find(params[:q][:vendor_id_eq])
       end
       @search = Model.search(params[:q])
-      @models = @search.result.all   #page params[:page]
+      @models = @search.result.all
     end
 
     respond_to do |format|

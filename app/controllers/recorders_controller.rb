@@ -18,7 +18,7 @@ class RecordersController < ApplicationController
         @vendor = Vendor.find(params[:q][:vendor_id_eq])
       end
       @search = Recorder.search(params[:q])
-      @recorders = @search.result.page params[:page]
+      @recorders = @search.result.all
     end
     
     respond_to do |format|
