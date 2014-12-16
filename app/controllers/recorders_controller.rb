@@ -14,7 +14,9 @@ class RecordersController < ApplicationController
         @recorders = Recorder.where(:vendor_id => @vendor.id)
       end
     else
-      @vendor = Vendor.find(params[:q][:vendor_id_eq])
+      if !params[:q][:vendor_id_eq].blank?
+        @vendor = Vendor.find(params[:q][:vendor_id_eq])
+      end
       @search = Recorder.search(params[:q])
       @recorders = @search.result.page params[:page]
     end

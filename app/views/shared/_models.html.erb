@@ -43,7 +43,7 @@ Model Listing
                 </div>
               </div>
               <div class="col-sm-12 actions">
-                <%= f.submit "Filter", :class => 'button' %>
+                <%= f.submit "Search", :class => 'button' %>
               </div>
             </div>
           </div>
@@ -132,7 +132,7 @@ Model Listing
       formatSelection: formatVendors,
       escapeMarkup: function(m) { return m; }
     });
-    $("select#q_vendor_id_eq").select2( 'val', <%= @vendor.id %>);
+    $("select#q_vendor_id_eq").select2( 'val', '<%= vendor_exists(@vendor) %>');
 
     $("select#q_resolution_eq").select2();
 
@@ -150,7 +150,8 @@ Model Listing
 
     table = $('.table-models').DataTable({
       iDisplayLength: 50,
-      "fnInitComplete": function(settings, json) {
+      oLanguage: {"sSearch": "<span>Filter:</span> _INPUT_"},
+      fnInitComplete: function(settings, json) {
         $('div.dataloader').remove();
         $('#modelstable').show();
       }

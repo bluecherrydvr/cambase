@@ -13,7 +13,9 @@ class ModelsController < ApplicationController
         @models = Model.where(:vendor_id => @vendor.id)
       end
     else
-      @vendor = Vendor.find(params[:q][:vendor_id_eq])
+      if !params[:q][:vendor_id_eq].blank?
+        @vendor = Vendor.find(params[:q][:vendor_id_eq])
+      end
       @search = Model.search(params[:q])
       @models = @search.result.all   #page params[:page]
     end
