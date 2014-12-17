@@ -4,7 +4,7 @@ class VendorsController < ApplicationController
   # GET /vendors
   # GET /vendors.json
   def index
-    @vendors = Vendor.order(:name).page params[:page]
+    @vendors = Vendor.order(:name).all
     respond_to do |format|
       format.html
       format.json {
@@ -19,11 +19,12 @@ class VendorsController < ApplicationController
   # GET /vendors/1
   # GET /vendors/1.json
   def show
-    @vendors = Vendor.find_by_vendor_slug(params[:id])
-    @models = Vendor.find_by_vendor_slug(params[:id]).models.order(:model).page params[:page]
+    @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug])
+    @models = Model.where(:vendor_id => @vendor.id).order(:model).all
+    @recorders = Recorder.where(:vendor_id => @vendor.id).order(:model).all
     respond_to do |format|
       format.html
-      format.json { render :json => @models, :except => [:created_at, :updated_at] }
+      format.json { render :json }
     end
   end
 
@@ -47,7 +48,6 @@ class VendorsController < ApplicationController
         format.json { render :show, status: :created, location: @vendor }
       else
         format.html { redirect_to vendors_path, notice: @vendor.errors.full_messages.to_sentence  }
-
         format.json { render json: @vendor.errors, status: :unprocessable_entity }
       end
     end

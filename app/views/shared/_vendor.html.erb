@@ -1,0 +1,176 @@
+<% content_for :title do %>
+	Vendor Details
+<% end %>
+
+<div class="module module-table module-manufacturer">
+  <div class="col-md-12">
+    <div class="module-header">
+      <h4 class=""><strong>Vendor Information</strong></h4>
+    </div>
+    <div class="col-md-4" >
+      <% if @vendor.image %>
+        <%= image_tag(@vendor.image.file.url(:medium)) %>
+      <% else %>
+        <img src="/assets/no_pic.jpg">
+      <% end %>
+    </div>
+    <div class="col-md-8" style="padding:10px;">
+      <table class="table table-vendor">
+        <tr>
+          <td class="col-md-4">Name:</td>
+          <td><%= @vendor.name %></td>
+        </tr>
+        <tr>
+          <td>Website:</td>
+          <td><%= link_to @vendor.name, @vendor.url, target: '_blank' %></td>
+        </tr>
+        <tr>
+          <td>MAC Range:</td>
+          <td><%= @vendor.mac.to_s.gsub('"', '').gsub('[', '').gsub(']', '').gsub(',', '<br/>').html_safe %></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<br />
+<div class="col-md-12">
+  <div id="models-loader" class="data-loader">Loading...</div>
+
+  <div id="modelstable" class="table-responsive" style="display:none">
+    <table class="table table-models">
+      <thead>
+        <tr>
+          <th><%= sort_link @search, :model, 'Images' %></th>
+          <th><%= sort_link @search, :model, 'Model' %></th>
+          <th><%= sort_link @search, :resolution, 'Resolution' %></th>
+          <th class='shape'><%= sort_link @search, :shape, 'Shape' %></th>
+          <% Model::FEATURES.each do |feature| %>
+          <th class="rotate">
+            <div style="writing-mode: tb-rl;">
+              <span >
+                <%= sort_link @search, :"#{feature.parameterize.underscore}", feature %>
+              </span>
+            </div>
+          </th>
+          <% end %>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @models.each do |model| %>
+        <tr>
+          <td style="width:100px">
+            <% if model.images.empty? ==false %>
+              <%= image_tag(model.images.sorted.first.file.url(:small), class: 'align-center', data: { fullsize: model.images.sorted.first.file.url(:small) }) %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to_model_url(model.model, model) %>
+          </td>
+          <td><%= model.resolution %></td>
+          <td>
+            <% if Model::SHAPES.include? model.shape.downcase %>
+            <span class='icon-camera_shape_<%= model.shape.downcase %>' title='<%= model.shape.titleize %>'></span>
+            <% else %>
+            <%= model.shape.titleize %>
+            <% end %>
+          </td>
+          <% Model::FEATURES.each do |feature| %>
+          <td class="feature">
+            <% if model[feature.parameterize.underscore] %>
+              <span class="dot" title="<%= feature %>"></span>
+            <% end %>
+          </td>
+          <% end %>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="fullsize-image hidden"></div>
+<br />
+<div class="col-md-12">
+  <div id="recorders-loader" class="dataloader">Loading...</div>
+
+  <div id="recorderstable" class="table-responsive" style="display:none">
+    <table class="table table-recorders">
+      <thead>
+        <tr>
+          <th><%= sort_link @search, :model, 'Images' %></th>
+          <th><%= sort_link @search, :model, 'Model' %></th>
+          <th><%= sort_link @search, :resolution, 'Max Resolution' %></th>
+          <th class='type'><%= sort_link @search, :recorder_type, 'Type' %></th>
+          <% Recorder::FEATURES.each do |feature| %>
+          <th class="rotate">
+            <div>
+              <span>
+                <%= sort_link @search, :"#{feature.parameterize.underscore}", feature %>
+              </span>
+            </div>
+          </th>
+          <% end %>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @recorders.each do |recorder| %>
+        <tr>
+          <td>
+            <% if recorder.images.empty? ==false %>
+              <%= image_tag(recorder.images.sorted.first.file.url(:small), class: 'align-center', data: { fullsize: recorder.images.sorted.first.file.url(:small) }) %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to recorder.model, "/#{recorder.vendor.vendor_slug}/recorders/#{recorder.recorder_slug}" %>
+          </td>
+          <td><%= recorder.resolution %></td>
+          <td><%= recorder.recorder_type %></td>
+          <% Recorder::FEATURES.each do |feature| %>
+          <td class="feature">
+            <% if recorder[feature.parameterize.underscore] %>
+            <span class="dot" title="<%= feature %>"></span>
+            <% end %>
+          </td>
+          <% end %>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="fullsize-image hidden"></div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('div.dataloader').hide();
+      $(document).ajaxStart(function() {
+        $('div.dataloader').show();
+     });
+     $(document).ajaxStop(function() {
+        $('div.dataloader').hide();
+    });
+
+    table = $('.table-models').DataTable({
+      iDisplayLength: 5,
+      oLanguage: {"sSearch": "<span>Filter:</span> _INPUT_"},
+      fnInitComplete: function(settings, json) {
+        $('div#models-loader').remove();
+        $('#modelstable').show();
+      }
+    });
+    $('#modelstable .dataTables_filter input').attr("placeholder", "Make / Model Name");
+    $('#modelstable .dataTables_length').html("<span class='table-heading'><%= @vendor.name %> Models</span>")
+
+    table = $('.table-recorders').DataTable({
+      iDisplayLength: 5,
+      oLanguage: {"sSearch": "<span>Filter:</span> _INPUT_"},
+      fnInitComplete: function(settings, json) {
+        $('div#recorders-loader').remove();
+        $('#recorderstable').show();
+      }
+    });
+    $('#recorderstable .dataTables_filter input').attr("placeholder", "Make / Recorder Name");
+    $('#recorderstable .dataTables_length').html("<span class='table-heading'><%= @vendor.name %> Recorders</span>")
+  });
+</script>

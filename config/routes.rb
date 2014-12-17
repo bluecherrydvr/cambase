@@ -49,6 +49,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'vendors/:vendor_slug', to: 'vendors#show'
   resources :vendors, :only => [:index, :update, :create]
   resources :models, :path => ':vendor_slug/models/'
   resources :recorders, :path => ':vendor_slug/recorders/'
