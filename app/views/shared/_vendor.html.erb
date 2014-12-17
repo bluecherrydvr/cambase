@@ -9,7 +9,7 @@
     </div>
     <div class="col-md-4" >
       <% if @vendor.image %>
-        <%= image_tag(@vendor.image.file.url(:medium)) %>
+        <%= image_tag(@vendor.image.file.url(:medium), :class => "vendor-logo") %>
       <% else %>
         <img src="/assets/no_pic.jpg">
       <% end %>
