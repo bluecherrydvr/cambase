@@ -49,9 +49,15 @@ Rails.application.routes.draw do
     end
   end
 
+  #test
+  get '/models-list', to: 'models#list'
+  get '/models-list/?', to: 'models#list'
+  post '/models_data', to: 'models#models_data'
+  post '/recorders_data', to: 'recorders#recorders_data'
+
   get 'vendors/:vendor_slug', to: 'vendors#show'
   resources :vendors, :only => [:index, :update, :create]
-  resources :models, :path => ':vendor_slug/models/'
-  resources :recorders, :path => ':vendor_slug/recorders/'
+  resources :models, :path => '/vendors/:vendor_slug/models/'
+  resources :recorders, :path => '/vendors/:vendor_slug/recorders/'
 
 end

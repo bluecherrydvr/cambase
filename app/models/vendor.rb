@@ -12,4 +12,12 @@ class Vendor < ActiveRecord::Base
   def make_slug
     self.vendor_slug = self.name.to_url
   end
+
+    def next
+      Vendor.where("id > ?", id).order("id ASC").first
+    end
+
+    def prev
+      Vendor.where("id < ?", id).order("id DESC").first
+    end
 end

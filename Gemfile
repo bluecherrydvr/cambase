@@ -7,6 +7,7 @@ gem 'pg'
 gem "paperclip"
 gem "select2-rails"
 gem 'jquery-datatables-rails', '~> 3.1.0'
+gem 'ajax-datatables-rails'
 
 gem 'sass-rails', '~> 4.0.3'
 gem 'compass-rails'
@@ -19,7 +20,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'sprockets-rails', github: 'rails/sprockets-rails', branch: '2-1-stable'
 gem 'jquery-rails'
-# gem 'turbolinks'
+gem 'turbolinks'
 gem 'jquery-turbolinks'
 
 gem 'jbuilder', '~> 2.0'

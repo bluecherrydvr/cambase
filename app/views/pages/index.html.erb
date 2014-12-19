@@ -10,13 +10,13 @@
             <% if image.position == 1 %>
               <div class="tile tile-big col-sm-4">
                 <div class="tile-content">
-                  <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.model}"), "/#{owner.vendor.vendor_slug}/#{owner.model_slug}") %>
+                  <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.model}"), "/vendors/#{owner.vendor.vendor_slug}/#{owner.model_slug}") %>
                 </div>
               </div>
             <% else %>
               <div class="tile tile-small col-sm-2">
                 <div class="tile-content">
-                  <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.model}"), "/#{owner.vendor.vendor_slug}/#{owner.model_slug}") %>
+                  <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.model}"), "/vendors/#{owner.vendor.vendor_slug}/#{owner.model_slug}") %>
                 </div>
               </div>
             <% end %>
@@ -24,20 +24,20 @@
             <% if image.position == 1 %>
               <div class="tile tile-big col-sm-4">
                 <div class="tile-content">
-                  <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.recorder}"), "/#{owner.vendor.vendor_slug}/#{owner.recorder_slug}") %>
+                  <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.recorder}"), "/vendors/#{owner.vendor.vendor_slug}/#{owner.recorder_slug}") %>
                 </div>
               </div>
             <% else %>
               <div class="tile tile-small col-sm-2">
                 <div class="tile-content">
-                  <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.recorder}"), "/#{owner.vendor.vendor_slug}/#{owner.recorder_slug}") %>
+                  <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.recorder}"), "/vendors/#{owner.vendor.vendor_slug}/#{owner.recorder_slug}") %>
                 </div>
               </div>
             <% end %>
           <% else %>
             <div class="tile tile-big col-sm-4">
               <div class="tile-content">
-                <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.name}"), "/#{owner.vendor_slug}/models") %>
+                <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.name}"), "/vendors/#{owner.vendor_slug}/models") %>
               </div>
             </div>
           <% end %>

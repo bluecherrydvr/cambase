@@ -18,8 +18,8 @@
         <tr>
           <td style="width:20%"><%= link_to image_tag(vendor.image.file.url(:small)), "vendors/#{vendor.vendor_slug.downcase}" if vendor.image %></td>
           <td><%= link_to vendor.name, "vendors/#{vendor.vendor_slug.downcase}" %></td>
-          <td style="width:10%"><%= link_to vendor.models.size, "#{vendor.vendor_slug.downcase}/models" %></td>
-          <td style="width:10%"><%= link_to vendor.recorders.size, "#{vendor.vendor_slug.downcase}/recorders" %></td>
+          <td style="width:10%"><%= link_to vendor.models.size, "/vendors/#{vendor.vendor_slug.downcase}/models" %></td>
+          <td style="width:10%"><%= link_to vendor.recorders.size, "/vendors/#{vendor.vendor_slug.downcase}/recorders" %></td>
         </tr>
         <% end %>
       </tbody>

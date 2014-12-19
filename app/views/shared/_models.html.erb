@@ -56,10 +56,8 @@ Model Listing
 </nav>
 
 <div class="col-md-12">
-  <div class="dataloader">Loading...</div>
-
   <div id="modelstable" class="table-responsive" style="display:none">
-    <table class="table table-models">
+    <table class="table table-models table-hover">
       <thead>
         <tr>
           <th><%= sort_link @search, :model, 'Images' %></th>
@@ -88,15 +86,15 @@ Model Listing
             <% end %>
           </td>
           <td>
-            <%= link_to_model_url(model.model, model) %>
+            <%= link_to model.model, "/vendors/#{model.vendor.vendor_slug}/models/#{model.model_slug}" %>
           </td>
-          <td class="manufacturer-name"><%= link_to model.vendor.name, "/#{model.vendor.vendor_slug}/models" %></td>
+          <td class="manufacturer-name"><%= link_to model.vendor.name, "/vendors/#{model.vendor.vendor_slug}/models" %></td>
           <td><%= model.resolution %></td>
           <td>
             <% if Model::SHAPES.include? model.shape.downcase %>
-            <span class='icon-camera_shape_<%= model.shape.downcase %>' title='<%= model.shape.titleize %>'></span>
+              <span class='icon-camera_shape_<%= model.shape.downcase %>' title='<%= model.shape.titleize %>'></span>
             <% else %>
-            <%= model.shape.titleize %>
+              <%= model.shape.titleize %>
             <% end %>
           </td>
           <% Model::FEATURES.each do |feature| %>

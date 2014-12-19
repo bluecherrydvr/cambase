@@ -86,9 +86,9 @@ Recorder Listing
             <% end %>
           </td>
           <td>
-            <%= link_to recorder.model, "/#{recorder.vendor.vendor_slug}/recorders/#{recorder.recorder_slug}" %>
+            <%= link_to recorder.model, "/vendors/#{recorder.vendor.vendor_slug}/recorders/#{recorder.recorder_slug}" %>
           </td>
-          <td class="manufacturer-name"><%= link_to recorder.vendor.name, "/#{recorder.vendor.vendor_slug}/recorders" %></td>
+          <td class="manufacturer-name"><%= link_to recorder.vendor.name, "/vendors/#{recorder.vendor.vendor_slug}/recorders" %></td>
           <td><%= recorder.resolution %></td>
           <td><%= recorder.recorder_type %></td>
           <% Recorder::FEATURES.each do |feature| %>

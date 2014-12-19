@@ -5,10 +5,10 @@
 <div class="camera-heading clearfix">
   <h1><%= "#{@recorder.vendor.name} #{@recorder.model}" %></h1>
   <% if @recorder.prev %>
-    <%= link_to "prev", "/#{@recorder.prev.vendor.name.downcase}/recorders/#{@recorder.prev.recorder_slug}", class: 'align-left' %>
+    <%= link_to "prev", "/vendors/#{@recorder.prev.vendor.vendor_slug}/recorders/#{@recorder.prev.recorder_slug}", class: 'align-left' %>
   <% end %>
   <% if @recorder.next %>
-    <%= link_to "next", "/#{@recorder.next.vendor.name.downcase}/recorders/#{@recorder.next.recorder_slug}", class: 'align-left' %>
+    <%= link_to "next", "/vendors/#{@recorder.next.vendor.vendor_slug}/recorders/#{@recorder.next.recorder_slug}", class: 'align-left' %>
   <% end %>
   <%= link_to "json", "/api/v1/recorders/#{@recorder.recorder_slug}", class: 'align-right' %>
   <%= link_to "url", '', class: 'align-right' %>
@@ -64,18 +64,28 @@
       <% end %>
       <div class="table-responsive">
         <table class="table table-striped">
-          <tr class="clickable">
+          <tr>
             <td class="col-sm-3">Name</td>
             <td class="col-sm-9">
               <%= @recorder.vendor.name %>
             </td>
           </tr>
-          <tr class="clickable">
-            <td>Website</td>
-            <td>
-              <%= link_to @recorder.vendor.name, @recorder.vendor.url, target: '_blank' %>
-            </td>
-          </tr>
+          <% if @recorder.vendor.url %>
+            <tr>
+              <td>Website</td>
+              <td>
+                <%= link_to @recorder.vendor.name, @recorder.vendor.url, target: '_blank' %>
+              </td>
+            </tr>
+          <% end %>
+          <% if @recorder.vendor.mac.to_s.gsub('"', '').gsub('[', '').gsub(']', '').gsub(',', '<br/>').html_safe.length >= 8 %>
+            <tr>
+              <td>MAC Range</td>
+              <td>
+                <%= @recorder.vendor.mac.to_s.gsub('"', '').gsub('[', '').gsub(']', '').gsub(',', '<br/>').html_safe %>
+              </td>
+            </tr>
+          <% end %>
         </table>
       </div>
     </div>
@@ -98,11 +108,15 @@
           <div class="table-responsive">
             <table class="table table-striped">
               <tbody>
-                <tr class="clickable">
+                <tr>
                   <td class="col-sm-3">Vendor</td>
                   <td class="col-sm-9 manufacturer-website">
-                    <%= @recorder.vendor.name || 'Unknown' %>
-                    <%= link_to('Website', @recorder.vendor.url, target: "_blank", class: 'icon-link') %>
+                    <% if @recorder.vendor.url %>
+                      <%= link_to @recorder.vendor.name, @recorder.vendor.url, target: '_blank' %>
+                      <%= link_to('Website', @recorder.vendor.url, target: "_blank", class: 'icon-link') %>
+                    <% else %>
+                      <%= @recorder.vendor.name %>
+                    <% end %>
                   </td>
                 </tr>
                 <tr>

@@ -5,10 +5,10 @@
 <div class="camera-heading clearfix">
   <h1><%= "#{@model.vendor.name} #{@model.model}" %></h1>
   <% if @model.prev %>
-    <%= link_to "prev", "/#{@model.prev.vendor.name.downcase}/models/#{@model.prev.model_slug}", class: 'align-left' %>
+    <%= link_to "prev", "/vendors/#{@model.prev.vendor.vendor_slug}/models/#{@model.prev.model_slug}", class: 'align-left' %>
   <% end %>
   <% if @model.next %>
-    <%= link_to "next", "/#{@model.next.vendor.name.downcase}/models/#{@model.next.model_slug}", class: 'align-left' %>
+    <%= link_to "next", "/vendors/#{@model.next.vendor.vendor_slug}/models/#{@model.next.model_slug}", class: 'align-left' %>
   <% end %>
   <%= link_to "json", "/api/v1/models/#{@model.model_slug}", class: 'align-right' %>
   <%= link_to "url", '', class: 'align-right' %>
@@ -60,28 +60,32 @@
     </div>
     <div class="module-body">
       <% if @model.vendor.image %>
-        <%= link_to(image_tag(@model.vendor.image.file.url(:medium)), "/#{@model.vendor.vendor_slug}", :class => '') %>
+        <%= link_to(image_tag(@model.vendor.image.file.url(:medium)), "/vendors/#{@model.vendor.vendor_slug}", :class => '') %>
       <% end %>
       <div class="table-responsive">
         <table class="table table-striped">
-          <tr class="clickable">
+          <tr>
             <td class="col-sm-3">Name</td>
             <td class="col-sm-9">
               <%= @model.vendor.name %>
             </td>
           </tr>
-          <tr class="clickable">
-            <td>Website</td>
-            <td>
-              <%= link_to @model.vendor.name, @model.vendor.url, target: '_blank' %>
-            </td>
-          </tr>
-          <tr>
-            <td>MAC Range</td>
-            <td>
-              <%= @model.vendor.mac.to_s.gsub('"', '').gsub('[', '').gsub(']', '').gsub(',', '<br/>').html_safe %>
-            </td>
-          </tr>
+          <% if @model.vendor.url %>
+            <tr>
+              <td>Website</td>
+              <td>
+                <%= link_to @model.vendor.name, @model.vendor.url, target: '_blank' %>
+              </td>
+            </tr>
+          <% end %>
+          <% if @model.vendor.mac.to_s.gsub('"', '').gsub('[', '').gsub(']', '').gsub(',', '<br/>').html_safe.length >= 8 %>
+            <tr>
+              <td>MAC Range</td>
+              <td>
+                <%= @model.vendor.mac.to_s.gsub('"', '').gsub('[', '').gsub(']', '').gsub(',', '<br/>').html_safe %>
+              </td>
+            </tr>
+          <% end %>
         </table>
       </div>
     </div>
@@ -104,11 +108,15 @@
           <div class="table-responsive">
             <table class="table table-striped">
               <tbody>
-                <tr class="clickable">
+                <tr>
                   <td class="col-sm-3">Vendor</td>
                   <td class="col-sm-9 manufacturer-website">
-                    <%= link_to @model.vendor.name, "/#{@model.vendor.vendor_slug}" %>
-                    <%= link_to('Website', @model.vendor.url, target: "_blank", class: 'icon-link') %>
+                    <% if @model.vendor.url %>
+                      <%= link_to @model.vendor.name, @model.vendor.url, target: '_blank' %>
+                      <%= link_to('Website', @model.vendor.url, target: "_blank", class: 'icon-link') %>
+                    <% else %>
+                      <%= @model.vendor.name %>
+                    <% end %>
                   </td>
                 </tr>
                 <tr>
