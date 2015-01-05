@@ -33,7 +33,6 @@ Rails.application.routes.draw do
         end
       end
       resources :vendors
-      resources :changes
     end
   end
 
@@ -49,15 +48,10 @@ Rails.application.routes.draw do
     end
   end
 
-  #test
-  get '/models-list', to: 'models#list'
-  get '/models-list/?', to: 'models#list'
-  post '/models_data', to: 'models#models_data'
-  post '/recorders_data', to: 'recorders#recorders_data'
+  resources :vendors, :only => [:index, :update, :create]
 
   get 'vendors/:vendor_slug', to: 'vendors#show'
-  resources :vendors, :only => [:index, :update, :create]
-  resources :models, :path => '/vendors/:vendor_slug/models/'
-  resources :recorders, :path => '/vendors/:vendor_slug/recorders/'
+  get 'vendors/:vendor_slug/models', to: 'models#index'
+  get 'vendors/:vendor_slug/recorders', to: 'recorders#index'
 
 end

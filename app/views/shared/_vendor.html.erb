@@ -177,6 +177,7 @@
         $('#models-table').show();
       }
     });
+    $('#DataTables_Table_0_filter input').attr("placeholder", "Model Name");
     $('#DataTables_Table_0_length').html("<span class='table-heading'><%= @vendor.name %> Models</span>")
 
     table_recorders = $('.recorders-table').DataTable({
@@ -188,6 +189,7 @@
         $('#recorders-table').show();
       }
     });
+    $('#DataTables_Table_1_filter input').attr("placeholder", "Recorder Name");
     $('#DataTables_Table_1_length').html("<span class='table-heading'><%= @vendor.name %> Recorders</span>")
 
   });

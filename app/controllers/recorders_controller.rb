@@ -2,12 +2,6 @@ class RecordersController < ApplicationController
   before_action :set_recorder, only: [:show, :edit, :update, :destroy]
 
   def recorders_data
-    # condition = "lower(vendor_models.name) like lower('%#{params[:vendor_model]}%') AND
-    #             lower(jpg_url) like lower('%#{params[:snapshot_url]}%') AND
-    #             lower(h264_url) like lower('%#{params[:h264_url]}%') AND
-    #             lower(mjpg_url) like lower('%#{params[:mjpg_url]}%')"
-    # dash_vendors_models = DashVendorRecorder.joins(:vendor).where(condition).where("lower(vendors.name) like lower('%#{params[:vendor]}%')")
-
     if params[:q].blank?
       if params[:vendor_slug].blank?
         @recorders_list = Recorder.all
@@ -143,7 +137,12 @@ class RecordersController < ApplicationController
     if params[:q].blank?
       @search = Recorder.search()
       if params[:vendor_slug].blank?
-        @vendor = Vendor.first
+        @recorder = Recorder.first
+        if @recorder
+          @vendor = Vendor.find(@recorder.vendor_id)
+        else
+          @vendor = Vendor.first
+        end
         @recorders = Recorder.where(:vendor_id => @vendor.id)
       else
         @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)

@@ -2,9 +2,20 @@
   Vendor Listing
 <% end %>
 
+<ul id="columns-vis" class="nav navbar-nav">
+  <li class="dropdown">
+    <a id="columns-toggle" class="dropdown-toggle" data-toggle="dropdown" title="Select columns" href="#">Columns <span class="caret"></span></a>
+    <ul id="columns-list" class="dropdown-menu">
+      <li><input type="checkbox" class="columns-visible" data-column="0" checked="true" /> Logo</li>
+      <li><input type="checkbox" class="columns-visible" data-column="2" checked="true" /> Models</li>
+      <li><input type="checkbox" class="columns-visible" data-column="3" checked="true" /> Recorders</li>
+    </ul>
+  </li>
+</ul>
+
 <div class="col-md-12">
-  <div id="vendorstable" class="table-responsive">
-    <table class="table table-vendors" style="width:100%">
+  <div id="vendor-stable" class="table-responsive">
+    <table class="table table-vendors table-hover">
       <thead>
         <tr>
           <th>Logo</th>
@@ -33,22 +44,17 @@
       "iDisplayLength": 50
     });
     $('.dataTables_filter input').attr("placeholder", "Vendor Name");
-
     $('.dataTables_length').prepend("<button id='show-hide' style='float:left' title='Hide images'>«</button>");
+    $('.dataTables_length #show-hide').replaceWith($("ul#columns-vis"));
+    
+    $("#columns-list").click(function(e){
+      e.stopPropagation();
+    });
 
-    $('#show-hide').on('click', function (e) {
+    $('.columns-visible').change(function(e) {
+      var column = table.column($(this).attr('data-column'));
+      column.visible($(this).is(":checked"));
       e.preventDefault();
-      var column = table.column(0);
-      column.visible( ! column.visible() );
-      if(column.visible()) {
-        $(this).text("«");
-        $(this).attr("title","Hide logos");
-      }
-      else
-      {
-        $(this).text("»");
-        $(this).attr("title","Show logos");
-      }
     });
   });
 </script>
