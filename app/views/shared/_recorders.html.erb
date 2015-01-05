@@ -60,16 +60,16 @@ Recorder Listing
     <table class="table table-recorders">
       <thead>
         <tr>
-          <th><%= sort_link @search, :model, 'Images' %></th>
-          <th><%= sort_link @search, :model, 'Model' %></th>
-          <th><%= sort_link @search, :vendor, 'Vendor' %></th>
-          <th><%= sort_link @search, :resolution, 'Max Resolution' %></th>
-          <th class='type'><%= sort_link @search, :recorder_type, 'Type' %></th>
+          <th>Images</th>
+          <th>Model</th>
+          <th>Vendor</th>
+          <th>Max Resolution</th>
+          <th class='type'>Type</th>
           <% Recorder::FEATURES.each do |feature| %>
           <th class="rotate">
             <div>
               <span>
-                <%= sort_link @search, :"#{feature.parameterize.underscore}", feature %>
+                <%= feature %>
               </span>
             </div>
           </th>
@@ -88,7 +88,7 @@ Recorder Listing
           <td>
             <%= link_to recorder.model, "/vendors/#{recorder.vendor.vendor_slug}/recorders/#{recorder.recorder_slug}" %>
           </td>
-          <td class="manufacturer-name"><%= link_to recorder.vendor.name, "/vendors/#{recorder.vendor.vendor_slug}/recorders" %></td>
+          <td class="manufacturer-name"><%= link_to recorder.vendor.name, "/vendors/#{recorder.vendor.vendor_slug}" %></td>
           <td><%= recorder.resolution %></td>
           <td><%= recorder.recorder_type %></td>
           <% Recorder::FEATURES.each do |feature| %>
@@ -138,7 +138,7 @@ Recorder Listing
         $('#recorderstable').show();
       }
     });
-    $('.dataTables_filter input').attr("placeholder", "Make / Recorder Name");
+    $('.dataTables_filter input').attr("placeholder", "Recorder Name");
 
     $('.dataTables_length').prepend("<button id='show-hide' style='float:left' title='Hide images'>«</button>");
 

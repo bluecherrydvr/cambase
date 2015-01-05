@@ -60,16 +60,16 @@ Model Listing
     <table class="table table-models table-hover">
       <thead>
         <tr>
-          <th><%= sort_link @search, :model, 'Images' %></th>
-          <th><%= sort_link @search, :model, 'Model' %></th>
-          <th><%= sort_link @search, :vendor, 'Vendor' %></th>
-          <th><%= sort_link @search, :resolution, 'Resolution' %></th>
-          <th class='shape'><%= sort_link @search, :shape, 'Shape' %></th>
+          <th>Images</th>
+          <th>Model</th>
+          <th>Vendor</th>
+          <th>Resolution</th>
+          <th class='shape'>Shape</th>
           <% Model::FEATURES.each do |feature| %>
           <th class="rotate">
             <div style="writing-mode: tb-rl;">
               <span >
-                <%= sort_link @search, :"#{feature.parameterize.underscore}", feature %>
+                <%= feature %>
               </span>
             </div>
           </th>
@@ -88,7 +88,7 @@ Model Listing
           <td>
             <%= link_to model.model, "/vendors/#{model.vendor.vendor_slug}/models/#{model.model_slug}" %>
           </td>
-          <td class="manufacturer-name"><%= link_to model.vendor.name, "/vendors/#{model.vendor.vendor_slug}/models" %></td>
+          <td class="manufacturer-name"><%= link_to model.vendor.name, "/vendors/#{model.vendor.vendor_slug}" %></td>
           <td><%= model.resolution %></td>
           <td>
             <% if Model::SHAPES.include? model.shape.downcase %>
@@ -137,8 +137,6 @@ Model Listing
     function formatShapes(item) {
       if (!item.id) return item.text;
       return item.text;
-      //// not displaying image in production
-      //return "<img height='20px' src='assets/icons/camera_shape_" + item.id.toLowerCase() + ".png'/> " + item.text;
     }
     $("select#q_shape_eq").select2({
       formatResult: formatShapes,
@@ -154,7 +152,7 @@ Model Listing
         $('#modelstable').show();
       }
     });
-    $('.dataTables_filter input').attr("placeholder", "Make / Model Name");
+    $('.dataTables_filter input').attr("placeholder", "Model Name");
 
     $('.dataTables_length').prepend("<button id='show-hide' style='float:left' title='Hide images'>«</button>");
 
