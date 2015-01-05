@@ -55,8 +55,33 @@ Model Listing
   </div>
 </nav>
 
+<ul id="columns-vis" class="nav navbar-nav">
+  <li class="dropdown">
+    <a id="columns-toggle" class="dropdown-toggle" data-toggle="dropdown" title="Select columns" href="#">Columns <span class="caret"></span></a>
+    <ul id="columns-list" class="dropdown-menu">
+      <li><input type="checkbox" class="columns-visible" data-column="0" checked="true" /> Images</li>
+      <li><input type="checkbox" class="columns-visible" data-column="2" checked="true" /> Vendor</li>
+      <li><input type="checkbox" class="columns-visible" data-column="3" checked="true" /> Resolution</li>
+      <li><input type="checkbox" class="columns-visible" data-column="4" checked="true" /> Shape</li>
+      <li><input type="checkbox" class="columns-visible" data-column="5" checked="true" /> Onvif</li>
+      <li><input type="checkbox" class="columns-visible" data-column="6" checked="true" /> PSIA</li>
+      <li><input type="checkbox" class="columns-visible" data-column="7" checked="true" /> PTZ</li>
+      <li><input type="checkbox" class="columns-visible" data-column="8" checked="true" /> Infrared</li>
+      <li><input type="checkbox" class="columns-visible" data-column="9" checked="true" /> Verifocal</li>
+      <li><input type="checkbox" class="columns-visible" data-column="10" checked="true" /> SD Card</li>
+      <li><input type="checkbox" class="columns-visible" data-column="11" checked="true" /> UPnP</li>
+      <li><input type="checkbox" class="columns-visible" data-column="12" checked="true" /> Disconnected</li>
+      <li><input type="checkbox" class="columns-visible" data-column="13" checked="true" /> Audio In</li>
+      <li><input type="checkbox" class="columns-visible" data-column="14" checked="true" /> Audio Out</li>
+      <li><input type="checkbox" class="columns-visible" data-column="15" checked="true" /> PoE</li>
+      <li><input type="checkbox" class="columns-visible" data-column="16" checked="true" /> WiFi</li>
+    </ul>
+  </li>
+</ul>
+
 <div class="col-md-12">
-  <div id="modelstable" class="table-responsive" style="display:none">
+  <div class="data-loader">Loading recorders...</div>
+  <div id="models-table" class="table-responsive" style="display:none">
     <table class="table table-models table-hover">
       <thead>
         <tr>
@@ -68,7 +93,7 @@ Model Listing
           <% Model::FEATURES.each do |feature| %>
           <th class="rotate">
             <div style="writing-mode: tb-rl;">
-              <span >
+              <span>
                 <%= feature %>
               </span>
             </div>
@@ -110,16 +135,16 @@ Model Listing
     </table>
   </div>
 </div>
-<div class="fullsize-image hidden"></div>
+
 
 <script type="text/javascript">
   $(document).ready(function() {
-    $('div.dataloader').hide();
+    $('div.data-loader').hide();
       $(document).ajaxStart(function() {
-        $('div.dataloader').show();
+        $('div.data-loader').show();
      });
      $(document).ajaxStop(function() {
-        $('div.dataloader').hide();
+        $('div.data-loader').hide();
     });
 
     function formatVendors(item) {
@@ -135,7 +160,6 @@ Model Listing
     $("select#q_resolution_eq").select2();
 
     function formatShapes(item) {
-      if (!item.id) return item.text;
       return item.text;
     }
     $("select#q_shape_eq").select2({
@@ -148,27 +172,22 @@ Model Listing
       iDisplayLength: 50,
       oLanguage: {"sSearch": "<span>Filter:</span> _INPUT_"},
       fnInitComplete: function(settings, json) {
-        $('div.dataloader').remove();
-        $('#modelstable').show();
+        $('div.data-loader').remove();
+        $('#models-table').show();
       }
     });
     $('.dataTables_filter input').attr("placeholder", "Model Name");
-
     $('.dataTables_length').prepend("<button id='show-hide' style='float:left' title='Hide images'>«</button>");
+    $('.dataTables_length #show-hide').replaceWith($("ul#columns-vis"));
+    
+    $("#columns-list").click(function(e){
+      e.stopPropagation();
+    });
 
-    $('#show-hide').on('click', function (e) {
+    $('.columns-visible').change(function(e) {
+      var column = table.column($(this).attr('data-column'));
+      column.visible($(this).is(":checked"));
       e.preventDefault();
-      var column = table.column(0);
-      column.visible( ! column.visible() );
-      if(column.visible()) {
-        $(this).text("«");
-        $(this).attr("title","Hide images");
-      }
-      else
-      {
-        $(this).text("»");
-        $(this).attr("title","Show images");
-      }
     });
   });
 </script>

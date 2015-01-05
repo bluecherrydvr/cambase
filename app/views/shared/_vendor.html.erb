@@ -49,32 +49,61 @@
   </div>
 </div>
 <br />
-<div class="col-md-12 table-container">
-  <table class="table table-hover" id="datatable_models">
-      <thead>
-        <tr>
-          <th>Images</th>
-          <th>Model</th>
-          <th>Vendor</th>
-          <th>Resolution</th>
-          <th class='shape'>Shape</th>
-          <% Model::FEATURES.each do |feature| %>
-          <th class="rotate">
-            <div style="writing-mode: tb-rl;">
-              <span >
-                <%= feature %>
-              </span>
-            </div>
-          </th>
-          <% end %>
-        </tr>
-      </thead>
-      <tbody>
 
-      </tbody>
-    </table>
-    <div id="models-loader" class="data-loader">Loading models...</div>
+<div class="dataloader">Loading...</div>
+<div id="modelstable" class="table-container" style="display:none">
+  <table class="table table-models table-hover">
+    <thead>
+      <tr>
+        <th><%= sort_link @search, :model, 'Images' %></th>
+        <th><%= sort_link @search, :model, 'Model' %></th>
+        <th><%= sort_link @search, :vendor, 'Vendor' %></th>
+        <th><%= sort_link @search, :resolution, 'Resolution' %></th>
+        <th class='shape'><%= sort_link @search, :shape, 'Shape' %></th>
+        <% Model::FEATURES.each do |feature| %>
+        <th class="rotate">
+          <div style="writing-mode: tb-rl;">
+            <span >
+              <%= sort_link @search, :"#{feature.parameterize.underscore}", feature %>
+            </span>
+          </div>
+        </th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @models.each do |model| %>
+      <tr>
+        <td style="width:100px">
+          <% if model.images.empty? ==false %>
+            <%= image_tag(model.images.sorted.first.file.url(:small), class: 'align-center', data: { fullsize: model.images.sorted.first.file.url(:small) }) %>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to model.model, "/vendors/#{model.vendor.vendor_slug}/models/#{model.model_slug}" %>
+        </td>
+        <td class="manufacturer-name"><%= link_to model.vendor.name, "/vendors/#{model.vendor.vendor_slug}" %></td>
+        <td><%= model.resolution %></td>
+        <td>
+          <% if Model::SHAPES.include? model.shape.downcase %>
+            <span class='icon-camera_shape_<%= model.shape.downcase %>' title='<%= model.shape.titleize %>'></span>
+          <% else %>
+            <%= model.shape.titleize %>
+          <% end %>
+        </td>
+        <% Model::FEATURES.each do |feature| %>
+        <td class="feature">
+          <% if model[feature.parameterize.underscore] %>
+            <span class="dot" title="<%= feature %>"></span>
+          <% end %>
+        </td>
+        <% end %>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
+
 <br />
 <div class="col-md-12 table-container">
   <table class="table table-hover" id="datatable_recorders">
@@ -82,7 +111,6 @@
       <tr>
         <th>Images</th>
         <th>Model</th>
-        <th>Vendor</th>
         <th>Resolution</th>
         <th class='type'>Type</th>
         <% Recorder::FEATURES.each do |feature| %>
@@ -113,22 +141,16 @@
         $('div.data-loader').hide();
     });
 
-    table_models = $('#datatable_models').DataTable({
+    table = $('.table-models').DataTable({
       iDisplayLength: 25,
-      bProcessing: false,
-      bServerSide: true,
+      oLanguage: {"sSearch": "<span>Filter:</span> _INPUT_"},
       fnInitComplete: function(settings, json) {
-        $('div#models-loader').remove();
-      },
-      "ajax": {
-        "method": "POST",
-        "url": "/models_data"
+        $('div.dataloader').remove();
+        $('#modelstable').show();
       }
     });
-    $('#datatable_models_filter').hide();
-    $('#datatable_models_length').html("<span class='table-heading'><%= @vendor.name %> Models</span>")
 
-    table_models = $('#datatable_recorders').DataTable({
+    table_recorders = $('#datatable_recorders').DataTable({
       iDisplayLength: 25,
       bProcessing: false,
       bServerSide: true,
@@ -137,7 +159,7 @@
       },
       "ajax": {
         "method": "POST",
-        "url": "/recorders_data"
+        "url": "/recorders/recorders_data/<%= params[:vendor_slug] %>"
       }
     });
     $('#datatable_recorders_filter').hide();
