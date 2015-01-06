@@ -3,56 +3,25 @@
 </div>
 <div class="col-sm-9">
   <div class="row" id="masonry-container">
-    <% @images.each_with_index do |image, index| %>
-      <% if image.owner %>
-        <% owner = image.owner_type.classify.constantize.find(image.owner_id) %>
-          <% if image.owner_type == "Model" %>
-            <% if image.position == 1 %>
-              <div class="tile tile-big col-sm-4">
-                <div class="tile-content">
-                  <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.model}"), "/vendors/#{owner.vendor.vendor_slug}/#{owner.model_slug}") %>
-                </div>
-              </div>
-            <% else %>
-              <div class="tile tile-small col-sm-2">
-                <div class="tile-content">
-                  <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.model}"), "/vendors/#{owner.vendor.vendor_slug}/#{owner.model_slug}") %>
-                </div>
-              </div>
+    <% @vendors.each_with_index do |vendor, index| %>
+      <% if vendor.image %>
+        <div class="tile tile-big col-sm-4">
+          <div class="tile-content">
+            <%= link_to(image_tag(vendor.image.file.url, :title => "#{vendor.name}"), "/vendors/#{vendor.vendor_slug}") %>
+          </div>
+          <span>
+            <% if vendor.models.size > 0 %>
+              <a href="/vendors/<%= vendor.vendor_slug.downcase %>/models"><strong><%= vendor.models.size %></strong> models</a>
             <% end %>
-          <% elsif image.owner_type == "Recorder" %>
-            <% if image.position == 1 %>
-              <div class="tile tile-big col-sm-4">
-                <div class="tile-content">
-                  <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.recorder}"), "/vendors/#{owner.vendor.vendor_slug}/#{owner.recorder_slug}") %>
-                </div>
-              </div>
-            <% else %>
-              <div class="tile tile-small col-sm-2">
-                <div class="tile-content">
-                  <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.recorder}"), "/vendors/#{owner.vendor.vendor_slug}/#{owner.recorder_slug}") %>
-                </div>
-              </div>
+            <% if vendor.models.size > 0 && vendor.recorders.size > 0 %>
+            , 
             <% end %>
-          <% else %>
-            <div class="tile tile-big col-sm-4">
-              <div class="tile-content">
-                <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.name}"), "/vendors/#{owner.vendor_slug}/models") %>
-              </div>
-              <span>
-                <% if owner.models.size > 0 %>
-                  <a href="/vendors/<%= owner.vendor_slug.downcase %>/models"><strong><%= owner.models.size %></strong> models</a>
-                <% end %>
-                <% if owner.models.size > 0 && owner.recorders.size > 0 %>
-                  , 
-                <% end %>
-                <% if owner.recorders.size > 0 %>
-                  <a href="/vendors/<%= owner.vendor_slug.downcase %>/recorders"><strong><%= owner.recorders.size %></strong> recorders</a>
-                <% end %>
-              </span>
-            </div>
-          <% end %>
-        <% end %>
+            <% if vendor.recorders.size > 0 %>
+              <a href="/vendors/<%= vendor.vendor_slug.downcase %>/recorders"><strong><%= vendor.recorders.size %></strong> recorders</a>
+            <% end %>
+          </span>
+        </div>
+      <% end %>
     <% end %>
   </div>
 </div>

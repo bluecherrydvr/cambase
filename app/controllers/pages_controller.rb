@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   def index
-    @images = Image.where(owner_type: ["Vendor"]).all.reverse
+    @vendors = Vendor.order(:name)
   end
   def about_cambase
   end
