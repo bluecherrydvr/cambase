@@ -78,9 +78,9 @@ Model Listing
   </li>
 </ul>
 
-<div class="col-md-12">
-  <div class="data-loader">Loading models...</div>
-  <div id="models-table" class="table-responsive" style="display:none">
+<div class="col-md-12 table-container">
+  <div class="data-loader">Loading...</div>
+  <div id="models-table" class="table-responsive">
     <table class="table table-models table-hover">
       <thead>
         <tr>
@@ -138,12 +138,17 @@ Model Listing
 
 <script type="text/javascript">
   $(document).ready(function() {
+    $("#models-table").hide();
+    $("#columns-toggle").hide();
     $('div.data-loader').hide();
-      $(document).ajaxStart(function() {
-        $('div.data-loader').show();
-     });
-     $(document).ajaxStop(function() {
-        $('div.data-loader').hide();
+    
+    $(document).ajaxStart(function() {
+      $('div.data-loader').show();
+      $("#columns-toggle").hide();
+    });
+    $(document).ajaxStop(function() {
+      $('div.data-loader').hide();
+      $("#columns-toggle").show();
     });
 
     function formatVendors(item) {
@@ -173,6 +178,7 @@ Model Listing
       fnInitComplete: function(settings, json) {
         $('div.data-loader').remove();
         $('#models-table').show();
+        $("#columns-toggle").show();
       }
     });
     $('.dataTables_filter input').attr("placeholder", "Model Name");

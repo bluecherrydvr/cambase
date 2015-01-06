@@ -122,10 +122,6 @@
   }
 }
 
-.dataloader {
-  padding:10px;
-}
-
 #DataTables_Table_0_paginate .paginate_button {
   padding: 0;
   border: none;
@@ -149,6 +145,16 @@
 #table-vendors_paginate .paginate_button {
   padding: 0;
   border: none;
+}
+
+.data-loader
+{
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  background-color: #fff;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
 }
 
 #show-hide

@@ -67,10 +67,10 @@
           <tr>
             <td class="col-sm-3">Name</td>
             <td class="col-sm-9">
-              <%= @recorder.vendor.name %>
+              <%= link_to @recorder.vendor.name, "/vendors/#{@recorder.vendor.vendor_slug}" %>
             </td>
           </tr>
-          <% if @recorder.vendor.url %>
+          <% if @recorder.vendor.url && @recorder.vendor.url.start_with?( 'http', 'www') %>
             <tr>
               <td>Website</td>
               <td>
@@ -111,7 +111,7 @@
                 <tr>
                   <td class="col-sm-3">Vendor</td>
                   <td class="col-sm-9 manufacturer-website">
-                    <% if @recorder.vendor.url %>
+                    <% if @recorder.vendor.url && @recorder.vendor.url.start_with?( 'http', 'www') %>
                       <%= link_to @recorder.vendor.name, @recorder.vendor.url, target: '_blank' %>
                       <%= link_to('Website', @recorder.vendor.url, target: "_blank", class: 'icon-link') %>
                     <% else %>
@@ -162,7 +162,7 @@
                 <tr>
                   <td>Official Page</td>
                   <td>
-                    <% if @recorder.official_url %>
+                    <% if @recorder.official_url && @recorder.official_url.start_with?( 'http', 'www') %>
                       <%= link_to @recorder.official_url, @recorder.official_url, target: '_blank' %>
                     <% end %>
                   </td>

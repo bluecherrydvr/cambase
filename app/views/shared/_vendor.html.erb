@@ -20,7 +20,7 @@
           <td class="col-md-4">Name:</td>
           <td><%= @vendor.name %></td>
         </tr>
-        <% if @vendor.url %>
+        <% if @vendor.url && @vendor.url.start_with?( 'http', 'www') %>
           <tr>
             <td>Website</td>
             <td>
@@ -50,7 +50,7 @@
 </div>
 <br />
 <div class="col-md-12 table-container">
-  <div id="models-loader" class="dataloader">Loading models...</div>
+  <div id="models-loader" class="data-loader">Loading models...</div>
   <div id="models-table" class="table-container" style="display:none">
     <table class="table models-table table-hover">
       <thead>
@@ -105,7 +105,7 @@
 <br />
 <br />
 <div class="col-md-12 table-container">
-  <div id="recorders-loader" class="dataloader">Loading recorders...</div>
+  <div id="recorders-loader" class="data-loader">Loading recorders...</div>
   <div id="recorders-table" class="table-container" style="display:none">
     <table class="table recorders-table">
       <thead>
@@ -155,11 +155,11 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $('div.data-loader').hide();
-      $(document).ajaxStart(function() {
-        $('div.data-loader').show();
-     });
-     $(document).ajaxStop(function() {
-        $('div.data-loader').hide();
+    $(document).ajaxStart(function() {
+      $('div.data-loader').show();
+    });
+    $(document).ajaxStop(function() {
+      $('div.data-loader').hide();
     });
 
     colDefs = [
@@ -191,6 +191,5 @@
     });
     $('#DataTables_Table_1_filter input').attr("placeholder", "Recorder Name");
     $('#DataTables_Table_1_length').html("<span class='table-heading'><%= @vendor.name %> Recorders</span>")
-
   });
 </script>

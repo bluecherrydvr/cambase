@@ -67,10 +67,10 @@
           <tr>
             <td class="col-sm-3">Name</td>
             <td class="col-sm-9">
-              <%= @model.vendor.name %>
+              <%= link_to @model.vendor.name, "/vendors/#{@model.vendor.vendor_slug}" %>
             </td>
           </tr>
-          <% if @model.vendor.url %>
+          <% if @model.vendor.url && @model.vendor.url.start_with?( 'http', 'www') %>
             <tr>
               <td>Website</td>
               <td>
@@ -111,7 +111,7 @@
                 <tr>
                   <td class="col-sm-3">Vendor</td>
                   <td class="col-sm-9 manufacturer-website">
-                    <% if @model.vendor.url %>
+                    <% if @model.vendor.url && @model.vendor.url.start_with?( 'http', 'www') %>
                       <%= link_to @model.vendor.name, @model.vendor.url, target: '_blank' %>
                       <%= link_to('Website', @model.vendor.url, target: "_blank", class: 'icon-link') %>
                     <% else %>
@@ -154,7 +154,7 @@
                 <tr>
                   <td>Official Page</td>
                   <td>
-                    <% if @model.official_url %>
+                    <% if @model.official_url && @model.official_url.start_with?( 'http', 'www') %>
                       <%= link_to @model.official_url, @model.official_url, target: '_blank' %>
                     <% end %>
                   </td>
