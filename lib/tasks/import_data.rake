@@ -8,23 +8,22 @@ task :fix_recorders_data => :environment do
   Recorder.all.each do |recorder|
     @fixed = false
     begin
-      if recorder.resolution && (recorder.resolution == 'f' || recorder.resolution == 'unknown' || recorder.resolution == 'UNKNOWN' || recorder.resolution == 'Unknown')
+      if recorder.resolution && (recorder.resolution == '' || recorder.resolution == ' ')
+        recorder.resolution = "-"
+        @fixed = true
+      elsif recorder.resolution && (recorder.resolution == 'f' || recorder.resolution == 'unknown' || recorder.resolution == 'UNKNOWN' || recorder.resolution == 'Unknown')
         recorder.resolution = ""
         @fixed = true
-      end
-      if recorder.h264_url && (recorder.h264_url.length < 8 || recorder.h264_url == 'unknown' || recorder.h264_url == 'UNKNOWN' || recorder.h264_url == 'Unknown')
+      elsif recorder.h264_url && (recorder.h264_url.length < 8 || recorder.h264_url == 'unknown' || recorder.h264_url == 'UNKNOWN' || recorder.h264_url == 'Unknown')
         recorder.h264_url = ""
         @fixed = true
-      end
-      if recorder.jpeg_url && (recorder.jpeg_url.length < 8 || recorder.jpeg_url == 'unknown' || recorder.jpeg_url == 'UNKNOWN' || recorder.jpeg_url == 'Unknown')
+      elsif recorder.jpeg_url && (recorder.jpeg_url.length < 8 || recorder.jpeg_url == 'unknown' || recorder.jpeg_url == 'UNKNOWN' || recorder.jpeg_url == 'Unknown')
         recorder.jpeg_url = ""
         @fixed = true
-      end
-      if recorder.mjpeg_url && (recorder.mjpeg_url.length < 8 || recorder.mjpeg_url == 'unknown' || recorder.mjpeg_url == 'UNKNOWN' || recorder.mjpeg_url == 'Unknown')
+      elsif recorder.mjpeg_url && (recorder.mjpeg_url.length < 8 || recorder.mjpeg_url == 'unknown' || recorder.mjpeg_url == 'UNKNOWN' || recorder.mjpeg_url == 'Unknown')
         recorder.mjpeg_url = ""
         @fixed = true
-      end
-      if recorder.official_url && (recorder.official_url.length < 8 || recorder.official_url == 'unknown' || recorder.official_url == 'UNKNOWN' || recorder.official_url == 'Unknown')
+      elsif recorder.official_url && (recorder.official_url.length < 8 || recorder.official_url == 'unknown' || recorder.official_url == 'UNKNOWN' || recorder.official_url == 'Unknown')
         recorder.official_url = ""
         @fixed = true
       end
@@ -44,27 +43,25 @@ desc "Fix models data URLs, Resoolution, etc"
 task :fix_models_data => :environment do
   Model.all.each do |model|
     @fixed = false
-    if model.resolution && model.resolution == 'f'
+    if model.resolution && (model.resolution == '' || model.resolution == ' ')
+      model.resolution = "-"
+      @fixed = true
+    elsif model.resolution && model.resolution == 'f'
       model.resolution = ""
       @fixed = true
-    end
-    if model.h264_url && model.h264_url.length < 8
+    elsif model.h264_url && model.h264_url.length < 8
       model.h264_url = ""
       @fixed = true
-    end
-    if model.jpeg_url && model.jpeg_url.length < 8
+    elsif model.jpeg_url && model.jpeg_url.length < 8
       model.jpeg_url = ""
       @fixed = true
-    end
-    if model.mjpeg_url && model.mjpeg_url.length < 8
+    elsif model.mjpeg_url && model.mjpeg_url.length < 8
       model.mjpeg_url = ""
       @fixed = true
-    end
-    if model.manual_url && model.manual_url.length < 8
+    elsif model.manual_url && model.manual_url.length < 8
       model.manual_url = ""
       @fixed = true
-    end
-    if model.official_url && model.official_url.length < 8
+    elsif model.official_url && model.official_url.length < 8
       model.official_url = ""
       @fixed = true
     end
