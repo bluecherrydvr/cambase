@@ -54,7 +54,7 @@ Model Listing
   </div>
 </nav>
 
-<ul id="columns-vis" class="nav navbar-nav">
+<ul id="columns-vis" class="nav navbar-nav" style="display:none">
   <li class="dropdown">
     <a id="columns-toggle" class="dropdown-toggle" data-toggle="dropdown" title="Select columns" href="#">Columns <span class="caret"></span></a>
     <ul id="columns-list" class="dropdown-menu">
@@ -79,8 +79,8 @@ Model Listing
 </ul>
 
 <div class="col-md-12 table-container">
-  <div class="data-loader">Loading...</div>
-  <div id="models-table" class="table-responsive">
+  <div class="data-loader" style="display:none">Loading...</div>
+  <div id="models-table" class="table-responsive" style="display:none">
     <table class="table table-models table-hover">
       <thead>
         <tr>
@@ -139,16 +139,16 @@ Model Listing
 <script type="text/javascript">
   $(document).ready(function() {
     $("#models-table").hide();
-    $("#columns-toggle").hide();
+    $("#columns-vis").hide();
     $('div.data-loader').hide();
     
     $(document).ajaxStart(function() {
       $('div.data-loader').show();
-      $("#columns-toggle").hide();
+      $("#columns-vis").hide();
     });
     $(document).ajaxStop(function() {
       $('div.data-loader').hide();
-      $("#columns-toggle").show();
+      $("#columns-vis").show();
     });
 
     function formatVendors(item) {
@@ -178,7 +178,7 @@ Model Listing
       fnInitComplete: function(settings, json) {
         $('div.data-loader').remove();
         $('#models-table').show();
-        $("#columns-toggle").show();
+        $("#columns-vis").show();
       }
     });
     $('.dataTables_filter input').attr("placeholder", "Model Name");
