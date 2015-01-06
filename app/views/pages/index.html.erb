@@ -7,7 +7,7 @@
       <% if vendor.image %>
         <div class="tile tile-big col-sm-4">
           <div class="tile-content">
-            <%= link_to(image_tag(vendor.image.file.url, :title => "#{vendor.name}"), "/vendors/#{vendor.vendor_slug}") %>
+            <%= link_to(image_tag(vendor.image.file.url, :title => "#{vendor.name}", alt: vendor.name, lazy: true), "/vendors/#{vendor.vendor_slug}") %>
           </div>
           <span>
             <% if vendor.models.size > 0 %>
@@ -25,3 +25,9 @@
     <% end %>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("img").lazyload();
+  });
+</script>
