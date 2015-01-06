@@ -80,7 +80,7 @@
           <td>
             <%= link_to model.model, "/vendors/#{model.vendor.vendor_slug}/models/#{model.model_slug}" %>
           </td>
-          <td class="manufacturer-name"><%= link_to model.vendor.name, "/vendors/#{model.vendor.vendor_slug}/models" %></td>
+          <td class="manufacturer-name"><%= link_to model.vendor.name, "/vendors/#{model.vendor.vendor_slug}" %></td>
           <td><%= model.resolution %></td>
           <td>
             <% if Model::SHAPES.include? model.shape.downcase %>
@@ -135,7 +135,7 @@
           <td>
             <%= link_to recorder.model, "/vendors/#{recorder.vendor.vendor_slug}/recorders/#{recorder.recorder_slug}" %>
           </td>
-          <td class="manufacturer-name"><%= link_to recorder.vendor.name, "/vendors/#{recorder.vendor.vendor_slug}/recorders" %></td>
+          <td class="manufacturer-name"><%= link_to recorder.vendor.name, "/vendors/#{recorder.vendor.vendor_slug}" %></td>
           <td><%= recorder.resolution %></td>
           <td><%= recorder.recorder_type %></td>
           <% Recorder::FEATURES.each do |feature| %>

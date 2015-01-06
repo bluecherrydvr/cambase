@@ -52,6 +52,8 @@ Rails.application.routes.draw do
 
   get 'vendors/:vendor_slug', to: 'vendors#show'
   get 'vendors/:vendor_slug/models', to: 'models#index'
+  get 'vendors/:vendor_slug/models/:id', to: 'models#show'
   get 'vendors/:vendor_slug/recorders', to: 'recorders#index'
+  get 'vendors/:vendor_slug/recorders/:id', to: 'recorders#show'
 
 end
