@@ -105,7 +105,7 @@ Recorder Listing
         <tr>
           <td style="width:100px">
             <% if recorder.images.empty? ==false %>
-              <%= image_tag(recorder.images.sorted.first.file.url(:small), class: 'align-center', data: { fullsize: recorder.images.sorted.first.file.url(:small) }) %>
+              <%= image_tag(recorder.images.sorted.first.file.url(:small), class: 'align-center', data: { fullsize: recorder.images.sorted.first.file.url(:small), alt: recorder.name, lazy: true }) %>
             <% end %>
           </td>
           <td>
@@ -143,6 +143,8 @@ Recorder Listing
       $('div.data-loader').hide();
       $("#columns-vis").show();
     });
+
+    $("img").lazyload();
 
     function formatVendors(item) {
       return item.text;

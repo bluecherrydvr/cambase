@@ -23,6 +23,7 @@
 #= require select2
 #= require dataTables/jquery.dataTables
 #= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+#= require jquery.lazyload
 
 # called from a bootstrap dropdown, this closes the dropdown
 $('a[data-toggle=modal]').on 'click', ->

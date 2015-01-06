@@ -105,8 +105,8 @@ Model Listing
         <% @models.each do |model| %>
         <tr>
           <td style="width:100px">
-            <% if model.images.empty? ==false %>
-              <%= image_tag(model.images.sorted.first.file.url(:small), class: 'align-center', data: { fullsize: model.images.sorted.first.file.url(:small) }) %>
+            <% if !model.images.empty? %>
+              <%= image_tag(model.images.sorted.first.file.url(:small), class: 'align-center', data: { fullsize: model.images.sorted.first.file.url(:small), alt: model.model, lazy: true }) %>
             <% end %>
           </td>
           <td>
@@ -150,6 +150,8 @@ Model Listing
       $('div.data-loader').hide();
       $("#columns-vis").show();
     });
+
+    $("img").lazyload();
 
     function formatVendors(item) {
       return item.text;
