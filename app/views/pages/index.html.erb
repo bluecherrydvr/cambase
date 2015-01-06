@@ -39,6 +39,17 @@
               <div class="tile-content">
                 <%= link_to(image_tag(@images[index].file.url, :title => "#{owner.name}"), "/vendors/#{owner.vendor_slug}/models") %>
               </div>
+              <span>
+                <% if owner.models.size > 0 %>
+                  <a href="/vendors/<%= owner.vendor_slug.downcase %>/models"><strong><%= owner.models.size %></strong> models</a>
+                <% end %>
+                <% if owner.models.size > 0 && owner.recorders.size > 0 %>
+                  , 
+                <% end %>
+                <% if owner.recorders.size > 0 %>
+                  <a href="/vendors/<%= owner.vendor_slug.downcase %>/recorders"><strong><%= owner.recorders.size %></strong> recorders</a>
+                <% end %>
+              </span>
             </div>
           <% end %>
         <% end %>
