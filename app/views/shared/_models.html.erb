@@ -80,7 +80,7 @@ Model Listing
 
 <div class="col-md-12 table-container">
   <div class="data-loader" style="display:none">Loading...</div>
-  <div id="models-table" class="table-responsive">
+  <div id="models-table" class="table-responsive" style="display:none">
     <table class="table table-models table-hover">
       <thead>
         <tr>
@@ -137,6 +137,14 @@ Model Listing
 
 <script type="text/javascript">
   $(document).ready(function() {
+    $.fn.scrollView = function () {
+      return this.each(function () {
+        $('html, body').animate({
+            scrollTop: $(this).offset().top - 5
+        }, 1000);
+      });
+    }
+
     $("#models-table").hide();
     $("#columns-vis").hide();
     $('div.data-loader').hide();
@@ -180,6 +188,7 @@ Model Listing
         $('div.data-loader').remove();
         $('#models-table').show();
         $("#columns-vis").show();
+        $('#columns-vis').scrollView();
       }
     });
     $('.dataTables_filter input').attr("placeholder", "Model Name");
