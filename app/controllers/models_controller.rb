@@ -5,7 +5,6 @@ class ModelsController < ApplicationController
   # GET /models.json
   def index
     if params[:q].blank?
-
       if params[:vendor_slug].blank?
         @vendor = Vendor.first
         @models = Model.where(:vendor_id => @vendor.id)
