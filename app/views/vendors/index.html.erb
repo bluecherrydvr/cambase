@@ -40,10 +40,21 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
+    $.fn.scrollView = function () {
+      return this.each(function () {
+        $('html, body').animate({
+            scrollTop: $(this).offset().top
+        }, 500);
+      });
+    }
     $("img").lazyload();
     
     var table = $('.table-vendors').DataTable({
-      "iDisplayLength": 50
+      iDisplayLength: 50,
+      oLanguage: {"sSearch": "<span>Filter:</span> _INPUT_"},
+      fnInitComplete: function(settings, json) {
+        $('.main').scrollView();
+      }
     });
     $('.dataTables_filter input').attr("placeholder", "Vendor Name");
     $('.dataTables_length').prepend("<button id='show-hide' style='float:left' title='Hide images'>«</button>");

@@ -141,9 +141,10 @@ Model Listing
       return this.each(function () {
         $('html, body').animate({
             scrollTop: $(this).offset().top
-        }, 1000);
+        }, 500);
       });
     }
+    $("img").lazyload();
 
     $("#models-table").hide();
     $("#columns-vis").hide();
@@ -157,8 +158,6 @@ Model Listing
       $('div.data-loader').hide();
       $("#columns-vis").show();
     });
-
-    $("img").lazyload();
 
     function formatVendors(item) {
       return item.text;
@@ -188,7 +187,7 @@ Model Listing
         $('div.data-loader').remove();
         $('#models-table').show();
         $("#columns-vis").show();
-        $('.front-header').scrollView();
+        $('.main').scrollView();
       }
     });
     $('.dataTables_filter input').attr("placeholder", "Model Name");
