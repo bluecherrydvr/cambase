@@ -134,7 +134,7 @@ Recorder Listing
     $.fn.scrollView = function () {
       return this.each(function () {
         $('html, body').animate({
-            scrollTop: $(this).offset().top - 5
+            scrollTop: $(this).offset().top
         }, 1000);
       });
     }
@@ -175,7 +175,7 @@ Recorder Listing
         $('div.dataloader').remove();
         $('#recorders-table').show();
         $("#columns-vis").show();
-        $('#columns-vis').scrollView();
+        $('.main').scrollView();
       }
     });
     $('.dataTables_filter input').attr("placeholder", "Recorder Name");
