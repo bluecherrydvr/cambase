@@ -105,7 +105,7 @@ Model Listing
         <tr>
           <td style="width:100px">
             <% if !model.images.empty? %>
-              <%= link_to(image_tag(model.images.sorted.first.file.url(:small), alt: model.model, lazy: true, class: 'align-center'), "/vendors/#{model.vendor.vendor_slug}/models/#{model.model_slug}") %>
+              <%= link_to(image_tag(model.images.sorted.first.file.url(:small), alt: model.model, class: 'align-center'), "/vendors/#{model.vendor.vendor_slug}/models/#{model.model_slug}") %>
             <% end %>
           </td>
           <td>
@@ -137,15 +137,6 @@ Model Listing
 
 <script type="text/javascript">
   $(document).ready(function() {
-    $.fn.scrollView = function () {
-      return this.each(function () {
-        $('html, body').animate({
-            scrollTop: $(this).offset().top
-        }, 500);
-      });
-    }
-    $("img").lazyload();
-
     $("#models-table").hide();
     $("#columns-vis").hide();
     $('div.data-loader').hide();
@@ -187,7 +178,6 @@ Model Listing
         $('div.data-loader').remove();
         $('#models-table').show();
         $("#columns-vis").show();
-        $('.main').scrollView();
       }
     });
     $('.dataTables_filter input').attr("placeholder", "Model Name");

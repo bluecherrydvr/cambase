@@ -105,7 +105,7 @@ Recorder Listing
         <tr>
           <td style="width:100px">
             <% if recorder.images.empty? ==false %>
-              <%= image_tag(recorder.images.sorted.first.file.url(:small), alt: recorder.name, lazy: true, class: 'align-center', data: { fullsize: recorder.images.sorted.first.file.url(:small) }) %>
+              <%= image_tag(recorder.images.sorted.first.file.url(:small), alt: recorder.name, class: 'align-center', data: { fullsize: recorder.images.sorted.first.file.url(:small) }) %>
             <% end %>
           </td>
           <td>
@@ -131,15 +131,6 @@ Recorder Listing
 
 <script type="text/javascript">
   $(document).ready(function() {
-    $.fn.scrollView = function () {
-      return this.each(function () {
-        $('html, body').animate({
-            scrollTop: $(this).offset().top
-        }, 500);
-      });
-    }
-    $("img").lazyload();
-
     $("#recorders-table").hide();
     $("#columns-vis").hide();
     $('div.data-loader').hide();
@@ -174,7 +165,6 @@ Recorder Listing
         $('div.dataloader').remove();
         $('#recorders-table').show();
         $("#columns-vis").show();
-        $('.main').scrollView();
       }
     });
     $('.dataTables_filter input').attr("placeholder", "Recorder Name");

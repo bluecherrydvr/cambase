@@ -1,6 +1,6 @@
 .sidebar-content{
   background: $lightgreen;
-  padding: 0px 15px;
+  padding: 0px 15px 15px;
   h2{
     color: #fff;
     font-size: 17px;
@@ -10,26 +10,33 @@
     text-indent: 30px;
   }
   .sidebar-stats{
-   background-repeat: no-repeat;
-   background-position: center left;
-   padding: 5px 20px;
-   font-size: 17px;
-   &.icon-cameras{
-     background-image: asset-url("icons/camera_white.png");
-     margin-top: 20px;
-   }
-   &.icon-recorders{
-     background-image: asset-url("icons/recorder.png");
-     margin-top: 20px;
-   }
-   &.icon-manufacturers{
-     background-image: asset-url("icons/man_white.png");
-   }
-   &.icon-images{
-     background-image: asset-url("icons/eye_white.png");
-   }
-   &.icon-documents{
-     background-image: asset-url("icons/document_white.png");
-   }
- }
+    background-repeat: no-repeat;
+    background-position: center left;
+    padding: 5px 20px;
+    font-size: 16px;
+    a, span{
+      color: #333333;
+      padding-left:10px;
+    }
+    &.icon-cameras{
+       background-image: asset-url("icons/camera_white.png");
+       background-position: -9px; 
+    }
+    &.icon-recorders{
+       background-image: asset-url("icons/recorder.png");
+       background-position: -9px;
+    }
+    &.icon-manufacturers{
+       background-image: asset-url("icons/man_white.png");
+       background-position: -9px;
+    }
+    &.icon-images{
+       background-image: asset-url("icons/eye_white.png");
+       background-position: -9px;
+    }
+    &.icon-documents{
+       background-image: asset-url("icons/document_white.png");
+       background-position: -9px;
+    }
+  }
 }

@@ -226,13 +226,13 @@
           </div>
         </div>
       </div>
-      <% if @model.additional_information %>
+      <% if @model.additional_information && @model.additional_information.squish.length > 0 %>
         <div class="module module-table module-information">
           <div class="module-header">
             <h4>Additional Information</h4>
           </div>
           <div class="text-container">
-            <%= @model.additional_information || '' %>
+            <%= @model.additional_information %>
           </div>
         </div>
       <% end %>
