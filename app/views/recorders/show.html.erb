@@ -86,6 +86,14 @@
               </td>
             </tr>
           <% end %>
+          <% if @recorder.vendor.info && @recorder.vendor.info.squish.length > 0 %>
+            <tr>
+              <td>Information</td>
+              <td>
+                <%= @recorder.vendor.info.squish %>
+              </td>
+            </tr>
+          <% end %>
         </table>
       </div>
     </div>
@@ -223,7 +231,7 @@
             <h4>Additional Information</h4>
           </div>
           <div class="text-container">
-            <%= @recorder.additional_information %>
+            <%= @recorder.additional_information.squish %>
           </div>
         </div>
       <% end %>

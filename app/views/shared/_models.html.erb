@@ -5,7 +5,7 @@ Model Listing
 <nav class="navbar navbar-default container" role="navigation">
   <div class="row" id="bs-example-navbar-collapse-1">
     <div class="col-sm-12">
-      <div class="navbar-form col-sm-12" role="search">
+      <div class="navbar-form outer-box" role="search">
         <div class="form-group">
           <%= search_form_for @search, :prefix => 'filter', url: search_models_path, html: { method: :get } do |f| %>
           <div class="search-filters row">

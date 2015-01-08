@@ -4,4 +4,4 @@ require File.expand_path('../application', __FILE__)
 # Initialize the Rails application.
 Rails.application.initialize!
 
-#AWS::S3::DEFAULT_HOST.replace "s3-eu-west-1.amazonaws.com"
+ActiveRecord::Base.connection.execute('SET statement_timeout = 60000')

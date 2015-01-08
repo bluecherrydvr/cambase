@@ -2,11 +2,8 @@
 	Vendor Details
 <% end %>
 
-<div class="module module-table module-manufacturer">
+<div class="row outer-box">
   <div class="col-md-12">
-    <div class="module-header">
-      <h4 class=""><strong>Vendor Information</strong></h4>
-    </div>
     <div class="col-md-4" >
       <% if @vendor.image %>
         <%= image_tag(@vendor.image.file.url(:medium), :class => "vendor-logo") %>
@@ -14,10 +11,12 @@
         <img src="/assets/no_pic.jpg">
       <% end %>
     </div>
-    <div class="col-md-8" style="padding:10px;">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-6">
       <table class="table table-vendor">
         <tr>
-          <td class="col-md-4">Name:</td>
+          <td class="col-md-3">Vendor Name</td>
           <td><%= @vendor.name %></td>
         </tr>
         <% if @vendor.url && @vendor.url.start_with?( 'http', 'www') %>
@@ -36,6 +35,14 @@
             </td>
           </tr>
         <% end %>
+        <% if @vendor.info && @vendor.info.squish.length > 0 %>
+          <tr>
+            <td>Information</td>
+            <td>
+              <%= @vendor.info.squish %>
+            </td>
+          </tr>
+        <% end %>
       </table>
       <div id="vendor_nav">
         <% if @vendor.prev %>
@@ -48,7 +55,6 @@
     </div>
   </div>
 </div>
-<br />
 <div class="col-md-12 table-container">
   <div id="models-loader" class="data-loader" style="display:none">Loading models...</div>
   <div id="models-table" class="table-container" style="display:none">
