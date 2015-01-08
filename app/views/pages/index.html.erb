@@ -1,11 +1,14 @@
-<div class="sidebar col-sm-3">
-  <%= render 'shared/sidebar' %>
+<div class="row sidebar-content">
+  <p><a href="/">Cambase.io</a> is a project by <a href="http://evercam.io" target="_blank">Evercam.io</a> in order to make it easier for software developers to have a reliable, up to date source of model hardware information available via a public API.</p>
+  <p>We encourage individuals and vendors to contribute more information to Cambase.io as a resource for future developers.</p>
+  <p>This data is licensed under creative commons and is freely available for both private and commercial use.</p>
 </div>
-<div class="col-sm-9">
+
+<div class="col-sm-12">
   <div class="row" id="masonry-container">
     <% @vendors.each_with_index do |vendor, index| %>
       <% if vendor.image %>
-        <div class="tile tile-big col-sm-4">
+        <div class="tile tile-big col-sm-3">
           <div class="tile-content">
             <%= link_to(image_tag(vendor.image.file.url, :title => "#{vendor.name}", alt: vendor.name), "/vendors/#{vendor.vendor_slug}") %>
           </div>

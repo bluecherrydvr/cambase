@@ -15,9 +15,9 @@
 
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-left">
-            <li><%= link_to('Vendors', vendors_path) %></li>
-            <li><%= link_to('Models', models_path) %></li>
-            <li><%= link_to('Recorders', recorders_path) %></li>
+            <li><%= link_to('Vendors (' + Vendor.all.length.to_s + ')', vendors_path) %></li>
+            <li><%= link_to('Models (' + Model.all.length.to_s + ')', models_path) %></li>
+            <li><%= link_to('Recorders (' + Recorder.all.length.to_s + ')', recorders_path) %></li>
             <li><%= link_to('API', api_docs_path) %></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
