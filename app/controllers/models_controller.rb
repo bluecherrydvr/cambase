@@ -5,13 +5,13 @@ class ModelsController < ApplicationController
   # GET /models.json
   def index
     if params[:q].blank?
-      @models = Model.includes(:vendor, :images)
-      # if params[:vendor_slug].blank?
-      #   @vendor = Vendor.first
-      # else
-      #   @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)
-      # end
-      # @models = Model.includes(:vendor, :images).where(:vendor_id => @vendor.id).references(:images)
+      #@models = Model.includes(:vendor, :images).order(:vendors.name)
+      if params[:vendor_slug].blank?
+        @vendor = Vendor.order(:name).first
+      else
+        @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)
+      end
+      @models = Model.includes(:vendor, :images).where(:vendor_id => @vendor.id).references(:images)
     else
       if !params[:q][:vendor_id_eq].blank?
         @vendor = Vendor.find(params[:q][:vendor_id_eq])
