@@ -6,24 +6,13 @@ class RecordersController < ApplicationController
   def index
     if params[:q].blank?
       @search = Recorder.search()
-      if params[:vendor_slug].blank?
-        @recorder = Recorder.first
-        if @recorder
-          @vendor = Vendor.find(@recorder.vendor_id)
-        else
-          @vendor = Vendor.first
-        end
-        @recorders = Recorder.where(:vendor_id => @vendor.id)
-      else
-        @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)
-        @recorders = Recorder.where(:vendor_id => @vendor.id)
-      end
+      @recorders = Recorder.includes(:vendor, :images)
     else
       if !params[:q][:vendor_id_eq].blank?
         @vendor = Vendor.find(params[:q][:vendor_id_eq])
       end
       @search = Recorder.search(params[:q])
-      @recorders = @search.result.all
+      @recorders = @search.result.includes(:vendor, :images)
     end
     
     respond_to do |format|
@@ -41,7 +30,7 @@ class RecordersController < ApplicationController
   def show
     unless params[:vendor_slug].blank?
       @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)
-      @recorder = Recorder.where(:recorder_slug => params[:id]).where(:vendor_id => @vendor.id).first
+      @recorder = Recorder.includes(:vendor, :images).where(:recorder_slug => params[:id]).where(:vendor_id => @vendor.id).first
     end
     respond_to do |format|
       format.html

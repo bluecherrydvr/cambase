@@ -5,19 +5,19 @@ class ModelsController < ApplicationController
   # GET /models.json
   def index
     if params[:q].blank?
-      if params[:vendor_slug].blank?
-        @vendor = Vendor.first
-        @models = Model.where(:vendor_id => @vendor.id)
-      else
-        @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)
-        @models = Model.where(:vendor_id => @vendor.id)
-      end
+      @models = Model.includes(:vendor, :images)
+      # if params[:vendor_slug].blank?
+      #   @vendor = Vendor.first
+      # else
+      #   @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)
+      # end
+      # @models = Model.includes(:vendor, :images).where(:vendor_id => @vendor.id).references(:images)
     else
       if !params[:q][:vendor_id_eq].blank?
         @vendor = Vendor.find(params[:q][:vendor_id_eq])
       end
       @search = Model.search(params[:q])
-      @models = @search.result.all
+      @models = @search.result.includes(:vendor, :images)
     end
 
     respond_to do |format|
@@ -35,7 +35,7 @@ class ModelsController < ApplicationController
   def show
     unless params[:vendor_slug].blank?
       @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)
-      @model = Model.where(:model_slug => params[:id]).where(:vendor_id => @vendor.id).first
+      @model = Model.includes(:vendor, :images).where(:model_slug => params[:id]).where(:vendor_id => @vendor.id).first
       # fix blank URLs to '/' for all ACTi cameras 
       if @vendor.name.downcase == "acti" #&& @model.model.downcase.start_with?('acm')
         if @model.jpeg_url && (@model.jpeg_url.downcase == "<blank>" || @model.jpeg_url.downcase == "" || @model.jpeg_url.downcase == "f")

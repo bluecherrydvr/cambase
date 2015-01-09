@@ -20,8 +20,8 @@ class VendorsController < ApplicationController
   # GET /vendors/1.json
   def show
     @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug])
-    @models = Model.where(:vendor_id => @vendor.id).order(:model).all
-    @recorders = Recorder.where(:vendor_id => @vendor.id).order(:model).all
+    @models = Model.includes(:vendor, :images).where(:vendor_id => @vendor.id).references(:images)
+    @recorders = Recorder.includes(:vendor, :images).where(:vendor_id => @vendor.id).references(:images)
     respond_to do |format|
       format.html
       format.json { render :json }
