@@ -6,7 +6,19 @@ class RecordersController < ApplicationController
   def index
     if params[:q].blank?
       @search = Recorder.search()
-      @recorders = Recorder.includes(:vendor, :images)
+      #@recorders = Recorder.includes(:vendor, :images)
+      if params[:vendor_slug].blank?    
+        @recorder = Recorder.first    
+        if @recorder    
+          @vendor = Vendor.find(@recorder.vendor_id)    
+        else    
+          @vendor = Vendor.first    
+        end   
+        @recorders = Recorder.includes(:vendor, :images).where(:vendor_id => @vendor.id)   
+      else    
+        @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)   
+        @recorders = Recorder.where(:vendor_id => @vendor.id)   
+      end
     else
       if !params[:q][:vendor_id_eq].blank?
         @vendor = Vendor.find(params[:q][:vendor_id_eq])
