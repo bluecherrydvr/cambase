@@ -4,4 +4,4 @@ require File.expand_path('../application', __FILE__)
 # Initialize the Rails application.
 Rails.application.initialize!
 
-ActiveRecord::Base.connection.execute('SET statement_timeout = 60000')
+ActiveRecord::Base.connection.execute('SET statement_timeout = 30000')
