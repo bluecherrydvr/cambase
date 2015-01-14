@@ -8,6 +8,7 @@ gem "paperclip"
 gem "select2-rails"
 gem 'jquery-datatables-rails', '~> 3.1.0'
 gem 'ajax-datatables-rails'
+gem 'asset_sync'
 
 gem 'sass-rails', '~> 4.0.3'
 gem 'compass-rails'

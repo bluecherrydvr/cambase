@@ -54,8 +54,12 @@ Rails.application.configure do
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
+  # Taken from http://www.entreprehero.com/serve-assets-cdn-s3-cloudfront-rails4-paperclip/
+  #config.assets.enabled = true
+  #config.assets.initialize_on_precompile = true
+
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  config.action_controller.asset_host = "http://cdn.cambase.io"
+  #config.action_controller.asset_host = "http://cdn.cambase.io"
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
