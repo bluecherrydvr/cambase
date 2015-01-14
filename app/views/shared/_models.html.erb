@@ -12,7 +12,7 @@ Model Listing
             <div class="col-sm-6">
               <div class="col-sm-4">
                 <%= f.label 'Vendor' %>
-                <%= f.collection_select(:vendor_id_eq, Vendor.order(:name), :id, :name, :include_blank => 'Any') %>
+                <%= f.collection_select(:vendor_id_eq, Vendor.joins(:models).order(:name).uniq, :id, :name, :include_blank => 'Any') %>
               </div>
               <div class="col-sm-4">
                 <%= f.label 'Resolution' %>

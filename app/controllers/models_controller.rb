@@ -7,7 +7,12 @@ class ModelsController < ApplicationController
     if params[:q].blank?
       #@models = Model.includes(:vendor, :images).order(:vendors.name)
       if params[:vendor_slug].blank?
-        @vendor = Vendor.order(:name).first
+        @model = Model.first    
+        if @model    
+          @vendor = Vendor.find(@model.vendor_id)    
+        else    
+          @vendor = Vendor.first    
+        end
       else
         @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)
       end
