@@ -85,10 +85,9 @@ Rails.application.configure do
     :storage => :s3,
     :s3_host_name => 's3.amazonaws.com',
     :s3_host_alias => 'cdn.cambase.io',
-    #:path => "images/:class/:id.:style.:extension"
-    :url => ":asset_host",  #:s3_alias_url
+    :url => ":asset_host",
     :s3_credentials => {
-      :bucket => ENV['S3_NEW_BUCKET_NAME'], #cambase
+      :bucket => ENV['S3_NEW_BUCKET_NAME'],
       :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
       :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
     }
