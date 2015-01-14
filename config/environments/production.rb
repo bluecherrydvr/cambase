@@ -55,7 +55,7 @@ Rails.application.configure do
   # config.cache_store = :mem_cache_store
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  #config.action_controller.asset_host = "http://cdn.cambase.io"
+  config.action_controller.asset_host = "http://cdn.cambase.io"
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
@@ -83,6 +83,10 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
   config.paperclip_defaults = {
     :storage => :s3,
+    :s3_host_name => 's3.amazonaws.com',
+    :s3_host_alias => 'cdn.cambase.io',
+    #:path => "images/:class/:id.:style.:extension"
+    :url => ":asset_host",  #:s3_alias_url
     :s3_credentials => {
       :bucket => ENV['S3_NEW_BUCKET_NAME'], #cambase
       :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
