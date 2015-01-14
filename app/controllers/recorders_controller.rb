@@ -13,12 +13,11 @@ class RecordersController < ApplicationController
           @vendor = Vendor.find(@recorder.vendor_id)    
         else    
           @vendor = Vendor.first    
-        end   
-        @recorders = Recorder.includes(:vendor, :images).where(:vendor_id => @vendor.id)   
+        end
       else    
-        @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)   
-        @recorders = Recorder.where(:vendor_id => @vendor.id)   
+        @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)
       end
+      @recorders = Recorder.includes(:vendor, :images).where(:vendor_id => @vendor.id)
     else
       if !params[:q][:vendor_id_eq].blank?
         @vendor = Vendor.find(params[:q][:vendor_id_eq])
