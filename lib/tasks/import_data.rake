@@ -3,6 +3,22 @@ require 'open-uri'
 require Rails.root.join('lib', 'import_data.rb')
 
 
+desc "Fix dahua RTSP URL"
+task :fix_dahua_rtsp => :environment do
+  Model.where(vendor_id: 23).each do |model|
+    @fixed = false
+    if model.h264_url && model.h264_url == 'cam/realmonitor'
+      model.h264_url = "/realmonitor?channel=1&subtype=1"
+      @fixed = true
+    end
+    if @fixed
+      model.save
+      m = Model.find(model.id)
+      puts " ->>" + m.model
+    end
+  end
+end
+
 desc "Fix recorders data URLs, Resolution, etc"
 task :fix_recorders_data => :environment do
   Recorder.all.each do |recorder|
