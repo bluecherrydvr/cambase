@@ -78,14 +78,14 @@
               "name": "vendor[url]",
               "type": "string",
               "description": "Website",
-              "required": true
+              "required": false
             },
             {
               "paramType": "form",
               "name": "vendor[mac]",
               "type": "string",
               "description": "MAC",
-              "required": true
+              "required": false
             }
           ],
           "responseMessages": [
@@ -191,7 +191,7 @@
               "name": "vendor[mac]",
               "type": "string",
               "description": "MAC",
-              "required": true
+              "required": false 
             }
           ],
           "responseMessages": [
@@ -252,7 +252,7 @@
               "name": "vendor[mac]",
               "type": "string",
               "description": "MAC",
-              "required": true
+              "required": false
             }
           ],
           "responseMessages": [

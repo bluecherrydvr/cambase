@@ -53,7 +53,11 @@ class Api::V1::VendorsController < ApplicationController
     valid_sort = ['created_at DESC', 'created_at ASC', 'updated_at DESC', 'updated_at ASC']
     order = valid_sort.include?(params[:order]) ? params[:order] : 'created_at DESC'
     @vendor = Vendor.find_by_vendor_slug(params[:id])
-    @models = @vendor.models.order(order).page params[:page]
+    if @vendor
+      @models = @vendor.models.order(order).page params[:page]
+    else
+      render json: @vendor.errors, status: :not_found
+    end
   end
 
   def create
