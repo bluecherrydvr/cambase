@@ -41,6 +41,9 @@ class ModelsController < ApplicationController
     unless params[:vendor_slug].blank?
       @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)
       @model = Model.includes(:vendor, :images).where(:model_slug => params[:id]).where(:vendor_id => @vendor.id).first
+      if !@model
+        raise ActionController::RoutingError.new('Not Found')
+      end
       # fix blank URLs to '/' for all ACTi cameras 
       if @vendor.name.downcase == "acti" #&& @model.model.downcase.start_with?('acm')
         if @model.jpeg_url && (@model.jpeg_url.downcase == "<blank>" || @model.jpeg_url.downcase == "" || @model.jpeg_url.downcase == "f")

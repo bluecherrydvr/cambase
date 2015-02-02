@@ -43,6 +43,9 @@ class RecordersController < ApplicationController
       @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug].to_url)
       @recorder = Recorder.includes(:vendor, :images).where(:recorder_slug => params[:id]).where(:vendor_id => @vendor.id).first
     end
+    if !@recorder
+      raise ActionController::RoutingError.new('Not Found')
+    end
     respond_to do |format|
       format.html
       format.json {
