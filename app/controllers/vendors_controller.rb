@@ -20,6 +20,9 @@ class VendorsController < ApplicationController
   # GET /vendors/1.json
   def show
     @vendor = Vendor.find_by_vendor_slug(params[:vendor_slug])
+    if !@vendor
+      raise ActionController::RoutingError.new('Not Found')
+    end
     @models = Model.includes(:vendor, :images).where(:vendor_id => @vendor.id).references(:images)
     @recorders = Recorder.includes(:vendor, :images).where(:vendor_id => @vendor.id).references(:images)
     respond_to do |format|
