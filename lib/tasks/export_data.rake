@@ -16,30 +16,33 @@ task :export_vendor_images => :environment do
   assets_bucket = s3.buckets['cambase-public-assets']
   assets_bucket.acl = :public_read
 
-  path = "#{Rails.root}/tmp/vendors"
+  path = "#{Rails.root}/tmp/vendors/"
   if Dir.exists?(path) == false
     Dir.mkdir(path)
   end
   Vendor.all.each do |v|
+    vendorslug = vendor.vendor_slug
+    if vendorslug == 'd-link' || vendorslug == 'tp-link' || vendorslug == 'y-cam'
+      vendorslug.gsub!('-', '')
+    end
     puts v.name
-    filepath = path + "/#{v.vendor_slug}/#{v.vendor_slug}.jpg"
+    filepath = "#{vendorslug}/logo.jpg"
     if v.image
-      dirpath = path + "/#{v.vendor_slug}"
+      dirpath = path + "#{vendorslug}"
       if !Dir.exists?(dirpath)
         Dir.mkdir(dirpath)
       end
       begin
         ## no need if separately done
         #v.image.file.reprocess!
-        v.image.file.copy_to_local_file(:thumbnail, filepath)
+        v.image.file.copy_to_local_file(:thumbnail, path + filepath)
         puts " - Image downloaded (" + v.image.file.url + ")"
-        remotepath = "#{v.vendor_slug}/logo.jpg"
-        assets_bucket.objects.create(remotepath, Pathname.new(filepath))
-        puts " - Image uploaded (/" + remotepath + ") #" + assets_bucket.objects.count.to_s
+        assets_bucket.objects.create(filepath , Pathname.new(path + filepath))
+        puts " - Image uploaded (" + filepath + ") #" + assets_bucket.objects.count.to_s
       rescue => e
         puts "ERR: " + e.message
       ensure
-          File.delete(filepath) if File.exist?(filepath)
+          File.delete(path + filepath) if File.exist?(path + filepath)
           Dir.delete(dirpath) if Dir.exist?(dirpath)
       end
     else
@@ -51,39 +54,85 @@ end
 
 
 desc "Export model images to cambase-public-assets from cambase of given vendor"
-task :export_model_images => :environment do |t, args|
-  AWS.config(
-    :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
-    :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
-    # disable this key if source bucket is in US
-    #:s3_endpoint => 's3-eu-west-1.amazonaws.com'
-  )
-  s3 = AWS::S3.new
-  assets_bucket = s3.buckets['cambase-public-assets']
-  assets_bucket.acl = :public_read
-
+task :export_model_images, [:vendorname] => :environment do |t, args|
   vendor = Vendor.where(vendor_slug: args[:vendorname].downcase).first
-  models = Model.where(vendor_id: vendor.id)
-  models.each do |v|
-    puts v.model
-    filepath = "#{Rails.root}/public/system/vendors/#{v.vendor_slug}/#{v.vendor_slug}.jpg"
-    if v.image
-      if Dir.exists?("#{Rails.root}/public/system/vendors/#{v.vendor_slug}") == false
-        Dir.mkdir("#{Rails.root}/public/system/vendors/#{v.vendor_slug}")
-      end
-      begin
-        v.image.file.reprocess!
-        v.image.file.copy_to_local_file(:thumbnail, filepath)
-        puts " - Image downloaded (" + v.image.file.url + ")"
-        remotepath = "#{v.vendor_slug}/logo.jpg"
-        #assets_bucket.objects.create(remotepath, Pathname.new(filepath))
-        #puts " - Image uploaded (/" + remotepath + ") #" + assets_bucket.objects.count.to_s
-      rescue => e
-        puts "ERR: " + e.message
-      end
-    else
-      puts " - Image not found"
+  if vendor
+    ## d-link = dlink, tp-link = tplink, y-cam = ycam
+    vendorslug = vendor.vendor_slug
+    if vendorslug == 'd-link' || vendorslug == 'tp-link' || vendorslug == 'y-cam'
+      vendorslug.gsub!('-', '')
     end
+    puts vendorslug
+
+    AWS.config(
+      :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
+      :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
+      # disable this key if source bucket is in US
+      #:s3_endpoint => 's3-eu-west-1.amazonaws.com'
+    )
+    s3 = AWS::S3.new
+    assets_bucket = s3.buckets['cambase-public-assets']
+    assets_bucket.acl = :public_read
+
+    path = "#{Rails.root}/tmp/vendors/"
+    if !Dir.exists?(path)
+      Dir.mkdir(path)
+    end
+    models = Model.where(vendor_id: vendor.id)
+    models.each do |m|
+      model = m.model.downcase
+      model.gsub!('/', '-slash-')
+      model.gsub!('.', '-dot-')
+      model.gsub!(' ', '-')
+      model.gsub!('_', '-')
+      model.gsub!('(', '-')
+      model.gsub!('[', '-')
+      model.gsub!(')', '')
+      model.gsub!(']', '')
+      model.squeeze!('-')
+      puts model
+
+      iconfilepath = "#{vendorslug}/#{model}/icon.jpg"
+      thumbfilepath = "#{vendorslug}/#{model}/thumbnail.jpg"
+      originalfilepath = "#{vendorslug}/#{model}/original.jpg"
+
+      if m.images.count > 0
+        ### no need if separately done
+        m.images.sorted.first.file.reprocess!
+        
+        dirpath = path + "#{vendorslug}"
+        if !Dir.exists?(dirpath)
+          Dir.mkdir(dirpath)
+        end
+        dirpath = path + "#{vendorslug}/#{model}"
+        if !Dir.exists?(dirpath)
+          Dir.mkdir(dirpath)
+        end
+        begin
+          m.images.sorted.first.file.copy_to_local_file(:icon, path + iconfilepath)
+          m.images.sorted.first.file.copy_to_local_file(:thumbnail, path + thumbfilepath)
+          m.images.sorted.first.file.copy_to_local_file(:original, path + originalfilepath)
+          puts " - Image downloaded (" + m.images.sorted.first.file.url + ")"
+
+          assets_bucket.objects.create(iconfilepath, Pathname.new(path + iconfilepath))
+          assets_bucket.objects.create(thumbfilepath, Pathname.new(path + thumbfilepath))
+          assets_bucket.objects.create(originalfilepath, Pathname.new(path + originalfilepath))
+          puts " - Image uploaded #" + assets_bucket.objects.count.to_s
+        rescue => e
+          puts "ERR: " + e.message
+        ensure
+            File.delete(path + iconfilepath) if File.exist?(path + iconfilepath)
+            File.delete(path + thumbfilepath) if File.exist?(path + thumbfilepath)
+            File.delete(path + originalfilepath) if File.exist?(path + originalfilepath)
+            Dir.delete(path + dirpath) if Dir.exist?(path + dirpath)
+        end
+      else
+        puts " - Image not found"
+      end
+    end
+    Dir.delete(path) if Dir.exist?(path)
+  else
+    puts " - Vendor not found"
   end
 end
 
@@ -100,10 +149,30 @@ task :refresh_vendor_images => :environment do
   end
 end
 
+
+desc "Fix models' model name"
+task :fix_model_name, [:arg0] => :environment do |t, args|
+  #@model = "Any_Model with-.-or (any sybmol) [should] [be] [replaced] (with / or / hyphen)"
+  puts args[:arg0]
+  @model_name = args[:arg0].downcase
+  @model_name.gsub!('/', '-slash-')
+  @model_name.gsub!('.', '-dot-')
+  @model_name.gsub!(' ', '-')
+  @model_name.gsub!('_', '-')
+  @model_name.gsub!('(', '-')
+  @model_name.gsub!('[', '-')
+  @model_name.gsub!(')', '')
+  @model_name.gsub!(']', '')
+  @model_name.squeeze!('-')
+
+  puts @model_name
+end
+
+
 desc "Refresh models' images on cambase bucket"
 task :refresh_model_images => :environment do
   Model.all.each do |m|
-    puts m.model + " - " + m.images.count.to_s
+    puts m.model
     if m.images.count > 1
       m.images.sorted.first.file.reprocess!
       puts " - Image refreshed " + m.images.sorted.first.file.url
