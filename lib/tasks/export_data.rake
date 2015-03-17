@@ -14,8 +14,58 @@ task :export_vendor_images => :environment do
   s3 = AWS::S3.new
   cambase_bucket = s3.buckets['cambase']
   assets_bucket = s3.buckets['cambase-public-assets']
+  assets_bucket.acl = :public_read
+
+  path = "#{Rails.root}/tmp/vendors"
+  if Dir.exists?(path) == false
+    Dir.mkdir(path)
+  end
   Vendor.all.each do |v|
     puts v.name
+    filepath = path + "/#{v.vendor_slug}/#{v.vendor_slug}.jpg"
+    if v.image
+      dirpath = path + "/#{v.vendor_slug}"
+      if !Dir.exists?(dirpath)
+        Dir.mkdir(dirpath)
+      end
+      begin
+        ## no need if separately done
+        #v.image.file.reprocess!
+        v.image.file.copy_to_local_file(:thumbnail, filepath)
+        puts " - Image downloaded (" + v.image.file.url + ")"
+        remotepath = "#{v.vendor_slug}/logo.jpg"
+        assets_bucket.objects.create(remotepath, Pathname.new(filepath))
+        puts " - Image uploaded (/" + remotepath + ") #" + assets_bucket.objects.count.to_s
+      rescue => e
+        puts "ERR: " + e.message
+      ensure
+          File.delete(filepath) if File.exist?(filepath)
+          Dir.delete(dirpath) if Dir.exist?(dirpath)
+      end
+    else
+      puts " - Image not found"
+    end
+  end
+  Dir.delete(path) if Dir.exist?(path)
+end
+
+
+desc "Export model images to cambase-public-assets from cambase of given vendor"
+task :export_model_images => :environment do |t, args|
+  AWS.config(
+    :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
+    :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
+    # disable this key if source bucket is in US
+    #:s3_endpoint => 's3-eu-west-1.amazonaws.com'
+  )
+  s3 = AWS::S3.new
+  assets_bucket = s3.buckets['cambase-public-assets']
+  assets_bucket.acl = :public_read
+
+  vendor = Vendor.where(vendor_slug: args[:vendorname].downcase).first
+  models = Model.where(vendor_id: vendor.id)
+  models.each do |v|
+    puts v.model
     filepath = "#{Rails.root}/public/system/vendors/#{v.vendor_slug}/#{v.vendor_slug}.jpg"
     if v.image
       if Dir.exists?("#{Rails.root}/public/system/vendors/#{v.vendor_slug}") == false
@@ -26,9 +76,8 @@ task :export_vendor_images => :environment do
         v.image.file.copy_to_local_file(:thumbnail, filepath)
         puts " - Image downloaded (" + v.image.file.url + ")"
         remotepath = "#{v.vendor_slug}/logo.jpg"
-        assets_bucket.objects.create(remotepath, Pathname.new(filepath))
-        puts " - Image uploaded (/" + remotepath + ") #" + assets_bucket.objects.count.to_s
-        break
+        #assets_bucket.objects.create(remotepath, Pathname.new(filepath))
+        #puts " - Image uploaded (/" + remotepath + ") #" + assets_bucket.objects.count.to_s
       rescue => e
         puts "ERR: " + e.message
       end
