@@ -98,7 +98,7 @@ task :export_model_images, [:vendorname] => :environment do |t, args|
 
       if m.images.count > 0
         ### no need if separately done
-        m.images.sorted.first.file.reprocess!
+        first_image = m.images.sorted.first.file.reprocess!
         
         dirpath = path + "#{vendorslug}"
         if !Dir.exists?(dirpath)
@@ -109,10 +109,10 @@ task :export_model_images, [:vendorname] => :environment do |t, args|
           Dir.mkdir(dirpath)
         end
         begin
-          m.images.sorted.first.file.copy_to_local_file(:icon, path + iconfilepath)
-          m.images.sorted.first.file.copy_to_local_file(:thumbnail, path + thumbfilepath)
-          m.images.sorted.first.file.copy_to_local_file(:original, path + originalfilepath)
-          puts " - Image downloaded (" + m.images.sorted.first.file.url + ")"
+          first_image.file.copy_to_local_file(:icon, path + iconfilepath)
+          first_image.file.copy_to_local_file(:thumbnail, path + thumbfilepath)
+          first_image.file.copy_to_local_file(:original, path + originalfilepath)
+          puts " - Image downloaded (" + first_image.file.url + ")"
 
           assets_bucket.objects.create(iconfilepath, Pathname.new(path + iconfilepath))
           assets_bucket.objects.create(thumbfilepath, Pathname.new(path + thumbfilepath))
