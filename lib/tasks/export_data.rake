@@ -130,7 +130,8 @@ task :export_model_images, [:vendorname] => :environment do |t, args|
         puts " - Image not found"
       end
     end
-    Dir.delete(path) if Dir.exist?(path)
+    assets_bucket.acl = :public_read
+    #Dir.delete(path) if Dir.exist?(path)
   else
     puts " - Vendor not found"
   end
