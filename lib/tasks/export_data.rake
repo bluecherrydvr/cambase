@@ -22,7 +22,7 @@ task :export_vendor_images => :environment do
         Dir.mkdir("#{Rails.root}/public/system/vendors/#{v.vendor_slug}")
       end
       begin
-        v.image.reprocess! :thumbnail
+        v.image.file.reprocess!
         v.image.file.copy_to_local_file(:thumbnail, filepath)
         puts " - Image downloaded (" + v.image.file.url + ")"
         remotepath = "#{v.vendor_slug}/logo.jpg"
@@ -43,8 +43,21 @@ task :refresh_vendor_images => :environment do
   Vendor.all.each do |v|
     puts v.name
     if v.image
-      v.image.reprocess!
-      puts " - Image refreshed " + v.image.url
+      v.image.file.reprocess!
+      puts " - Image refreshed " + v.image.file.url
+    else
+      puts " - Image not found"
+    end
+  end
+end
+
+desc "Refresh models' images on cambase bucket"
+task :refresh_model_images => :environment do
+  Model.all.each do |m|
+    puts m.model + " - " + m.images.count.to_s
+    if m.images.count > 1
+      m.images.sorted.first.file.reprocess!
+      puts " - Image refreshed " + m.images.sorted.first.file.url
     else
       puts " - Image not found"
     end
