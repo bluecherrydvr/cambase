@@ -1,7 +1,7 @@
 class Image < ActiveRecord::Base
   belongs_to :owner, polymorphic: true
 
-  has_attached_file :file, styles: { small: '120x50', medium: '350x350' }
+  has_attached_file :file, styles: { small: '120x50', medium: '350x350', icon: '64x64', thumbnail: '320x320' }
   validates_attachment :file, presence: true, content_type: { content_type: /\Aimage\/.*\Z/ }
   validates :file_fingerprint, uniqueness: { scope: :owner_id, :message => "already exists in the database." }
 
