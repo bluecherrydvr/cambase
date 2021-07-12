@@ -1,6 +1,6 @@
 <b>Note - The original code for cambase.io was lost when it was closed several years ago.  Some old code was found on GitLab which was used to form this repo, however the amount of software vunerabilities outweigh the desire to restart the project with the old code.  Hopefully we can spin up this project again using new frame work.</b>
 
-<b>as of July 12, 2021 this repository is archived</b>
+<b>As of July 12, 2021 this repository is archived</b>
 
 
 <B>Overview</B>
