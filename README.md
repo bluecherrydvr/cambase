@@ -1,4 +1,6 @@
-<b>Note - The original code for cambase.io was lost when it was closed several years ago.  Some old code was found on GitLab which was used to form this repo, however the amount of software vunerabilities outweigh the desire to restart the project with the old code.  Hopefully we can spin up this project again using new frame work.</b>
+<b>Note - The original code for cambase.io was lost when it was closed several years ago.  Bluecherry did not develop or maintain this repo when it was online, however it was a useful REST API service for pulling IP camera models and populating them in our software.  
+  
+Some old code was found on GitLab which was used to form this repo, however the amount of software vunerabilities outweigh the desire to restart the project with the old code.  Hopefully we can spin up this project again using new frame work.</b>
 
 <b>As of July 12, 2021 this repository is archived</b>
 
